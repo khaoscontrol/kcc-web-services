@@ -438,13 +438,13 @@ Name | Type | Required | Description
 **Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
 
 # Order Download
-``http://khaoscloud.com/api/``
+### GET http://khaoscloud.com/api/order_download_endpoint
 
-## Receiving an order download [GET]
+## Receiving an order download
 
 This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON`` and wrapped inside a SalesOrderImport property with the following properties below:
 
-### Request
+### Response
 
 Object | Property | Type | Required | Description
 --- | --- | --- | --- | ---
@@ -460,7 +460,7 @@ Object | Property | Type | Required | Description
 **ApiVersion** | | Integer | Yes | Must be set to 1000
 **Config** | | [``OrderImportConfig``](#orderimportconfig) | | The config options to use with this import.
 
-### Request
+### Response
 
 ```xml
 <SalesOrderImport>
@@ -684,8 +684,9 @@ Object | Property | Type | Required | Description
 ```
     
 # Order Status Uploading
+### POST http://khaoscloud.com/api/order_download_endpoint
 
-## Pushing Order Statuses [POST]
+## Pushing Order Statuses
 
 Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
 
@@ -694,8 +695,9 @@ Property | Type | Description
 Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
 
 # Stock Update
+### GET http://khaoscloud.com/api/stock_update_endpoint
 
-## Update stock items [POST]
+## Update stock items
 
 Defined as ``StockUpdate`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen *frequently* and you do not need to respond to this request. You will get between 0 and 100 stock items per request.
 
@@ -705,7 +707,7 @@ Object | Property | Type | Required | Description
 | | **Items** | [``StockItem``](#stockitem) | Yes | A collection of ``StockItem`` objects
 | | **Deleted** | [``DeletedItem``](#deleteditem) | Yes | A collection of ``DeletedItem`` objects
 
-### Request
+### Response
 
 ```xml
 <?xml version="1.0"?>
@@ -851,8 +853,9 @@ Object | Property | Type | Required | Description
 ```
         
 # Stock Status Update
+### POST http://khaoscloud.com/api/stock_status_update_endpoint
 
-## Pushing Stock Statuses [POST]
+## Receiving stock status updates
 
 Defined as ``StockStatusUpload`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen frequently and you do not need to respond to this request. You will get between 0 and 1000 status items per request.
 
