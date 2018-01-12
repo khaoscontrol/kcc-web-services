@@ -24,17 +24,17 @@ The data structure must be wrapped inside an ``EndpointConfig`` property and can
 
 Object | Property | Description
 --- | --- | ---
-**[OrderDownload](#reference/0/order-download)** | | The endpoint for where your orders can be imported into Khaos Control Cloud
+**[OrderDownload](#order-download)** | | The endpoint for where your orders can be imported into Khaos Control Cloud
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
-**[OrderStatusUpload](#reference/0/order-status-uploading)** | | The endpoint of where the status information will be POSTed to
+**[OrderStatusUpload](#order-status-uploading)** | | The endpoint of where the status information will be POSTed to
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[StockStatusUpload](#reference/0/stock-status-uploading)** | | This will define the endpoint to sync Stock Statuses
+**[StockStatusUpdate](#stock-status-update)** | | This will define the endpoint to sync Stock Statuses
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**StockUpload** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
+**[StockUpdate](#stock-update)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
 
@@ -63,8 +63,9 @@ Object | Property | Description
 ```
 
 # Data Continuity
-You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario: 
-*You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import. *
+You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario:
+
+*You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.*
 
 # Types &amp; Objects
 
@@ -94,10 +95,10 @@ Name | Type | Required | Description
 **Currency** | String | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
 **OtherRef** | String | | A reference, which is unique for other users
 **WebUser** | String | | The username of the user
-**CompanyType** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The company classification, which can be set in the System Data area of Khaos Control Cloud
+**CompanyType** | [``DataItem``](#dataitem) | | The company classification, which can be set in the System Data area of Khaos Control Cloud
 **CompanyName** | String | | Business/Company name for the customer. If left blank; e.g. for a residential consumer; Khaos Control will generate a company name from the contact details on the account
 **WebsiteURL** | String | | The URL of the customer's website
-**SourceCode** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The sales source that should be imported with the order
+**SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
 **MailingFlag** | String | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
 **URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
@@ -140,14 +141,14 @@ The ``SalesOrder`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**Customer** | [``Customer``](#introduction/types-&-objects/customer) | Yes | An object representing the customer that sales order relates to
-**InvoiceAddress** | [``Address``](#introduction/types-&-objects/address) | Yes | An object representing the invoice address for the sales order
-**InvoiceContact** | [``Contact``](#introduction/types-&-objects/contact) | Yes | An object representing the invoice contact for the sales order
-**DeliveryAddress** | [``Address``](#introduction/types-&-objects/address) | | An object representing the delivery address for the sales order
-**DeliveryContact** | [``Contact``](#introduction/types-&-objects/contact) | | An object representing the delivery contact for the sales order
-**Header** | [``OrderHeader``](#introduction/types-&-objects/orderheader) | Yes | An object representing the order header for the sales order
-**Items** | Array[[``OrderItem``](#introduction/types-&-objects/orderitem)] | Yes | An array of ``OrderItem`` objects, representing the items that are part of the sales order
-**Payments** | Array[[``OrderPayment``](#introduction/types-&-objects/orderpayment)] | | An array of ``OrderPayment`` objects, representing any payments that are part of the sales order
+**Customer** | [``Customer``](#customer) | Yes | An object representing the customer that sales order relates to
+**InvoiceAddress** | [``Address``](#address) | Yes | An object representing the invoice address for the sales order
+**InvoiceContact** | [``Contact``](#contact) | Yes | An object representing the invoice contact for the sales order
+**DeliveryAddress** | [``Address``](#address) | | An object representing the delivery address for the sales order
+**DeliveryContact** | [``Contact``](#contact) | | An object representing the delivery contact for the sales order
+**Header** | [``OrderHeader``](#orderheader) | Yes | An object representing the order header for the sales order
+**Items** | Array[[``OrderItem``](#orderitem)] | Yes | An array of ``OrderItem`` objects, representing the items that are part of the sales order
+**Payments** | Array[[``OrderPayment``](#orderpayment)] | | An array of ``OrderPayment`` objects, representing any payments that are part of the sales order
 
 ## OrderHeader
 
@@ -157,23 +158,23 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **AssociatedRef** | String | Yes | Order reference number. This **must** be unique amongst all orders from a given website/source. When sending updates for order status, the ``AssociatedRef`` will be passed back to the source website, so it can tell which order has changed
 **OrderDate** | Double | Yes | The date the order was **placed**, not necessarily the date the order was placed or will be shipped
-**Site** | [``DataItem``](#introduction/types-&-objects/dataitem) | Yes | Which site/location the order should be fulfilled from
-**Agent** | [``DataItem``](#introduction/types-&-objects/dataitem) | | Which sales agent to attribute the sale to
-**Courier** | [``DataItem``](#introduction/types-&-objects/dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
-**CourierGroup** | [``DataItem``](#introduction/types-&-objects/dataitem) | | Which group of courier services to ship the order with; use this if you want to restrict Khaos Control to shipping via a group/type of courier(s), but allowing it to select which specific courier service to use based on courier rules. For example, a Khaos Control system might have a courier group of "Next Day", which selects from many different next day services depending on package size, weight and destination
-**Keycode** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The keycode to use with this order
-**SalesSource** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control
-**Client** | [``DataItem``](#introduction/types-&-objects/dataitem) | | 
-**Website** | [``DataItem``](#introduction/types-&-objects/dataitem) | |
-**Brand** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The brand that the order is part of
-**InvoicePriority** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
-**DiscountCode** | [``DataItem``](#introduction/types-&-objects/dataitem) | Yes | The discount code for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
+**Site** | [``DataItem``](#dataitem) | Yes | Which site/location the order should be fulfilled from
+**Agent** | [``DataItem``](#dataitem) | | Which sales agent to attribute the sale to
+**Courier** | [``DataItem``](#dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
+**CourierGroup** | [``DataItem``](#dataitem) | | Which group of courier services to ship the order with; use this if you want to restrict Khaos Control to shipping via a group/type of courier(s), but allowing it to select which specific courier service to use based on courier rules. For example, a Khaos Control system might have a courier group of "Next Day", which selects from many different next day services depending on package size, weight and destination
+**Keycode** | [``DataItem``](#dataitem) | | The keycode to use with this order
+**SalesSource** | [``DataItem``](#dataitem) | | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control
+**Client** | [``DataItem``](#dataitem) | | 
+**Website** | [``DataItem``](#dataitem) | |
+**Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of
+**InvoicePriority** | [``DataItem``](#dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
+**DiscountCode** | [``DataItem``](#dataitem) | Yes | The discount code for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
 **OrderNote** | String | | The note for the order
 **InvoiceNote** | String | | The invoice note for the order
 **DeliveryDate** | Double | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
 **RequiredDate** | Double | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
 **PONumber** | String | | Customer's PO (Purchase Order) reference. Usually relevant for business customers paying on account
-**DeliveryCharge** | [``Price``](#introduction/types-&-objects/price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
+**DeliveryCharge** | [``Price``](#price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
 **RemainderOnAccount** | Boolean | | 
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
@@ -189,12 +190,12 @@ Name | Type | Required | Description
 **Quantity** | Double | Yes | How many units of the item were sold. Do not use non-integer quantites unless specifically requested to do by the Khaos Control user
 **StockDescription** | String | | Specify which description to place against this item; If omitted, the standard description against the stock item is used. If the source is ``Explicit``, provides the description use against this line. If ``WebCategories``, sets which set of categories to look up a description in. ``StockDesc`` is normally the best fit.
 **ExtendedDescription** | String | Yes | Additional lines of description for the order item; for example, additional instructions/requests, or a gift message
-**FreeItemReason** | [``DataItem``](#introduction/types-&-objects/dataitem) | | If the item is free (zero price), a reason can be provided specifying why. Only set if requested to by the Khaos Control user
+**FreeItemReason** | [``DataItem``](#dataitem) | | If the item is free (zero price), a reason can be provided specifying why. Only set if requested to by the Khaos Control user
 **ImportRef** | String | | Optional item reference from the website/source. Will be passed back in any future order updates
 **WebItemRef** | String | | Second item reference from the website/source. Will be passed back in any future order updates
-**Site** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The site that this item will be fulfilled from. Usually this isn't specified, and the site recorded against the entire order is used
+**Site** | [``DataItem``](#dataitem) | | The site that this item will be fulfilled from. Usually this isn't specified, and the site recorded against the entire order is used
 **PackLink** | String | | 
-**UnitPrice** | [``Price``](#introduction/types-&-objects/price) | | Unit price, i.e. price for a single item. If omitted, system will calculate price; unlikely to be relevant for a website order
+**UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If omitted, system will calculate price; unlikely to be relevant for a website order
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
 **MappingType** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
 **AlternateMapping** | ItemMapping | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
@@ -206,8 +207,8 @@ The ``OrderPayment`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **Amount** | Double | Yes | The amount paid in this transaction
-**Kind** | Object | Yes | This can either be:<br/>- [``CashPayment``](#introduction/types-&-objects/cashpayment,-chequepayment,-and-voucherpayment)<br/>- [``ChequePayment``](#introduction/types-&-objects/cashpayment,-chequepayment,-and-voucherpayment)<br/>- [``CardPayment``](#introduction/types-&-objects/cashpayment,-chequepayment,-and-voucherpayment)<br/>- [``VoucherPayment``](#introduction/types-&-objects/cashpayment,-chequepayment,-and-voucherpayment)
-**BankAccount** | [``DataItem``](#introduction/types-&-objects/dataitem) | | Which bank account in Khaos Control to record this payment against
+**Kind** | Object | Yes | This can either be:<br/>- [``CashPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``ChequePayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``CardPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``VoucherPayment``](#cashpayment-chequepayment-and-voucherpayment)
+**BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
 
 ##  CashPayment, ChequePayment, and VoucherPayment
 
@@ -273,7 +274,7 @@ Name | Type | Required | Description
 **OrderStatus** | Integer | Yes | The status of shipment where:<br/>- ``1`` Received<br/>- ``2`` Shipping<br/>- ``3`` PartialShip<br/>- ``4`` Complete<br/>- ``100`` Cancelled
 **AssociatedRef** | String | | An associated reference to the Sales Order
 **ChannelId** | String | | The channel ID of the Sales Order
-**Shipments** | [``Shipment``](#introduction/types-&-objects/shipment) | Yes | The shipment items of the order, this can either be the whole order or part
+**Shipments** | [``Shipment``](#shipment) | Yes | The shipment items of the order, this can either be the whole order or part
 
 ## Shipment
 
@@ -283,9 +284,9 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **ID** | String | Yes | The ID of the shipment
 **Code** | String | Yes | The code of the shipment, which may change from the user interaction
-**Status** | [``ShipmentStatus``](#introduction/types-&-objects/shipmentstatus) | Yes | The status of the shipment, where:<br/>- ``9`` Released<br/>-``10`` Staging<br/>- ``11`` Payment<br/>- ``12`` Picking<br/>- ``13`` Packing<br/>- ``14`` Shipping<br/>- ``15`` Invoicing<br/>- ``20`` Processing<br/>- ``16`` Issue<br/>- ``20`` AwaitingDate<br/>- ``18`` AwaitingStock<br/>- ``19`` ManualHold<br/>- ``21`` TermsHold
-**Items** | Array[[``ShipmentItem``](#introduction/types-&-objects/shipmentitem)] | Yes | A list of ``ShipmentItem`` being shipped
-**Packages** | Array[[``ShipmentPackage``](#introduction/types-&-objects/shipmentpackage)] | Yes | A list of ``ShipmentPackage`` for the items being shipped
+**Status** | [``ShipmentStatus``](#shipmentstatus) | Yes | The status of the shipment, where:<br/>- ``9`` Released<br/>-``10`` Staging<br/>- ``11`` Payment<br/>- ``12`` Picking<br/>- ``13`` Packing<br/>- ``14`` Shipping<br/>- ``15`` Invoicing<br/>- ``20`` Processing<br/>- ``16`` Issue<br/>- ``20`` AwaitingDate<br/>- ``18`` AwaitingStock<br/>- ``19`` ManualHold<br/>- ``21`` TermsHold
+**Items** | Array[[``ShipmentItem``](#shipmentitem)] | Yes | A list of ``ShipmentItem`` being shipped
+**Packages** | Array[[``ShipmentPackage``](#shipmentpackage)] | Yes | A list of ``ShipmentPackage`` for the items being shipped
 
 ## ShipmentItem
 
@@ -307,7 +308,7 @@ The ``ShipmentPackage`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **ConsignmentRef** | String | | The Consignment Ref of the package
-**Courier** | [``DataItem``](#introduction/types-&-objects/dataitem) | | Either the ID, Code or Name of the courier
+**Courier** | [``DataItem``](#dataitem) | | Either the ID, Code or Name of the courier
 **ShipmentDate** | Double | | The date of the shipment
 
 ## StockStatuses
@@ -316,7 +317,7 @@ The ``StockStatuses`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**Statuses** | Array[[``StockStatus``](#introduction/types-&-objects/stockstatus)] | Yes | A list of ``StockStatus`` objects which contains one entry per stock item / site combination that is being reported on
+**Statuses** | Array[[``StockStatus``](#data-item)] | Yes | A list of ``StockStatus`` objects which contains one entry per stock item / site combination that is being reported on
 
 ## StockLevel
 
@@ -346,18 +347,18 @@ Name | Type | Required | Description
 **StockID** | String | Yes | The ID of the stock item, which is always unique
 **StockCode** | String | Yes | The stock code, which can change
 **ShortDescription** | String | Yes | A brief description of the stock item, normally used as a name
-**BuyPrice** | [``Price``](#introduction/types-&-objects/price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier
-**SellPrice** | [``Price``](#introduction/types-&-objects/price) | Yes | The general selling price of the item to a customer
-**TaxRate** | [``DataItem``](#introduction/types-&-objects/dataitem) | Yes | The tax type of the item, e.g. Zero Tax, Standard Tax, Fixed Tax, etc.
-**StockType1** | [``DataItem``](#introduction/types-&-objects/dataitem) | Yes | The overall type of the stock item, e.g. Clothing, Electronics
-**StockType2** | [``DataItem``](#introduction/types-&-objects/dataitem) | Yes | The secondary type of the stock item within Stock Type 1, e.g. Computing, Jumpers, Televisions
-**StockType3** | [``DataItem``](#introduction/types-&-objects/dataitem) |  | The third category of the stock item within Stock Type 2, e.g. Keyboards, Wool, LED
-**StockType4** | [``DataItem``](#introduction/types-&-objects/dataitem) |  | The fourth category of the stock item within the Stock Type 3, e.g. 48" screen, Ergonomic keyboard
-**Options** | [``StockOptions``](#introduction/types-&-objects/stockoptions) | Yes | Options regarding the stock item, e.g. Discontinued, Run to Zero
+**BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier
+**SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer
+**TaxRate** | [``DataItem``](#dataitem) | Yes | The tax type of the item, e.g. Zero Tax, Standard Tax, Fixed Tax, etc.
+**StockType1** | [``DataItem``](#dataitem) | Yes | The overall type of the stock item, e.g. Clothing, Electronics
+**StockType2** | [``DataItem``](#dataitem) | Yes | The secondary type of the stock item within Stock Type 1, e.g. Computing, Jumpers, Televisions
+**StockType3** | [``DataItem``](#dataitem) |  | The third category of the stock item within Stock Type 2, e.g. Keyboards, Wool, LED
+**StockType4** | [``DataItem``](#dataitem) |  | The fourth category of the stock item within the Stock Type 3, e.g. 48" screen, Ergonomic keyboard
+**Options** | [``StockOptions``](#stockoptions) | Yes | Options regarding the stock item, e.g. Discontinued, Run to Zero
 **OtherRef** | String | | An alternative reference to the stock item
 **LongDescription** | String | | A longer, more in-depth description of the stock item
 **EposDescription** | String | | An EPOS description for the stock item
-**Manufacturer** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The manufacturer of the stock item
+**Manufacturer** | [``DataItem``](#dataitem) | | The manufacturer of the stock item
 **AverageWeight** | Float | | The weight of the stock item, on average
 **Height** | Float | | The height dimension of the stock item
 **Width** | Float | | The width dimension of the stock item
@@ -368,10 +369,10 @@ Name | Type | Required | Description
 **SalesMultiple** | Float | This will force customers to only order in multiples of this quantity
 **LeadTime** | Integer | | The amount of lead time between a reorder and delivery of stock (in days)
 **Availability** | String | | A free text field to indicate the availability of the item. For example, if the level was zero, this could say "Expected back in stock mid-December"
-**WebProperties** | [``WebProperties``](#introduction/types-&-objects/webproperties) | | See ``WebProperties`` object
-**SupplierInfo** | [``StockSupplier``](#introduction/types-&-objects/stocksupplier) | Yes | 
-**Images** | Array[[``StockImage``](#introduction/types-&-objects/stockimage)] | Yes | 
-**Barcodes** | Array[[``StockBarcode``](#introduction/types-&-objects/stockbarcode)] |
+**WebProperties** | [``WebProperties``](#webproperties) | | See ``WebProperties`` object
+**SupplierInfo** | [``StockSupplier``](#stocksupplier) | Yes | 
+**Images** | Array[[``StockImage``](#stockimage)] | Yes | 
+**Barcodes** | Array[[``StockBarcode``](#stockbarcode)] |
 
 ## DeletedItem
 
@@ -402,7 +403,7 @@ The ``WebProperties`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**WebsitePrice** | [``Price``](#introduction/types-&-objects/price) | | The price for the website only
+**WebsitePrice** | [``Price``](#price) | | The price for the website only
 **WebTeaser** | String | | A text field that can be used for showing on the website
 **MetaTitle** | String | | The Meta Title for the website stock page
 **MetaDescription** | String | | The Meta Description for the website stock page
@@ -434,7 +435,7 @@ The ``StockBarcode`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ----
 **Barcode** | String | Yes | The barcode value
-**Type** | [``DataItem``](#introduction/types-&-objects/dataitem) | | The type of barcode e.g. ISBN, EAN
+**Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
 
 # Order Download [/]
 
@@ -446,17 +447,17 @@ This is defined as your ``OrderDownload`` object within your Configuration file.
 
 Object | Property | Type | Required | Description
 --- | --- | --- | --- | ---
-**Order** | | [``SalesOrder``](#introduction/types-&-objects/salesorder) | Yes | The can consist of many ``SalesOrder`` objects, for high volume you may wish to split your orders in to 1000 at a time, find out more in ‘’Data Continuity’’.
-| | **Customer** | [``Customer``](#introduction/types-&-objects/customer) | Yes | The customer of which the order is part of
-| | **InvoiceAddress** | [``Address``](#introduction/types-&-objects/address) | Yes | The Invoice Address for the order
-| | **InvoiceContact** | [``Contact``](#introduction/types-&-objects/contact) | Yes | The Invoice Contact for the order
-| | **DeliveryAddress** | [``address``](#introduction/types-&-objects/address) | | The Shipping Address for the order
-| | **DeliveryContact** | [``Contact``](#introduction/types-&-objects/contact) | | The Shipping Contact for the order
-| | **Header** | [``OrderHeader``](#introduction/types-&-objects/orderheader) | Yes | Contains header information for the order
-| | **Items** | [``OrderItem``](#introduction/types-&-objects/orderitem) | Yes | Contains multiple instances of ``OrderItem`` to make the order
-| | **Payments** | [``OrderPayment``](#introduction/types-&-objects/orderpayment) | Yes | The payment details for the order, this can consist of multiple ``OrderPayment`` objects
+**Order** | | [``SalesOrder``](#salesorder) | Yes | The can consist of many ``SalesOrder`` objects, for high volume you may wish to split your orders in to 1000 at a time, find out more in ‘’Data Continuity’’.
+| | **Customer** | [``Customer``](#customer) | Yes | The customer of which the order is part of
+| | **InvoiceAddress** | [``Address``](#address) | Yes | The Invoice Address for the order
+| | **InvoiceContact** | [``Contact``](#contact) | Yes | The Invoice Contact for the order
+| | **DeliveryAddress** | [``address``](#address) | | The Shipping Address for the order
+| | **DeliveryContact** | [``Contact``](#contact) | | The Shipping Contact for the order
+| | **Header** | [``OrderHeader``](#orderheader) | Yes | Contains header information for the order
+| | **Items** | [``OrderItem``](#orderitem) | Yes | Contains multiple instances of ``OrderItem`` to make the order
+| | **Payments** | [``OrderPayment``](#orderpayment) | Yes | The payment details for the order, this can consist of multiple ``OrderPayment`` objects
 **ApiVersion** | | Integer | Yes | Must be set to 1000
-**Config** | | [``OrderImportConfig``](#introduction/types-&-objects/orderimportconfig) | | The config options to use with this import.
+**Config** | | [``OrderImportConfig``](#orderimportconfig) | | The config options to use with this import.
 
 ### Request
 
@@ -689,19 +690,19 @@ Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will pu
 
 Property | Type | Description
 --- | --- | ---
-Statuses | Array[[``SalesOrderStatus``](#introduction/types-&-objects/salesorderstatus)] | A list of ``SalesOrderStatus`` object
+Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
 
-# Stock Upload [/stockupload]
+# Stock Update [/stockupload]
 
-## Uploading stock items [POST]
+## Update stock items [POST]
 
 Defined as ``StockUpdate`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen *frequently* and you do not need to respond to this request. You will get between 0 and 100 stock items per request.
 
 Object | Property | Type | Required | Description
 --- | --- | --- | --- | ---
 **StockItems** | | | |
-| | **Items** | [``StockItem``](#introduction/types-&-objects/stockitem) | Yes | A collection of ``StockItem`` objects
-| | **Deleted** | [``DeletedItem``](#introduction/types-&-objects/deleteditem) | Yes | A collection of ``DeletedItem`` objects
+| | **Items** | [``StockItem``](#stockitem) | Yes | A collection of ``StockItem`` objects
+| | **Deleted** | [``DeletedItem``](#deleteditem) | Yes | A collection of ``DeletedItem`` objects
 
 ### Request
 
@@ -848,7 +849,7 @@ Object | Property | Type | Required | Description
 </StockItems>
 ```
         
-# Stock Status Uploading [/stockstatus]
+# Stock Status Update [/stockstatus]
 
 ## Pushing Stock Statuses [POST]
 
@@ -859,8 +860,8 @@ Property | Type | Required | Description
 **StockCode** | String | Yes | The stock code of the item, these are generally unique but can also be edited by user input
 **StockID** | String | Yes | The ID of the item
 **SiteID** | Integer | Yes | This is the site identifier, where the stock is located
-**Levels** | [``StockLevel``](#introduction/types-&-objects/stocklevel) | | This is the ``StockLevel`` object which details the amount of stock available
-**BuildPotentials** | [``BuildPotentials``](#introduction/types-&-objects/buildpotential) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "Out of stock", but has a non-zero build potential, you may wish to mark it as Available. This is because it's possible more could be constructed from other stock items that are themselves available
+**Levels** | [``StockLevel``](#stocklevel) | | This is the ``StockLevel`` object which details the amount of stock available
+**BuildPotentials** | [``BuildPotentials``](#buildpotential) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "Out of stock", but has a non-zero build potential, you may wish to mark it as Available. This is because it's possible more could be constructed from other stock items that are themselves available
 
 ### Response (200 OK)
 ```xml
