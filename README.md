@@ -28,7 +28,7 @@ Object | Property | Description
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
-**[OrderStatusUpload](#order-status-uploading)** | | The endpoint of where the status information will be POSTed to
+**[OrderStatusUpdate](#order-status-uploading)** | | The endpoint of where the status information will be POSTed to
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
 **[StockStatusUpdate](#stock-status-update)** | | This will define the endpoint to sync Stock Statuses
@@ -65,7 +65,7 @@ Object | Property | Description
 # Data Continuity
 You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario:
 
-*You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.*
+> *You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.*
 
 # Types &amp; Objects
 
@@ -437,7 +437,8 @@ Name | Type | Required | Description
 **Barcode** | String | Yes | The barcode value
 **Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
 
-# Order Download [/]
+# Order Download
+``http://khaoscloud.com/api/``
 
 ## Receiving an order download [GET]
 
@@ -682,7 +683,7 @@ Object | Property | Type | Required | Description
 </SalesOrderImport>
 ```
     
-# Order Status Uploading [/salesorderstatus]
+# Order Status Uploading
 
 ## Pushing Order Statuses [POST]
 
@@ -692,7 +693,7 @@ Property | Type | Description
 --- | --- | ---
 Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
 
-# Stock Update [/stockupload]
+# Stock Update
 
 ## Update stock items [POST]
 
@@ -849,7 +850,7 @@ Object | Property | Type | Required | Description
 </StockItems>
 ```
         
-# Stock Status Update [/stockstatus]
+# Stock Status Update
 
 ## Pushing Stock Statuses [POST]
 
