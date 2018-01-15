@@ -2,6 +2,12 @@
 
 Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to the API are to be made via ``http://khaoscloud.com/api``. For example, ``http://khaoscloud.com/api/stockstatus``.
 
+1. [Getting Started](#getting-started)
+2. [Config File](#config-file)
+3. [Data Continuity](#data-continuity)
+4. [Types &amp; Objects](#types--objects)
+5. [Receiving &amp; Responding to server calls](#receiving-responding-to-server-calls)
+
 # Getting Started
 
 The API is very simple and uses a Push/Pull method. Data we export to you will be ``POST``ed to your defined endpoint and the data we import from you will be read from a URL you specify. Both of these requests will either be in ``JSON`` or ``XML`` and are defined in your configuration file
@@ -437,14 +443,13 @@ Name | Type | Required | Description
 **Barcode** | String | Yes | The barcode value
 **Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
 
-# Order Download
-### GET http://khaoscloud.com/api/order_download_endpoint
+# Receiving &amp; Responding to server calls
 
-## Receiving an order download
+## Order Download
+### GET http://playground.khaoscloud.com/orders.php
+---
 
 This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON`` and wrapped inside a SalesOrderImport property with the following properties below:
-
-### Response
 
 Object | Property | Type | Required | Description
 --- | --- | --- | --- | ---
@@ -460,7 +465,7 @@ Object | Property | Type | Required | Description
 **ApiVersion** | | Integer | Yes | Must be set to 1000
 **Config** | | [``OrderImportConfig``](#orderimportconfig) | | The config options to use with this import.
 
-### Response
+#### Response
 
 ```xml
 <SalesOrderImport>
@@ -683,10 +688,8 @@ Object | Property | Type | Required | Description
 </SalesOrderImport>
 ```
     
-# Order Status Uploading
-### POST http://khaoscloud.com/api/order_download_endpoint
-
-## Pushing Order Statuses
+## Order Status Uploading
+---
 
 Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
 
@@ -694,10 +697,8 @@ Property | Type | Description
 --- | --- | ---
 Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
 
-# Stock Update
-### GET http://khaoscloud.com/api/stock_update_endpoint
-
-## Update stock items
+## Stock Update
+---
 
 Defined as ``StockUpdate`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen *frequently* and you do not need to respond to this request. You will get between 0 and 100 stock items per request.
 
@@ -707,7 +708,7 @@ Object | Property | Type | Required | Description
 | | **Items** | [``StockItem``](#stockitem) | Yes | A collection of ``StockItem`` objects
 | | **Deleted** | [``DeletedItem``](#deleteditem) | Yes | A collection of ``DeletedItem`` objects
 
-### Response
+#### Response
 
 ```xml
 <?xml version="1.0"?>
@@ -852,10 +853,8 @@ Object | Property | Type | Required | Description
 </StockItems>
 ```
         
-# Stock Status Update
-### POST http://khaoscloud.com/api/stock_status_update_endpoint
-
-## Receiving stock status updates
+## Stock Status Update
+---
 
 Defined as ``StockStatusUpload`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen frequently and you do not need to respond to this request. You will get between 0 and 1000 status items per request.
 
@@ -867,7 +866,7 @@ Property | Type | Required | Description
 **Levels** | [``StockLevel``](#stocklevel) | | This is the ``StockLevel`` object which details the amount of stock available
 **BuildPotentials** | [``BuildPotentials``](#buildpotential) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "Out of stock", but has a non-zero build potential, you may wish to mark it as Available. This is because it's possible more could be constructed from other stock items that are themselves available
 
-### Response (200 OK)
+#### Response
 ```xml
 <?xml version="1.0"?>
 <StockStatuses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
