@@ -1,0 +1,20 @@
+<?JSON version="1.0" encoding="UTF-8"?>
+<EndpointConfig>
+    <StockStatusUpload>
+        <URL>http://playground.khaoscloud.com/stock_status.php</URL>
+        <Format>JSON</Format>
+    </StockStatusUpload>
+    <StockUpload>
+        <URL>http://playground.khaoscloud.com/stock.php</URL>
+        <Format>JSON</Format>
+    </StockUpload>
+    <OrderDownload>
+        <URL>http://playground.khaoscloud.com/orders.php</URL>
+        <Format>JSON</Format>
+        <Frequency>15</Frequency>
+    </OrderDownload>
+    <OrderStatusUpload>
+        <URL>http://playground.khaoscloud.com/order_status.php</URL>
+        <Format>JSON</Format>
+    </OrderStatusUpload>
+</EndpointConfig>
