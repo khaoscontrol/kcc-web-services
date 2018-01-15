@@ -6,7 +6,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to
 2. [Config File](#config-file)
 3. [Data Continuity](#data-continuity)
 4. [Types &amp; Objects](#types--objects)
-5. [Receiving &amp; Responding to server calls](#receiving-responding-to-server-calls)
+5. [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
 
 # Getting Started
 
