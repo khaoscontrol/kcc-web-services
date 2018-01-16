@@ -449,11 +449,11 @@ Name | Type | Required | Description
 ### GET http://playground.khaoscloud.com/orders.php
 ---
 
-This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON`` and wrapped inside a SalesOrderImport property with the following properties below:
+This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML``, with a ``SalesOrderImport`` root node; or ``JSON``, starting with an ``orders`` property. The API will be expecting the following properties for each ``SalesOrder``.
 
 Object | Property | Type | Required | Description
 --- | --- | --- | --- | ---
-**Order** | | [``SalesOrder``](#salesorder) | Yes | The can consist of many ``SalesOrder`` objects, for high volume you may wish to split your orders in to 1000 at a time, find out more in ‘’Data Continuity’’.
+**SalesOrder** | | [``SalesOrder``](#salesorder) | Yes | The can consist of many ``SalesOrder`` objects, for high volume you may wish to split your orders in to 1000 at a time, find out more in ‘’Data Continuity’’.
 | | **Customer** | [``Customer``](#customer) | Yes | The customer of which the order is part of
 | | **InvoiceAddress** | [``Address``](#address) | Yes | The Invoice Address for the order
 | | **InvoiceContact** | [``Contact``](#contact) | Yes | The Invoice Contact for the order
@@ -689,6 +689,7 @@ Object | Property | Type | Required | Description
 ```
     
 ## Order Status Uploading
+> This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
 ---
 
 Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
@@ -854,6 +855,7 @@ Object | Property | Type | Required | Description
 ```
         
 ## Stock Status Update
+> This will occur when a stock adjustment is made, or the level of stock is changed automatically.
 ---
 
 Defined as ``StockStatusUpload`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen frequently and you do not need to respond to this request. You will get between 0 and 1000 status items per request.
