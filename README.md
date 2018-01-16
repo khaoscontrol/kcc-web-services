@@ -448,7 +448,15 @@ Name | Type | Required | Description
 ## Order Download
 ### GET http://playground.khaoscloud.com/orders.php
 
-This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML``, with a ``SalesOrderImport`` root node; or ``JSON``, starting with an ``orders`` property. The API will be expecting the following properties for each ``SalesOrder``.
+This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON``. There are differences to note between the two of these though. These are as follows:
+
+The ``XML`` response **must** contain a ``SalesOrderImport`` root node, and a ``SalesOrder`` child node for each sales order within ``Orders``.
+
+The ``JSON`` response allows for anonymous objects, so the ``SalesOrderImport`` key is not needed, the same applies to the ``SalesOrder`` key.
+
+Please see the examples below if you are unsure on how to provide your ``XML`` and ``JSON`` responses.
+
+, with a ``SalesOrderImport`` root node; or ``JSON``, starting with an ``orders`` property. The API will be expecting the following properties for each ``SalesOrder``.
 
 Object | Property | Type | Required | Description
 --- | --- | --- | --- | ---
@@ -464,7 +472,7 @@ Object | Property | Type | Required | Description
 **ApiVersion** | | Integer | Yes | Must be set to 1000
 **Config** | | [``OrderImportConfig``](#orderimportconfig) | | The config options to use with this import.
 
-#### Response
+#### XML Response
 
 ```xml
 <SalesOrderImport>
@@ -685,6 +693,101 @@ Object | Property | Type | Required | Description
        <MatchContactOn>Surname</MatchContactOn>
    </Config>
 </SalesOrderImport>
+```
+
+#### JSON Response
+```json
+{
+	"Orders": [{
+		"CreateNew": "IfNoMatch",
+		"CompanyName": "Mr Terry Orange",
+		"Currencyt Code": "GBP",
+		"MaiilingStatus": "4",
+		"InvoiceAddress": {
+			"Line1": "1-3 The Court",
+			"Town": "Nottingham",
+			"PostCode": "NT129AQ",
+			"Country Code": "GB"
+		},
+		"InvoiceContact": {
+			"ForeName": "Terry",
+			"LastName": "Orange",
+			"Email": "terry@sample.com"
+		},
+		"Header": {
+			"AssociatedRef": "web_order_1516105174",
+			"OrderDate": "2018-01-16T12:19:34",
+			"Site ID": "1",
+			"Discounts": []
+		},
+		"Items": {
+			"OrderItem": {
+				"SKU": "MUG1",
+				"Mapping": "StockCode",
+				"Quantity": "1",
+				"ExtendedDescription": ""
+			}
+		},
+		"Payments": {
+			"OrderPayment": {
+				"Amount": "2.00",
+				"Card": {
+					"CardType": "Visa",
+					"IsPreauth": "false",
+					"AuthCode": "VISA",
+					"TransactionID": "payment_1516105174"
+				}
+			}
+		}
+	}, {
+		"CreateNew": "IfNoMatch",
+		"CompanyName": "Mr Megan Red",
+		"Currencyt Code": "GBP",
+		"MaiilingStatus": "4",
+		"InvoiceAddress": {
+			"Line1": "1-3 The Tower",
+			"Town": "Lincoln",
+			"PostCode": "LN127YU",
+			"Country Code": "GB"
+		},
+		"InvoiceContact": {
+			"ForeName": "Tony",
+			"LastName": "Red",
+			"Email": "megan@sample.com"
+		},
+		"Header": {
+			"AssociatedRef": "web_order_1516105176",
+			"OrderDate": "2018-01-16T12:19:34",
+			"Site ID": "1",
+			"Discounts": []
+		},
+		"Items": {
+			"OrderItem": {
+				"SKU": "MUG1",
+				"Mapping": "StockCode",
+				"Quantity": "1",
+				"ExtendedDescription": "Cloud needs to be in green"
+			}
+		},
+		"Payments": {
+			"OrderPayment": {
+				"Amount": "6.00",
+				"Card": {
+					"CardType": "Visa",
+					"IsPreauth": "false",
+					"AuthCode": "VISA",
+					"TransactionID": "payment_1516105176"
+				}
+			}
+		}
+	}],
+	"ApiVersion": "10000",
+	"Config": {
+		"MatchCompanyOn": "CompanyCode",
+		"MatchAddressOn": "Postcode",
+		"MatchContactOn": "Surname"
+	}
+}
 ```
     
 ## Order Status Uploading
