@@ -19,7 +19,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [Address](#address)
       - [Contact](#contact)
       - [SalesOrder](#salesorder)
-      - [OrderHeader](#orderheader)
+      - [Header](#header)
       - [OrderItem](#orderitem)
       - [OrderPayment](#orderpayment)
       - [CashPayment, ChequePayment, and VoucherPayment](#cashpayment-chequepayment-and-voucherpayment)
@@ -161,15 +161,15 @@ The ``Customer`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **CreateNew** | String | Yes | Can either be ``IfNoMatch``, ``Always``, or ``Never``. This ensures that a new customer is created if one does not already exist, without a customer being assigned the order will not import
-**CompanyClass** | ``DataItem`` | Yes | Which classification this customer is in. All customers **must** have a classification
-**Currency** | String | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
+**CompanyClass** | [``DataItem``](#dataitem) | Yes | Which classification this customer is in. All customers **must** have a classification
+**Currency** | [``DataItem``](#dataitem) | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
 **OtherRef** | String | | A reference, which is unique for other users
 **WebUser** | String | | The username of the user
 **CompanyType** | [``DataItem``](#dataitem) | | The company classification, which can be set in the System Data area of Khaos Control Cloud
 **CompanyName** | String | | Business/Company name for the customer. If left blank; e.g. for a residential consumer; Khaos Control will generate a company name from the contact details on the account
 **WebsiteURL** | String | | The URL of the customer's website
 **SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
-**MailingFlag** | String | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
+**MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
 **URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
 **CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. This wil set the default calculation method for the customer for all future order
@@ -220,14 +220,14 @@ Name | Type | Required | Description
 **Items** | Array[[``OrderItem``](#orderitem)] | Yes | An array of ``OrderItem`` objects, representing the items that are part of the sales order
 **Payments** | Array[[``OrderPayment``](#orderpayment)] | | An array of ``OrderPayment`` objects, representing any payments that are part of the sales order
 
-### OrderHeader
+### Header
 
-The ``OrderHeader`` object is made up of the following properties:
+The ``Header`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
 **AssociatedRef** | String | Yes | Order reference number. This **must** be unique amongst all orders from a given website/source. When sending updates for order status, the ``AssociatedRef`` will be passed back to the source website, so it can tell which order has changed
-**OrderDate** | Double | Yes | The date the order was **placed**, not necessarily the date the order was placed or will be shipped
+**OrderDate** | String | Yes | The date the order was **placed**. This should be in RFC 3339 format, without the time.
 **Site** | [``DataItem``](#dataitem) | Yes | Which site/location the order should be fulfilled from
 **Agent** | [``DataItem``](#dataitem) | | Which sales agent to attribute the sale to
 **Courier** | [``DataItem``](#dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
