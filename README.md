@@ -16,7 +16,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [JSON](#json)
       - [DateTime](#datetime)
       - [MappingType](#mappingtype)
-         - [OrderStatus](#orderstatus)
+      - [OrderStatus](#orderstatus)
       - [ShipmentStatus](#shipmentstatus)
    - [Objects](#objects)
       - [Customer](#customer)
@@ -61,20 +61,26 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [Properties](#properties-1)
          - [Response](#response-1)
    - [Order Status Upload](#order-status-upload)
-   - [Stock Upload](#stock-upload)
       - [XML](#xml-4)
          - [Properties](#properties-2)
          - [Request](#request)
       - [JSON](#json-4)
          - [Properties](#properties-3)
          - [Request](#request-1)
-   - [Stock Status Update](#stock-status-update)
+   - [Stock Upload](#stock-upload)
       - [XML](#xml-5)
          - [Properties](#properties-4)
          - [Request](#request-2)
       - [JSON](#json-5)
          - [Properties](#properties-5)
          - [Request](#request-3)
+   - [Stock Status Upload](#stock-status-upload)
+      - [XML](#xml-6)
+         - [Properties](#properties-6)
+         - [Request](#request-4)
+      - [JSON](#json-6)
+         - [Properties](#properties-7)
+         - [Request](#request-5)
 
 <!-- /MarkdownTOC -->
 
@@ -192,7 +198,7 @@ WebCode
 Automatic
 ```
 
-#### OrderStatus
+### OrderStatus
 
 The ``OrderStatus`` type is represented as one of the following:
 
@@ -1011,7 +1017,17 @@ Object | Type | Required | Description
 
 Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
 
+### XML
 
+#### Properties
+
+#### Request
+
+### JSON
+
+#### Properties
+
+#### Request
 
 ## Stock Upload
 
@@ -1327,7 +1343,7 @@ Object | Type | Always present? | Description
 }
 ```
 
-## Stock Status Update
+## Stock Status Upload
 > This will occur when a stock adjustment is made, or the level of stock is changed automatically.
 
 Defined as ``StockStatusUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
