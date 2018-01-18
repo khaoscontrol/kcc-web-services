@@ -35,12 +35,15 @@
          ),
          "Header" => array(
             "AssociatedRef" => "web_order_".time(),
-            "OrderDate" => "2017-04-28T05:57:14", // make dynamic
+            "OrderDate" => "2018-01-18T10:53:23", // make dynamic
             "Site" => array(
                "ID" => "1",
                "Name" => "Main Site"
             ),
-            "DiscountCodes" => array()
+            "DiscountCodes" => array(),
+            "SalesSource" => array(
+               "ID" => "5"
+            )
          ),
          "Items" => array(
             array(
@@ -77,16 +80,6 @@
                "Code" => "GBP"
             )
          ),
-
-         "InvoiceAddress" => array(
-            "Line1" => "1-3 The Tower",
-            "Town" => "Lincoln",
-            "Postcode" => "LN127YU",
-            "Country" => array(
-               "Name" => "Great Britain",
-               "Code" => "GB"
-            )
-         ),
          "InvoiceAddress" => array(
             "Line1" => "1-3 The Tower",
             "Town" => "Lincoln",
@@ -103,12 +96,15 @@
          ),
          "Header" => array(
             "AssociatedRef" => "web_order_".(time()+2),
-            "OrderDate" => "2017-04-28T05:57:14", // make dynamic
+            "OrderDate" => "2018-01-18T10:53:23", // make dynamic
             "Site" => array(
                "ID" => "1",
                "Name" => "Main Site"
             ),
-            "DiscountCodes" => array()
+            "DiscountCodes" => array(),
+            "SalesSource" => array(
+               "ID" => "5"
+            )
          ),
          "Items" => array(
             array(
