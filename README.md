@@ -19,7 +19,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [Address](#address)
       - [Contact](#contact)
       - [SalesOrder](#salesorder)
-      - [Header](#header)
+      - [OrderHeader](#orderheader)
       - [OrderItem](#orderitem)
       - [OrderPayment](#orderpayment)
       - [CashPayment, ChequePayment, and VoucherPayment](#cashpayment-chequepayment-and-voucherpayment)
@@ -34,18 +34,21 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [StockLevel](#stocklevel)
       - [BuildPotentials](#buildpotentials)
       - [StockItem](#stockitem)
-      - [DeletedItem](#deleteditem)
-      - [StockOptions](#stockoptions)
-      - [WebProperties](#webproperties)
+      - [StockDescription](#stockdescription)
+         - [XML](#xml-1)
+         - [JSON](#json-1)
       - [StockSupplier](#stocksupplier)
       - [StockImage](#stockimage)
       - [StockBarcode](#stockbarcode)
+      - [DeletedItem](#deleteditem)
+      - [StockOptions](#stockoptions)
+      - [WebProperties](#webproperties)
 - [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
    - [Order Download](#order-download)
-      - [XML](#xml-1)
+      - [XML](#xml-2)
          - [Properties](#properties)
          - [Response](#response)
-      - [JSON](#json-1)
+      - [JSON](#json-2)
          - [Properties](#properties-1)
          - [Response](#response-1)
    - [Order Status Uploading](#order-status-uploading)
@@ -184,7 +187,7 @@ Name | Type | Required | Description
 **Line2** | String | | Second line of the address
 **Line3** | String | | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
 **Town** | String | Yes | Address town. Required by Khaos and all couriers
-**County** | String | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
+**County** | [``DataItem``](#data-item) | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
 **Postcode** | String | | Address postcode. Technically not required, althoigh the vast majority of countries/couriers require this
 **Country** | String | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
 **Telephone** | String | | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
@@ -220,9 +223,9 @@ Name | Type | Required | Description
 **Items** | Array[[``OrderItem``](#orderitem)] | Yes | An array of ``OrderItem`` objects, representing the items that are part of the sales order
 **Payments** | Array[[``OrderPayment``](#orderpayment)] | | An array of ``OrderPayment`` objects, representing any payments that are part of the sales order
 
-### Header
+### OrderHeader
 
-The ``Header`` object is made up of the following properties:
+The ``OrderHeader`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
@@ -277,7 +280,7 @@ The ``OrderPayment`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **Amount** | Double | Yes | The amount paid in this transaction
-**Kind** | Object | Yes | This can either be:<br/>- [``CashPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``ChequePayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``CardPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``VoucherPayment``](#cashpayment-chequepayment-and-voucherpayment)
+**Cash** or <br/>**Cheque** or <br/>**Card** or<br/>**Voucher** | [``CashPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>[``ChequePayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>[``CardPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>[``VoucherPayment``](#cashpayment-chequepayment-and-voucherpayment) | Yes | What type of transaction was used when making the payment
 **BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
 
 ### CashPayment, ChequePayment, and VoucherPayment
@@ -416,7 +419,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **StockID** | String | Yes | The ID of the stock item, which is always unique
 **StockCode** | String | Yes | The stock code, which can change
-**ShortDescription** | String | Yes | A brief description of the stock item, normally used as a name
+**StockDescription** | [``StockDescription``](#stockdescription) | Yes | A brief description of the stock item, normally used as a name
 **BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier
 **SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer
 **TaxRate** | [``DataItem``](#dataitem) | Yes | The tax type of the item, e.g. Zero Tax, Standard Tax, Fixed Tax, etc.
@@ -436,13 +439,65 @@ Name | Type | Required | Description
 **ReorderMultiple** | Float | | The reordering multiple of the stock item, e.g. re-ordering an item with your supplier where they come in packs of 100, this value would be set to 100
 **MinLevel** | Float | | The minimum level of stock before a reorder must be actioned
 **SafeLevel** | Float | | The level of stock where a reorder needs to be considered
-**SalesMultiple** | Float | This will force customers to only order in multiples of this quantity
+**SalesMultiple** | Float | | This will force customers to only order in multiples of this quantity
 **LeadTime** | Integer | | The amount of lead time between a reorder and delivery of stock (in days)
 **Availability** | String | | A free text field to indicate the availability of the item. For example, if the level was zero, this could say "Expected back in stock mid-December"
 **WebProperties** | [``WebProperties``](#webproperties) | | See ``WebProperties`` object
 **SupplierInfo** | [``StockSupplier``](#stocksupplier) | Yes | 
 **Images** | Array[[``StockImage``](#stockimage)] | Yes | 
 **Barcodes** | Array[[``StockBarcode``](#stockbarcode)] |
+
+### StockDescription
+
+The ``StockDescription`` object is similar to a [``DataItem``](#data-item) but differs between ``XML`` and ``JSON`` outputs (see below).
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Source** | String | Yes | The source of the stock description. Usually **Explicit**
+**Parameter** | String | Yes | The description of the stock item
+
+#### XML
+
+```xml
+<StockDescription Source="Explicit">Croquet set - Luxury 4 Player - Oxford - Jaques</StockDescription>
+```
+
+#### JSON
+
+```json
+"StockDescription": {
+   "Source": "Explicit",
+   "Parameter": "Croquet set - Luxury 4 Player - Oxford - Jaques"
+},
+```
+
+
+### StockSupplier
+
+The ``StockSupplier`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**URN** | String | Yes | The unique reference of the supplier
+**Name** | String | Yes | The company name of the supplier
+**IsPreferred** | Boolean | | If this supplier is the preferred supplier for reordering this item
+**SupplierRef** | String | | An optional reference that the supplier uses for that stock item
+
+### StockImage
+
+The ``StockImage`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+
+### StockBarcode
+
+The ``StockBarcode`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ----
+**Barcode** | String | Yes | The barcode value
+**Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
 
 ### DeletedItem
 
@@ -479,33 +534,6 @@ Name | Type | Required | Description
 **MetaDescription** | String | | The Meta Description for the website stock page
 **MetaKeywords** | String | | The Meta Keywords for the website stock page
 **MetaDisplayQty** | Integer | | The maximum quantity to display on the website
-
-### StockSupplier
-
-The ``StockSupplier`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**URN** | String | Yes | The unique reference of the supplier
-**Name** | String | Yes | The company name of the supplier
-**IsPreferred** | Boolean | | If this supplier is the preferred supplier for reordering this item
-**SupplierRef** | String | | An optional reference that the supplier uses for that stock item
-
-### StockImage
-
-The ``StockImage`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-
-### StockBarcode
-
-The ``StockBarcode`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ----
-**Barcode** | String | Yes | The barcode value
-**Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
 
 # Receiving &amp; Responding to server calls
 
