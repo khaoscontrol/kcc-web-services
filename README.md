@@ -1,8 +1,8 @@
 # Khaos Control Cloud Web Services
 
-Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to the API are to be made via ``http://khaoscloud.com/api``. For example, ``http://khaoscloud.com/api/stockstatus``.
+Welcome to the **beta version** of the Khaos Control Cloud Web Services.
 
-<!-- MarkdownTOC depth=5 -->
+<!-- MarkdownTOC depth=4 -->
 
 - [Getting Started](#getting-started)
 - [Config File](#config-file)
