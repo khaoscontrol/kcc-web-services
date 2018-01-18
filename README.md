@@ -59,10 +59,14 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [Properties](#properties-1)
          - [Response](#response-1)
    - [Order Status Uploading](#order-status-uploading)
-   - [Stock Update](#stock-update)
+   - [Stock Upload](#stock-upload)
       - [XML](#xml-4)
          - [Properties](#properties-2)
          - [Request](#request)
+      - [JSON](#json-4)
+         - [Properties](#properties-3)
+         - [Request](#request-1)
+         - [Properties](#properties-4)
    - [Stock Status Update](#stock-status-update)
          - [Response](#response-2)
 
@@ -969,7 +973,7 @@ Property | Type | Description
 --- | --- | ---
 Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
 
-## Stock Update
+## Stock Upload
 
 Defined as ``StockUpdate`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
 
@@ -1000,19 +1004,9 @@ Node | Child Node | Type | Always present? | Description
         <Net>1.89</Net>
         <Gross xsi:nil="true" />
       </SellPrice>
-      <TaxRate>
-        <Name>Zero</Name>
-        <Code>2</Code>
-        <ID>2</ID>
-      </TaxRate>
-      <StockType1>
-        <Name>Medicines</Name>
-        <ID>13</ID>
-      </StockType1>
-      <StockType2>
-        <Name>[Medicines] Pain Killers</Name>
-        <ID>27</ID>
-      </StockType2>
+      <TaxRate ID="2"/>
+      <StockType1 Name="Medicines" ID="13"/>
+      <StockType2 Name="[Medicines] Pain Killers" ID="27"/>
       <Options>
         <PublishOnWeb>true</PublishOnWeb>
         <Discontinued>false</Discontinued>
@@ -1045,10 +1039,7 @@ Node | Child Node | Type | Always present? | Description
         <StockImage>
           <Name>Default</Name>
           <Description>Image not yet available - coming soon</Description>
-          <ImageType>
-            <Name>Other</Name>
-            <ID>4</ID>
-          </ImageType>
+          <ImageType Name="Other" ID="4"/>
         </StockImage>
       </Images>
       <Barcodes />
@@ -1065,19 +1056,9 @@ Node | Child Node | Type | Always present? | Description
         <Net>1.5</Net>
         <Gross xsi:nil="true" />
       </SellPrice>
-      <TaxRate>
-        <Name>Standard</Name>
-        <Code>1</Code>
-        <ID>1</ID>
-      </TaxRate>
-      <StockType1>
-        <Name>Automotive</Name>
-        <ID>59</ID>
-      </StockType1>
-      <StockType2>
-        <Name>[Automotive] Car Care</Name>
-        <ID>101</ID>
-      </StockType2>
+      <TaxRate Name="Standard" Code="1" ID="1"/>
+      <StockType1 Name="Automotive" ID="59"/>
+      <StockType2 Name="[Automotive] Car Care" ID="101"/>
       <Options>
         <PublishOnWeb>true</PublishOnWeb>
         <Discontinued>false</Discontinued>
@@ -1089,10 +1070,7 @@ Node | Child Node | Type | Always present? | Description
         <FreeText>false</FreeText>
         <CustomOptions />
       </Options>
-      <Manufacturer>
-        <Name>Addidass</Name>
-        <ID>53</ID>
-      </Manufacturer>
+      <Manufacturer Name="Addidass" ID="53"/>
       <AverageWeight xsi:nil="true" />
       <Height xsi:nil="true" />
       <Width xsi:nil="true" />
@@ -1121,294 +1099,25 @@ Node | Child Node | Type | Always present? | Description
           <Name>Bucket</Name>
           <Description>15 Litre Bucket</Description>
           <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket.jpg</Filename>
-          <ImageType>
-            <Name>KC:Web</Name>
-            <ID>1563</ID>
-          </ImageType>
+          <ImageType Name="KC:Web" ID="1563"/>
         </StockImage>
         <StockImage>
           <Name>Bucket</Name>
           <Description>15 Litre Bucket</Description>
           <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket - large.jpg</Filename>
-          <ImageType>
-            <Name>KC:Web</Name>
-            <ID>1563</ID>
-          </ImageType>
+          <ImageType Name="KC:Web" ID="1564"/>
         </StockImage>
         <StockImage>
           <Name>Bucket</Name>
           <Description>15 Litre Bucket</Description>
           <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket - larger.jpg</Filename>
-          <ImageType>
-            <Name>KC:Web</Name>
-            <ID>1563</ID>
-          </ImageType>
+          <ImageType Name="KC:Web" ID="1565"/>
         </StockImage>
       </Images>
       <Barcodes>
         <StockBarcode>
           <Barcode>B0076Y6HK0</Barcode>
-          <Type>
-            <Name>ASIN UK</Name>
-            <ID>2</ID>
-          </Type>
-        </StockBarcode>
-      </Barcodes>
-    </StockItem>
-    <StockItem>
-      <StockID>2073</StockID>
-      <StockCode>001-AH-00110</StockCode>
-      <ShortDescription>NDA0200</ShortDescription>
-      <BuyPrice>
-        <Net>80.0</Net>
-        <Gross xsi:nil="true" />
-      </BuyPrice>
-      <SellPrice>
-        <Net>300.0</Net>
-        <Gross xsi:nil="true" />
-      </SellPrice>
-      <TaxRate>
-        <Name>Standard</Name>
-        <Code>1</Code>
-        <ID>1</ID>
-      </TaxRate>
-      <StockType1>
-        <Name>Scooter</Name>
-        <ID>138</ID>
-      </StockType1>
-      <StockType2>
-        <Name>Promotions</Name>
-        <ID>222</ID>
-      </StockType2>
-      <Options>
-        <PublishOnWeb>true</PublishOnWeb>
-        <Discontinued>false</Discontinued>
-        <DropShipItem>false</DropShipItem>
-        <DiscountsDisabled>false</DiscountsDisabled>
-        <RunToZero>false</RunToZero>
-        <VatReliefQualified>false</VatReliefQualified>
-        <StockControlled>true</StockControlled>
-        <FreeText>false</FreeText>
-        <CustomOptions />
-      </Options>
-      <OtherRef>OTHERREF</OtherRef>
-      <LongDescription>battery pack 24V 5.5Ah polyfuse self-healing suitable for Maxi move Canadian variant</LongDescription>
-      <AverageWeight xsi:nil="true" />
-      <Height xsi:nil="true" />
-      <Width xsi:nil="true" />
-      <Depth xsi:nil="true" />
-      <ReorderMultiple>3</ReorderMultiple>
-      <MinLevel>25</MinLevel>
-      <SafeLevel>50</SafeLevel>
-      <SalesMultiple>1</SalesMultiple>
-      <LeadTime>1</LeadTime>
-      <SupplierInfo>
-        <StockSupplier>
-          <URN>PC4U</URN>
-          <Name>PCs 4 U</Name>
-          <IsPreferred>false</IsPreferred>
-        </StockSupplier>
-        <StockSupplier>
-          <URN>AUSI</URN>
-          <Name>Kanga Roo Ltd</Name>
-          <IsPreferred>true</IsPreferred>
-          <SupplierRef>Pref TJ1</SupplierRef>
-        </StockSupplier>
-      </SupplierInfo>
-      <Images>
-        <StockImage>
-          <Name>maxresdefault.jpg</Name>
-          <Filename>https://cdn.khaoscloud.com/localhost/image/maxresdefault.jpg</Filename>
-        </StockImage>
-        <StockImage>
-          <Name>dssr pn.png</Name>
-          <Filename>https://cdn.khaoscloud.com/localhost/image/dssr pn.png</Filename>
-        </StockImage>
-      </Images>
-      <Barcodes>
-        <StockBarcode>
-          <Barcode>QQQQ_A04783QQQ</Barcode>
-          <Type>
-            <Name>Test Stock Barcode Type</Name>
-            <ID>7</ID>
-          </Type>
-        </StockBarcode>
-        <StockBarcode>
-          <Barcode>hjkfhsdjkfhsdjk</Barcode>
-          <Type>
-            <Name>ASIN UK</Name>
-            <ID>2</ID>
-          </Type>
-        </StockBarcode>
-      </Barcodes>
-    </StockItem>
-    <StockItem>
-      <StockID>306</StockID>
-      <StockCode>002257</StockCode>
-      <ShortDescription>Laser Paper</ShortDescription>
-      <BuyPrice>
-        <Net>3.87</Net>
-        <Gross xsi:nil="true" />
-      </BuyPrice>
-      <SellPrice>
-        <Net>12.99</Net>
-        <Gross xsi:nil="true" />
-      </SellPrice>
-      <TaxRate>
-        <Name>Standard</Name>
-        <Code>1</Code>
-        <ID>1</ID>
-      </TaxRate>
-      <StockType1>
-        <Name>Books</Name>
-        <ID>7</ID>
-      </StockType1>
-      <StockType2>
-        <Name>[Books] Hardback</Name>
-        <ID>66</ID>
-      </StockType2>
-      <Options>
-        <PublishOnWeb>true</PublishOnWeb>
-        <Discontinued>false</Discontinued>
-        <DropShipItem>false</DropShipItem>
-        <DiscountsDisabled>false</DiscountsDisabled>
-        <RunToZero>false</RunToZero>
-        <VatReliefQualified>false</VatReliefQualified>
-        <StockControlled>true</StockControlled>
-        <FreeText>false</FreeText>
-        <CustomOptions />
-      </Options>
-      <OtherRef>5000292001425</OtherRef>
-      <LongDescription>A4 Laser Paper 120G Pk250 Wht
-
-Color Laser Paper the ultimate document paper for monochrome, full colour laser and digital printers. This paper produces brilliant colours and precision photo quality print making this ideal for illustrations &amp; presentations. Size A4. 120gsm.</LongDescription>
-      <EposDescription>Laser Paper</EposDescription>
-      <Manufacturer>
-        <Name>Amaiva</Name>
-        <ID>38</ID>
-      </Manufacturer>
-      <AverageWeight xsi:nil="true" />
-      <Height xsi:nil="true" />
-      <Width xsi:nil="true" />
-      <Depth xsi:nil="true" />
-      <ReorderMultiple xsi:nil="true" />
-      <MinLevel>15</MinLevel>
-      <SafeLevel>2</SafeLevel>
-      <SalesMultiple>1</SalesMultiple>
-      <LeadTime>1</LeadTime>
-      <Availability>dsds</Availability>
-      <WebProperties>
-        <WebTeaser>dsds</WebTeaser>
-        <MaxDisplayQty xsi:nil="true" />
-      </WebProperties>
-      <SupplierInfo>
-        <StockSupplier>
-          <URN>DAC</URN>
-          <Name>DAC</Name>
-          <IsPreferred>true</IsPreferred>
-        </StockSupplier>
-        <StockSupplier>
-          <URN>FPI</URN>
-          <Name>Former Printers Inc</Name>
-          <IsPreferred>false</IsPreferred>
-        </StockSupplier>
-        <StockSupplier>
-          <URN>AOS</URN>
-          <Name>American Office Supplies</Name>
-          <IsPreferred>false</IsPreferred>
-        </StockSupplier>
-        <StockSupplier>
-          <URN>ADAMS</URN>
-          <Name>Adams Ltd</Name>
-          <IsPreferred>false</IsPreferred>
-        </StockSupplier>
-        <StockSupplier>
-          <URN>BPL</URN>
-          <Name>Beauty Products Ltd</Name>
-          <IsPreferred>false</IsPreferred>
-        </StockSupplier>
-      </SupplierInfo>
-      <Images>
-        <StockImage>
-          <Name>Storm.jpg</Name>
-        </StockImage>
-      </Images>
-      <Barcodes>
-        <StockBarcode>
-          <Barcode>123456789101</Barcode>
-          <Type>
-            <Name>EAN13</Name>
-            <ID>13</ID>
-          </Type>
-        </StockBarcode>
-      </Barcodes>
-    </StockItem>
-    <StockItem>
-      <StockID>2072</StockID>
-      <StockCode>001-AH-00100 (3)</StockCode>
-      <ShortDescription>NDA0100-20</ShortDescription>
-      <BuyPrice>
-        <Net>98.13</Net>
-        <Gross xsi:nil="true" />
-      </BuyPrice>
-      <SellPrice>
-        <Net>173.75</Net>
-        <Gross xsi:nil="true" />
-      </SellPrice>
-      <TaxRate>
-        <Name>Standard</Name>
-        <Code>1</Code>
-        <ID>1</ID>
-      </TaxRate>
-      <StockType1>
-        <Name>DS</Name>
-        <ID>172</ID>
-      </StockType1>
-      <StockType2>
-        <Name>Arjo Hoist Spare</Name>
-        <ID>259</ID>
-      </StockType2>
-      <Options>
-        <PublishOnWeb>true</PublishOnWeb>
-        <Discontinued>false</Discontinued>
-        <DropShipItem>false</DropShipItem>
-        <DiscountsDisabled>false</DiscountsDisabled>
-        <RunToZero>false</RunToZero>
-        <VatReliefQualified>false</VatReliefQualified>
-        <StockControlled>true</StockControlled>
-        <FreeText>false</FreeText>
-        <CustomOptions />
-      </Options>
-      <OtherRef>ABC140</OtherRef>
-      <LongDescription>battery pack 24V 4Ah polyfuse self-healing suitable for Sara3000/walker/calypso/alenti/bolero/miranti/maximove/marisa</LongDescription>
-      <AverageWeight xsi:nil="true" />
-      <Height xsi:nil="true" />
-      <Width xsi:nil="true" />
-      <Depth xsi:nil="true" />
-      <ReorderMultiple xsi:nil="true" />
-      <MinLevel xsi:nil="true" />
-      <SafeLevel>1</SafeLevel>
-      <SalesMultiple>1</SalesMultiple>
-      <LeadTime>1</LeadTime>
-      <SupplierInfo>
-        <StockSupplier>
-          <URN>ASS</URN>
-          <Name>A Smith &amp; Sons</Name>
-          <IsPreferred>false</IsPreferred>
-        </StockSupplier>
-      </SupplierInfo>
-      <Images>
-        <StockImage>
-          <Name>6138S3GOtCL._SL1500_.jpg</Name>
-        </StockImage>
-      </Images>
-      <Barcodes>
-        <StockBarcode>
-          <Barcode>45454545</Barcode>
-          <Type>
-            <Name>Amazon SKU UK</Name>
-            <ID>1</ID>
-          </Type>
+          <Type Name="ASIN UK" ID="2"/>
         </StockBarcode>
       </Barcodes>
     </StockItem>
@@ -1416,6 +1125,175 @@ Color Laser Paper the ultimate document paper for monochrome, full colour laser 
   <Deleted />
 </StockItems>
 ```
+
+### JSON
+
+#### Properties
+
+Object | Type | Always present? | Description
+--- | --- | --- | ---
+**Items** | Array[[``StockItem``](#stockitem)] | Yes | An array containing ``StockItem`` objects.
+**Deleted** | Array[[``DeletedItem``](#deleteditem)] | Yes | An array containing ``DeletedItem`` objects.
+
+#### Request
+
+```json
+{
+   "Items": [{
+      "StockID": "323",
+      "StockCode": "120",
+      "ShortDescription": "Paracetamol (pack Of 32 Capulets)",
+      "BuyPrice": {
+         "Net": 0.23,
+      },
+      "SellPrice": {
+         "Net" 1.89
+      },
+      "TaxRate": {
+         "ID": "2"
+      },
+      "StockType1": {
+         "Name": "Medicines",
+         "ID": "13"
+      },
+      "StockType2": {
+         "Name": "[Medicines] Pain Killers",
+         "ID": "27"
+      },
+      "Options": {
+         "PublishOnWeb": true,
+         "Discontinued", false,
+         "DropShipItem": false,
+         "DiscountsDisabled": false,
+         "RunToZero": false,
+         "VatReliefQualified": false,
+         "StockControlled": true,
+         "FreeText": false,
+         "CustomOptions": {}
+      },
+      "OtherRef": "120",
+      "AverageWeight": null,
+      "Height": null,
+      "Width": null,
+      "Depth": null,
+      "ReorderMultiple": 29.00,
+      "MinLevel": 7.00,
+      "SafeLevel": 22.00,
+      "SalesMultiple": 1.00,
+      "LeadTime": 1.00,
+      "SupplierInfo": {
+         "URN": "GIL",
+         "Name": "Gillette",
+         "IsPreferred": true
+      },
+      "Images": [{
+         "Name": "Default",
+         "Description": "Image not yet available - coming soon",
+         "ImageType": {
+            "Name": "Other",
+            "ID": "4"
+         }
+      }],
+      "Barcodes": []
+   }, {
+      "StockID": "1226",
+      "StockCode": "15BB",
+      "ShortDescription": "15 Litre Black Bucket",
+      "BuyPrice": {
+         "Net": 0.31
+      },
+      "SellPrice": {
+         "Net":  1.5
+      },
+      "TaxRate": {
+         "Name": "Standard",
+         "ID": "1",
+         "Code": "1"
+      },
+      "StockType1": {
+         "Name": "Automotive",
+         "ID": "59"
+      },
+      "StockType2": {
+         "Name": "[Automotive] Care Care",
+         "ID": "101"
+      },
+      "Options": {
+         "PublishOnWeb": true,
+         "Discontinued", false,
+         "DropShipItem": false,
+         "DiscountsDisabled": false,
+         "RunToZero": false,
+         "VatReliefQualified": false,
+         "StockControlled": true,
+         "FreeText": false,
+         "CustomOptions": {}
+      },
+      "Manufacturer": {
+         "Name": "Addidass",
+         "ID": "53"
+      },
+      "OtherRef": "120",
+      "AverageWeight": null,
+      "Height": null,
+      "Width": null,
+      "Depth": null,
+      "ReorderMultiple": 29.00,
+      "MinLevel": 7.00,
+      "SafeLevel": 22.00,
+      "SalesMultiple": 1.00,
+      "LeadTime": 1.00,
+      "SupplierInfo": {
+         "URN": "DAC",
+         "Name": "DAC",
+         "IsPreferred": true
+      },
+      "Images": [{
+         "Name": "Bucket",
+         "Description": "15 Litre Bucket",
+         "Filename": "KhaosControlWeb\Test Files\bucket.jpg"
+         "ImageType": {
+            "Name": "KC:Web",
+            "ID": "1563"
+         }
+      }, {
+         "Name": "Bucket",
+         "Description": "15 Litre Bucket",
+         "Filename": "KhaosControlWeb\Test Files\bucket - large.jpg"
+         "ImageType": {
+            "Name": "KC:Web",
+            "ID": "1564"
+         }
+      }, {
+         "Name": "Bucket",
+         "Description": "15 Litre Bucket",
+         "Filename": "KhaosControlWeb\Test Files\bucket - larger.jpg"
+         "ImageType": {
+            "Name": "KC:Web",
+            "ID": "1565"
+         }
+      }],
+      "Barcodes": [{
+         "Barcode": "B0076Y6HK0",
+         "Type": {
+            "Name": "ASIN UK",
+            "ID": "2"
+         }
+      }]
+   }],
+   "Deleted": [{
+      "StockID": "20BB"
+   }]
+}
+```
+
+#### Properties
+
+Object | Type | Required | Description
+--- | --- | --- | ---
+**Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | An array containing ``SalesOrder`` objects. If you have a high volume of orders you may want to split your orders out into 1000 at a time using [``DataContinuity``](#data-continuity).
+**ApiVersion** | Integer | Yes | Must be set to **1000**
+**Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
         
 ## Stock Status Update
 > This will occur when a stock adjustment is made, or the level of stock is changed automatically.
