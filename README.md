@@ -14,6 +14,8 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [DataItem](#dataitem)
          - [XML](#xml)
          - [JSON](#json)
+      - [DateTime](#datetime)
+      - [ItemMapping](#itemmapping)
    - [Objects](#objects)
       - [Customer](#customer)
       - [Address](#address)
@@ -21,13 +23,19 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [SalesOrder](#salesorder)
       - [OrderHeader](#orderheader)
       - [OrderItem](#orderitem)
+      - [OrderItemDescription](#orderitemdescription)
+         - [XML](#xml-1)
+         - [JSON](#json-1)
+      - [ItemMapping](#itemmapping-1)
       - [OrderPayment](#orderpayment)
-      - [CashPayment, ChequePayment, and VoucherPayment](#cashpayment-chequepayment-and-voucherpayment)
+      - [CashPayment](#cashpayment)
+      - [ChequePayment](#chequepayment)
+      - [VoucherPayment](#voucherpayment)
       - [CardPayment](#cardpayment)
       - [Price](#price)
       - [OrderImportConfig](#orderimportconfig)
-         - [XML](#xml-1)
-         - [JSON](#json-1)
+         - [XML](#xml-2)
+         - [JSON](#json-2)
       - [SalesOrderStatus](#salesorderstatus)
       - [Shipment](#shipment)
       - [ShipmentItem](#shipmentitem)
@@ -37,8 +45,8 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [BuildPotentials](#buildpotentials)
       - [StockItem](#stockitem)
       - [StockDescription](#stockdescription)
-         - [XML](#xml-2)
-         - [JSON](#json-2)
+         - [XML](#xml-3)
+         - [JSON](#json-3)
       - [StockSupplier](#stocksupplier)
       - [StockImage](#stockimage)
       - [StockBarcode](#stockbarcode)
@@ -47,10 +55,10 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [WebProperties](#webproperties)
 - [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
    - [Order Download](#order-download)
-      - [XML](#xml-3)
+      - [XML](#xml-4)
          - [Properties](#properties)
          - [Response](#response)
-      - [JSON](#json-3)
+      - [JSON](#json-4)
          - [Properties](#properties-1)
          - [Response](#response-1)
    - [Order Status Uploading](#order-status-uploading)
@@ -157,6 +165,24 @@ When used as JSON, the ``ID``, ``Code``, or ``Name`` are set as object propertie
 },
 ```
 
+### DateTime
+
+The ``DateTime`` type is by represented as a ``string`` using the RFC 3339 format without the timezone offset.
+
+``2018-01-18T12:20:48``
+
+### ItemMapping
+
+The ``ItemMapping`` type is represented as a one of the following:
+
+```
+StockCode
+OtherRef
+Barcode
+WebCode
+Automatic
+```
+
 ## Objects
 
 ### Customer
@@ -172,7 +198,7 @@ Name | Type | Required | Description
 **WebUser** | String | | The username of the user
 **CompanyType** | [``DataItem``](#dataitem) | | The company classification, which can be set in the System Data area of Khaos Control Cloud
 **CompanyName** | String | | Business/Company name for the customer. If left blank; e.g. for a residential consumer; Khaos Control will generate a company name from the contact details on the account
-**WebsiteURL** | String | | The URL of the customer's website
+**WebsiteUrl** | String | | The URL of the customer's website
 **SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
 **MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
@@ -232,7 +258,7 @@ The ``OrderHeader`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **AssociatedRef** | String | Yes | Order reference number. This **must** be unique amongst all orders from a given website/source. When sending updates for order status, the ``AssociatedRef`` will be passed back to the source website, so it can tell which order has changed
-**OrderDate** | String | Yes | The date the order was **placed**. This should be in RFC 3339 format, without the time.
+**OrderDate** | [``DateTime``](#datetime) | Yes | The date the order was **placed**.
 **Site** | [``DataItem``](#dataitem) | Yes | Which site/location the order should be fulfilled from
 **Agent** | [``DataItem``](#dataitem) | | Which sales agent to attribute the sale to
 **Courier** | [``DataItem``](#dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
@@ -243,16 +269,18 @@ Name | Type | Required | Description
 **Website** | [``DataItem``](#dataitem) | |
 **Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of
 **InvoicePriority** | [``DataItem``](#dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
-**DiscountCode** | [``DataItem``](#dataitem) | Yes | The discount code for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
+**DiscountCode** | Array[[``DataItem``](#dataitem)] | Yes | An array of discount codes for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
 **OrderNote** | String | | The note for the order
 **InvoiceNote** | String | | The invoice note for the order
-**DeliveryDate** | Double | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
-**RequiredDate** | Double | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
+**DeliveryDate** | [``DateTime``](#datetime) | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
+**RequiredDate** | [``DateTime``](#datetime) | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
 **PONumber** | String | | Customer's PO (Purchase Order) reference. Usually relevant for business customers paying on account
 **DeliveryCharge** | [``Price``](#price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
 **RemainderOnAccount** | Boolean | | 
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
+**SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
+**SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
 
 ### OrderItem
 
@@ -261,10 +289,10 @@ The ``OrderItem`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **SKU** | String | Yes | The code of the stock item being sold. May not actually be the stock code in Khaos Control; the ``Mapping`` controls how it locates an item in Khaos Control
-**Mapping** | String | Yes | Controls how the SKU is used to locate a stock item in Khaos Control. Can either be ``0`` for StockCode, ``1`` for OtherRef, ``2`` for BarCode, ``3`` for WebCode, or ``100`` for Auto
+**Mapping** | String | Yes | Controls how the SKU is used to locate a stock item in Khaos Control. Can either be:<br/>``StockCode``<br/>``OtherRef``,<br/>``Barcode``,<br/>``Webcode``,<br/>``Automatic``
 **Quantity** | Double | Yes | How many units of the item were sold. Do not use non-integer quantites unless specifically requested to do by the Khaos Control user
-**StockDescription** | String | | Specify which description to place against this item; If omitted, the standard description against the stock item is used. If the source is ``Explicit``, provides the description use against this line. If ``WebCategories``, sets which set of categories to look up a description in. ``StockDesc`` is normally the best fit.
-**ExtendedDescription** | String | Yes | Additional lines of description for the order item; for example, additional instructions/requests, or a gift message
+**StockDescription** | [``OrderItemDescription``](#order-item-description) | | Specify which description to place against this item; If omitted, the standard description against the stock item is used.
+**ExtendedDescription** | Array[String] | Yes | Additional lines of description for the order item; for example, additional instructions/requests, or a gift message
 **FreeItemReason** | [``DataItem``](#dataitem) | | If the item is free (zero price), a reason can be provided specifying why. Only set if requested to by the Khaos Control user
 **ImportRef** | String | | Optional item reference from the website/source. Will be passed back in any future order updates
 **WebItemRef** | String | | Second item reference from the website/source. Will be passed back in any future order updates
@@ -272,8 +300,41 @@ Name | Type | Required | Description
 **PackLink** | String | | 
 **UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If omitted, system will calculate price; unlikely to be relevant for a website order
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
-**MappingType** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
-**AlternateMapping** | ItemMapping | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
+**MappingItem** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
+**AlternateMapping** | Array[[``ItemMapping``](#itemmapping)] | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
+
+### OrderItemDescription
+
+The ``OrderItemDescription`` object is similar to a [``DataItem``](#data-item) but differs between ``XML`` and ``JSON`` outputs (see below).
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Source** | String | Yes | The source of the stock description. This can be either:<br/>**Explicit** (uses the description set against this line),<br/>**StockDesc** (this is normally the best fit),<br/>**WebCategories** (which set of categories to look up a description in)
+**Parameter** | String | Yes | The description of the stock item
+
+#### XML
+
+```xml
+<OrderItemDescription Source="Explicit">Croquet set - Luxury 4 Player - Oxford - Jaques</StockDescription>
+```
+
+#### JSON
+
+```json
+"OrderItemDescription": {
+   "Source": "Explicit",
+   "Parameter": "Croquet set - Luxury 4 Player - Oxford - Jaques"
+},
+```
+
+### ItemMapping
+
+The ``ItemMapping`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Mapping** | [``MappingType``](#mappingtype) | Yes | Select how to map the stock code from the website/source to a stock code in Khaos Control Cloud
+**MappingItem** | String | |  If the mapping type is Barcode, sets which barcode type to search in.
 
 ### OrderPayment
 
@@ -285,13 +346,29 @@ Name | Type | Required | Description
 **Cash** or <br/>**Cheque** or <br/>**Card** or<br/>**Voucher** | [``CashPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>[``ChequePayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>[``CardPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>[``VoucherPayment``](#cashpayment-chequepayment-and-voucherpayment) | Yes | What type of transaction was used when making the payment
 **BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
 
-### CashPayment, ChequePayment, and VoucherPayment
+### CashPayment
 
-The ``CashPayment``, ``ChequePayment``, and ``VoucherPayment`` objects are made up of the following properties:
+The ``CashPayment`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**Reference** | String | Yes | Voucher reference. This is required so Khaos Control can match the payment against its list of issued vouchers.
+**Reference** | string | | Payment reference, if you have a relevant payment reference to provide
+
+### ChequePayment
+
+The ``ChequePayment`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Reference** | string | | Payment reference, if you have a relevant payment reference to provide
+
+### VoucherPayment
+
+The ``VoucherPayment`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Reference** | string | Yes | Voucher reference. This is required so Khaos Control Cloud can match the payment against its list of issued vouchers
 
 ### CardPayment
 
@@ -314,7 +391,7 @@ Name | Type | Required | Description
 **Last4Digits** | String | | The last four digits of the card number, for reference
 **AccountNumber** | Integer | | Which card integration account to use in Khaos Control. If omitted, system will pick default based on currency or other rules
 **FraudData** | String | | Fraud data, for reference
-**Timestamp** | Double | | The time the payment was processed
+**Timestamp** | [``DateTime``](#datetime) | | The time the payment was processed
 
 ### Price
 
@@ -496,7 +573,6 @@ Name | Type | Required | Description
    "Parameter": "Croquet set - Luxury 4 Player - Oxford - Jaques"
 },
 ```
-
 
 ### StockSupplier
 
