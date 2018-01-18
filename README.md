@@ -26,6 +26,8 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [CardPayment](#cardpayment)
       - [Price](#price)
       - [OrderImportConfig](#orderimportconfig)
+         - [XML](#xml-1)
+         - [JSON](#json-1)
       - [SalesOrderStatus](#salesorderstatus)
       - [Shipment](#shipment)
       - [ShipmentItem](#shipmentitem)
@@ -35,8 +37,8 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [BuildPotentials](#buildpotentials)
       - [StockItem](#stockitem)
       - [StockDescription](#stockdescription)
-         - [XML](#xml-1)
-         - [JSON](#json-1)
+         - [XML](#xml-2)
+         - [JSON](#json-2)
       - [StockSupplier](#stocksupplier)
       - [StockImage](#stockimage)
       - [StockBarcode](#stockbarcode)
@@ -45,10 +47,10 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [WebProperties](#webproperties)
 - [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
    - [Order Download](#order-download)
-      - [XML](#xml-2)
+      - [XML](#xml-3)
          - [Properties](#properties)
          - [Response](#response)
-      - [JSON](#json-2)
+      - [JSON](#json-3)
          - [Properties](#properties-1)
          - [Response](#response-1)
    - [Order Status Uploading](#order-status-uploading)
@@ -335,6 +337,30 @@ Name | Type | Required | Description
 **DiscontinuedItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
 **RunToZeroErrorItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
 **ImportAsUnconfirmed** | Boolean | | Sets whether or not the order is imported as unconfirmed or confirmed. If unconfirmed, the order is not ready for processing
+
+There are slight differences between the ``XML`` and ``JSON`` outputs, these are as follows:
+
+#### XML
+
+```xml
+<Config>
+    <MatchCompanyOn>Address1</MatchCompanyOn>
+    <MatchCompanyOn>CompanyCode</MatchCompanyOn>
+    <MatchAddressOn>Address1</MatchAddressOn>
+    <MatchAddressOn>Postcode</MatchAddressOn>
+    <MatchContactOn>Surname</MatchContactOn>
+</Config>
+```
+
+#### JSON
+
+```json
+"config": {
+   "MatchCompanyOn": ["Address1", "CompanyCode"],
+   "MatchAddressOn": ["Address1", "Postcode"],
+   "MatchContactOn"; ["Surname"]
+}
+```
 
 ### SalesOrderStatus
 
@@ -872,9 +898,9 @@ Object | Type | Required | Description
    }],
    "ApiVersion": "10000",
    "Config": {
-      "MatchCompanyOn": "CompanyCode",
-      "MatchAddressOn": "Postcode",
-      "MatchContactOn": "Surname"
+      "MatchCompanyOn": ["CompanyCode"],
+      "MatchAddressOn": ["Postcode"],
+      "MatchContactOn": ["Surname"]
    }
 }
 ```
