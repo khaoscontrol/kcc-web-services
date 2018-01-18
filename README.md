@@ -44,28 +44,27 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [StockLevel](#stocklevel)
       - [BuildPotentials](#buildpotentials)
       - [StockItem](#stockitem)
-      - [StockDescription](#stockdescription)
-         - [XML](#xml-3)
-         - [JSON](#json-3)
+      - [StockOptions](#stockoptions)
+      - [WebProperties](#webproperties)
       - [StockSupplier](#stocksupplier)
       - [StockImage](#stockimage)
       - [StockBarcode](#stockbarcode)
       - [DeletedItem](#deleteditem)
-      - [StockOptions](#stockoptions)
-      - [WebProperties](#webproperties)
 - [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
    - [Order Download](#order-download)
-      - [XML](#xml-4)
+      - [XML](#xml-3)
          - [Properties](#properties)
          - [Response](#response)
-      - [JSON](#json-4)
+      - [JSON](#json-3)
          - [Properties](#properties-1)
          - [Response](#response-1)
    - [Order Status Uploading](#order-status-uploading)
    - [Stock Update](#stock-update)
-         - [Response](#response-2)
+      - [XML](#xml-4)
+         - [Properties](#properties-2)
+         - [Request](#request)
    - [Stock Status Update](#stock-status-update)
-         - [Response](#response-3)
+         - [Response](#response-2)
 
 <!-- /MarkdownTOC -->
 
@@ -522,7 +521,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **StockID** | String | Yes | The ID of the stock item, which is always unique
 **StockCode** | String | Yes | The stock code, which can change
-**StockDescription** | [``StockDescription``](#stockdescription) | Yes | A brief description of the stock item, normally used as a name
+**StockDescription** | string | Yes | A brief description of the stock item, normally used as a name
 **BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier
 **SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer
 **TaxRate** | [``DataItem``](#dataitem) | Yes | The tax type of the item, e.g. Zero Tax, Standard Tax, Fixed Tax, etc.
@@ -549,65 +548,6 @@ Name | Type | Required | Description
 **SupplierInfo** | [``StockSupplier``](#stocksupplier) | Yes | 
 **Images** | Array[[``StockImage``](#stockimage)] | Yes | 
 **Barcodes** | Array[[``StockBarcode``](#stockbarcode)] |
-
-### StockDescription
-
-The ``StockDescription`` object is similar to a [``DataItem``](#data-item) but differs between ``XML`` and ``JSON`` outputs (see below).
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**Source** | String | Yes | The source of the stock description. Usually **Explicit**
-**Parameter** | String | Yes | The description of the stock item
-
-#### XML
-
-```xml
-<StockDescription Source="Explicit">Croquet set - Luxury 4 Player - Oxford - Jaques</StockDescription>
-```
-
-#### JSON
-
-```json
-"StockDescription": {
-   "Source": "Explicit",
-   "Parameter": "Croquet set - Luxury 4 Player - Oxford - Jaques"
-},
-```
-
-### StockSupplier
-
-The ``StockSupplier`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**URN** | String | Yes | The unique reference of the supplier
-**Name** | String | Yes | The company name of the supplier
-**IsPreferred** | Boolean | | If this supplier is the preferred supplier for reordering this item
-**SupplierRef** | String | | An optional reference that the supplier uses for that stock item
-
-### StockImage
-
-The ``StockImage`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-
-### StockBarcode
-
-The ``StockBarcode`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ----
-**Barcode** | String | Yes | The barcode value
-**Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
-
-### DeletedItem
-
-The ``DeletedItem`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**StockID** | String | Yes | The ID of the stock item
 
 ### StockOptions
 
@@ -636,6 +576,45 @@ Name | Type | Required | Description
 **MetaDescription** | String | | The Meta Description for the website stock page
 **MetaKeywords** | String | | The Meta Keywords for the website stock page
 **MetaDisplayQty** | Integer | | The maximum quantity to display on the website
+
+### StockSupplier
+
+The ``StockSupplier`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**URN** | String | Yes | The unique reference of the supplier
+**Name** | String | Yes | The company name of the supplier
+**IsPreferred** | Boolean | | If this supplier is the preferred supplier for reordering this item
+**SupplierRef** | String | | An optional reference that the supplier uses for that stock item
+
+### StockImage
+
+The ``StockImage`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+Name | String | | The name of the image
+Description | String | | The description of the image
+Filename | String | | The filename of the image
+ImageType | [``DataItem``](#dataitem) | | The type of image
+
+### StockBarcode
+
+The ``StockBarcode`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ----
+**Barcode** | String | Yes | The barcode value
+**Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
+
+### DeletedItem
+
+The ``DeletedItem`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**StockID** | String | Yes | The ID of the stock item
 
 # Receiving &amp; Responding to server calls
 
@@ -992,154 +971,447 @@ Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesO
 
 ## Stock Update
 
-Defined as ``StockUpdate`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen *frequently* and you do not need to respond to this request. You will get between 0 and 100 stock items per request.
+Defined as ``StockUpdate`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
 
-Object | Property | Type | Required | Description
+### XML
+
+#### Properties
+Node | Child Node | Type | Always present? | Description
 --- | --- | --- | --- | ---
-**StockItems** | | | |
-| | **Items** | [``StockItem``](#stockitem) | Yes | A collection of ``StockItem`` objects
-| | **Deleted** | [``DeletedItem``](#deleteditem) | Yes | A collection of ``DeletedItem`` objects
+**StockItems** | | | Yes | The root node of the XML file
+| | **Items** | Array[[``StockItem``](#stockitem)] | Yes | A parent node containing all of the stock items
+| | **Deleted** | Array[[``DeletedItem``](#deleteditem)] | Yes | A parent node containing all of the deleted stock items
 
-#### Response
+#### Request
 
 ```xml
 <?xml version="1.0"?>
 <StockItems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Items>
-      <StockItem>
-          <StockID>2076</StockID>
-          <StockCode>001-AH-00300</StockCode>
-          <ShortDescription>NEA0100-083</ShortDescription>
-          <BuyPrice>
-              <Net>112.26</Net>
-              <Gross xsi:nil="true" />
-          </BuyPrice>
-          <SellPrice>
-              <Net>198.75</Net>
-              <Gross xsi:nil="true" />
-          </SellPrice>
-          <TaxRate>
-              <Name>Standard</Name>
-              <Code>1</Code>
-              <ID>1</ID>
-          </TaxRate>
-          <StockType1>
-              <Name>DS</Name>
-              <ID>172</ID>
-          </StockType1>
-          <StockType2>
-              <Name>Arjo Hoist Spare</Name>
-              <ID>259</ID>
-          </StockType2>
-          <Options>
-              <PublishOnWeb>true</PublishOnWeb>
-              <Discontinued>false</Discontinued>
-              <DropShipItem>false</DropShipItem>
-              <DiscountsDisabled>false</DiscountsDisabled>
-              <RunToZero>false</RunToZero>
-              <VatReliefQualified>false</VatReliefQualified>
-              <StockControlled>true</StockControlled>
-              <FreeText>false</FreeText>
-              <CustomOptions />
-          </Options>
-          <LongDescription>battery pack 24V 2,5Ah NiMH polyfuse self-healing suitable for Maxi twin / Maxi twin compact / Carendo / Carino</LongDescription>
-          <AverageWeight xsi:nil="true" />
-          <Height>5.13</Height>
-            <Width xsi:nil="true" />
-          <Depth xsi:nil="true" />
-          <ReorderMultiple xsi:nil="true" />
-          <MinLevel xsi:nil="true" />
-          <SafeLevel>2</SafeLevel>
-          <SalesMultiple>1</SalesMultiple>
-          <LeadTime>1</LeadTime>
-          <Availability>123</Availability>
-          <SupplierInfo>
-              <StockSupplier>
-                  <URN>AOS</URN>
-                  <Name>American Office Supplies</Name>
-                  <IsPreferred>false</IsPreferred>
-                  <SupplierRef>123456789012345678</SupplierRef>
-              </StockSupplier>
-          </SupplierInfo>
-          <Images>
-              <StockImage>
-                  <Name>61b7_swingline_stapler.jpg</Name>
-              </StockImage>
-          </Images>
-          <Barcodes />
-      </StockItem>
-      <StockItem>
-          <StockID>2074</StockID>
-          <StockCode>001-AH-00120</StockCode>
-          <ShortDescription>NDA0200</ShortDescription>
-          <BuyPrice>
-              <Net>132.51</Net>
-              <Gross xsi:nil="true" />
-          </BuyPrice>
-          <SellPrice>
-              <Net>198.95</Net>
-              <Gross xsi:nil="true" />
-          </SellPrice>
-          <TaxRate>
-              <Name>Standard</Name>
-              <Code>1</Code>
-              <ID>1</ID>
-          </TaxRate>
-          <StockType1>
-              <Name>DS</Name>
-              <ID>172</ID>
-          </StockType1>
-          <StockType2>
-              <Name>Arjo Hoist Spare</Name>
-              <ID>259</ID>
-          </StockType2>
-          <Options>
-              <PublishOnWeb>true</PublishOnWeb>
-              <Discontinued>false</Discontinued>
-              <DropShipItem>false</DropShipItem>
-              <DiscountsDisabled>false</DiscountsDisabled>
-              <RunToZero>false</RunToZero>
-              <VatReliefQualified>false</VatReliefQualified>
-              <StockControlled>true</StockControlled>
-              <FreeText>false</FreeText>
-              <CustomOptions />
-          </Options>
-          <LongDescription>battery pack 24V 5Ah polyfuse self-healing suitable for axi Move</LongDescription>
-          <AverageWeight xsi:nil="true" />
-          <Height xsi:nil="true" />
-          <Width xsi:nil="true" />
-          <Depth xsi:nil="true" />
-          <ReorderMultiple xsi:nil="true" />
-          <MinLevel xsi:nil="true" />
-          <SafeLevel>1</SafeLevel>
-          <SalesMultiple>1</SalesMultiple>
-          <LeadTime>1</LeadTime>
-          <SupplierInfo />
-          <Images />
-          <Barcodes>
-              <StockBarcode>
-                  <Barcode>13543576ee</Barcode>
-                  <Type>
-                      <Name>Shopify</Name>
-                      <ID>10</ID>
-                  </Type>
-              </StockBarcode>
-              <StockBarcode>
-                  <Barcode>4411235468354</Barcode>
-                  <Type>
-                      <Name>EAN</Name>
-                      <ID>12</ID>
-                  </Type>
-              </StockBarcode>
-              <StockBarcode>
-                  <Barcode>3576843wefwefkwegf772j23</Barcode>
-                  <Type>
-                      <Name>ASIN UK</Name>
-                      <ID>2</ID>
-                  </Type>
-              </StockBarcode>
-          </Barcodes>
-      </StockItem>
+    <StockItem>
+      <StockID>323</StockID>
+      <StockCode>120</StockCode>
+      <ShortDescription>Paracetamol (pack Of 32 Capulets)</ShortDescription>
+      <BuyPrice>
+        <Net>0.23</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>1.89</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate>
+        <Name>Zero</Name>
+        <Code>2</Code>
+        <ID>2</ID>
+      </TaxRate>
+      <StockType1>
+        <Name>Medicines</Name>
+        <ID>13</ID>
+      </StockType1>
+      <StockType2>
+        <Name>[Medicines] Pain Killers</Name>
+        <ID>27</ID>
+      </StockType2>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <OtherRef>120</OtherRef>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple>29</ReorderMultiple>
+      <MinLevel>7</MinLevel>
+      <SafeLevel>22</SafeLevel>
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>GIL</URN>
+          <Name>Gillette</Name>
+          <IsPreferred>true</IsPreferred>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>Default</Name>
+          <Description>Image not yet available - coming soon</Description>
+          <ImageType>
+            <Name>Other</Name>
+            <ID>4</ID>
+          </ImageType>
+        </StockImage>
+      </Images>
+      <Barcodes />
+    </StockItem>
+    <StockItem>
+      <StockID>1226</StockID>
+      <StockCode>15BB</StockCode>
+      <ShortDescription>15 Litre Black Bucket</ShortDescription>
+      <BuyPrice>
+        <Net>0.31</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>1.5</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate>
+        <Name>Standard</Name>
+        <Code>1</Code>
+        <ID>1</ID>
+      </TaxRate>
+      <StockType1>
+        <Name>Automotive</Name>
+        <ID>59</ID>
+      </StockType1>
+      <StockType2>
+        <Name>[Automotive] Car Care</Name>
+        <ID>101</ID>
+      </StockType2>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <Manufacturer>
+        <Name>Addidass</Name>
+        <ID>53</ID>
+      </Manufacturer>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple xsi:nil="true" />
+      <MinLevel xsi:nil="true" />
+      <SafeLevel xsi:nil="true" />
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <WebProperties>
+        <WebTeaser>This is the web teaser</WebTeaser>
+        <MetaTitle>15 Litre Black Bucket</MetaTitle>
+        <MetaDescription>15 Litre Black Bucket</MetaDescription>
+        <MetaKeywords>15 Litre Black Bucket</MetaKeywords>
+        <MaxDisplayQty xsi:nil="true" />
+      </WebProperties>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>DAC</URN>
+          <Name>DAC</Name>
+          <IsPreferred>true</IsPreferred>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>Bucket</Name>
+          <Description>15 Litre Bucket</Description>
+          <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket.jpg</Filename>
+          <ImageType>
+            <Name>KC:Web</Name>
+            <ID>1563</ID>
+          </ImageType>
+        </StockImage>
+        <StockImage>
+          <Name>Bucket</Name>
+          <Description>15 Litre Bucket</Description>
+          <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket - large.jpg</Filename>
+          <ImageType>
+            <Name>KC:Web</Name>
+            <ID>1563</ID>
+          </ImageType>
+        </StockImage>
+        <StockImage>
+          <Name>Bucket</Name>
+          <Description>15 Litre Bucket</Description>
+          <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket - larger.jpg</Filename>
+          <ImageType>
+            <Name>KC:Web</Name>
+            <ID>1563</ID>
+          </ImageType>
+        </StockImage>
+      </Images>
+      <Barcodes>
+        <StockBarcode>
+          <Barcode>B0076Y6HK0</Barcode>
+          <Type>
+            <Name>ASIN UK</Name>
+            <ID>2</ID>
+          </Type>
+        </StockBarcode>
+      </Barcodes>
+    </StockItem>
+    <StockItem>
+      <StockID>2073</StockID>
+      <StockCode>001-AH-00110</StockCode>
+      <ShortDescription>NDA0200</ShortDescription>
+      <BuyPrice>
+        <Net>80.0</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>300.0</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate>
+        <Name>Standard</Name>
+        <Code>1</Code>
+        <ID>1</ID>
+      </TaxRate>
+      <StockType1>
+        <Name>Scooter</Name>
+        <ID>138</ID>
+      </StockType1>
+      <StockType2>
+        <Name>Promotions</Name>
+        <ID>222</ID>
+      </StockType2>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <OtherRef>OTHERREF</OtherRef>
+      <LongDescription>battery pack 24V 5.5Ah polyfuse self-healing suitable for Maxi move Canadian variant</LongDescription>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple>3</ReorderMultiple>
+      <MinLevel>25</MinLevel>
+      <SafeLevel>50</SafeLevel>
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>PC4U</URN>
+          <Name>PCs 4 U</Name>
+          <IsPreferred>false</IsPreferred>
+        </StockSupplier>
+        <StockSupplier>
+          <URN>AUSI</URN>
+          <Name>Kanga Roo Ltd</Name>
+          <IsPreferred>true</IsPreferred>
+          <SupplierRef>Pref TJ1</SupplierRef>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>maxresdefault.jpg</Name>
+          <Filename>https://cdn.khaoscloud.com/localhost/image/maxresdefault.jpg</Filename>
+        </StockImage>
+        <StockImage>
+          <Name>dssr pn.png</Name>
+          <Filename>https://cdn.khaoscloud.com/localhost/image/dssr pn.png</Filename>
+        </StockImage>
+      </Images>
+      <Barcodes>
+        <StockBarcode>
+          <Barcode>QQQQ_A04783QQQ</Barcode>
+          <Type>
+            <Name>Test Stock Barcode Type</Name>
+            <ID>7</ID>
+          </Type>
+        </StockBarcode>
+        <StockBarcode>
+          <Barcode>hjkfhsdjkfhsdjk</Barcode>
+          <Type>
+            <Name>ASIN UK</Name>
+            <ID>2</ID>
+          </Type>
+        </StockBarcode>
+      </Barcodes>
+    </StockItem>
+    <StockItem>
+      <StockID>306</StockID>
+      <StockCode>002257</StockCode>
+      <ShortDescription>Laser Paper</ShortDescription>
+      <BuyPrice>
+        <Net>3.87</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>12.99</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate>
+        <Name>Standard</Name>
+        <Code>1</Code>
+        <ID>1</ID>
+      </TaxRate>
+      <StockType1>
+        <Name>Books</Name>
+        <ID>7</ID>
+      </StockType1>
+      <StockType2>
+        <Name>[Books] Hardback</Name>
+        <ID>66</ID>
+      </StockType2>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <OtherRef>5000292001425</OtherRef>
+      <LongDescription>A4 Laser Paper 120G Pk250 Wht
+
+Color Laser Paper the ultimate document paper for monochrome, full colour laser and digital printers. This paper produces brilliant colours and precision photo quality print making this ideal for illustrations &amp; presentations. Size A4. 120gsm.</LongDescription>
+      <EposDescription>Laser Paper</EposDescription>
+      <Manufacturer>
+        <Name>Amaiva</Name>
+        <ID>38</ID>
+      </Manufacturer>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple xsi:nil="true" />
+      <MinLevel>15</MinLevel>
+      <SafeLevel>2</SafeLevel>
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <Availability>dsds</Availability>
+      <WebProperties>
+        <WebTeaser>dsds</WebTeaser>
+        <MaxDisplayQty xsi:nil="true" />
+      </WebProperties>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>DAC</URN>
+          <Name>DAC</Name>
+          <IsPreferred>true</IsPreferred>
+        </StockSupplier>
+        <StockSupplier>
+          <URN>FPI</URN>
+          <Name>Former Printers Inc</Name>
+          <IsPreferred>false</IsPreferred>
+        </StockSupplier>
+        <StockSupplier>
+          <URN>AOS</URN>
+          <Name>American Office Supplies</Name>
+          <IsPreferred>false</IsPreferred>
+        </StockSupplier>
+        <StockSupplier>
+          <URN>ADAMS</URN>
+          <Name>Adams Ltd</Name>
+          <IsPreferred>false</IsPreferred>
+        </StockSupplier>
+        <StockSupplier>
+          <URN>BPL</URN>
+          <Name>Beauty Products Ltd</Name>
+          <IsPreferred>false</IsPreferred>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>Storm.jpg</Name>
+        </StockImage>
+      </Images>
+      <Barcodes>
+        <StockBarcode>
+          <Barcode>123456789101</Barcode>
+          <Type>
+            <Name>EAN13</Name>
+            <ID>13</ID>
+          </Type>
+        </StockBarcode>
+      </Barcodes>
+    </StockItem>
+    <StockItem>
+      <StockID>2072</StockID>
+      <StockCode>001-AH-00100 (3)</StockCode>
+      <ShortDescription>NDA0100-20</ShortDescription>
+      <BuyPrice>
+        <Net>98.13</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>173.75</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate>
+        <Name>Standard</Name>
+        <Code>1</Code>
+        <ID>1</ID>
+      </TaxRate>
+      <StockType1>
+        <Name>DS</Name>
+        <ID>172</ID>
+      </StockType1>
+      <StockType2>
+        <Name>Arjo Hoist Spare</Name>
+        <ID>259</ID>
+      </StockType2>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <OtherRef>ABC140</OtherRef>
+      <LongDescription>battery pack 24V 4Ah polyfuse self-healing suitable for Sara3000/walker/calypso/alenti/bolero/miranti/maximove/marisa</LongDescription>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple xsi:nil="true" />
+      <MinLevel xsi:nil="true" />
+      <SafeLevel>1</SafeLevel>
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>ASS</URN>
+          <Name>A Smith &amp; Sons</Name>
+          <IsPreferred>false</IsPreferred>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>6138S3GOtCL._SL1500_.jpg</Name>
+        </StockImage>
+      </Images>
+      <Barcodes>
+        <StockBarcode>
+          <Barcode>45454545</Barcode>
+          <Type>
+            <Name>Amazon SKU UK</Name>
+            <ID>1</ID>
+          </Type>
+        </StockBarcode>
+      </Barcodes>
+    </StockItem>
   </Items>
   <Deleted />
 </StockItems>
