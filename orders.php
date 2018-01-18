@@ -7,101 +7,137 @@
    // create some sample orders, ready for import. These would normally come from your database
    $orders = array(
       array(
-         "CreateNew" => "IfNoMatch", // create new customer
-         "CompanyName" => "Mr Terry Orange", 
-         "Current Code" => "GBP",
-         "MaiilingStatus" => "4",
+         "Customer" => array(
+            "CreateNew" => "IfNoMatch", // create new customer
+            "CompanyName" => "Mr Terry Orange",
+            "CompanyClass" => array(
+               "Name" => "Playground"
+            ),
+            "Currency" => array(
+               "Name" => "Pounds Sterling",
+               "Code" => "GBP"
+            )
+         ),
 
          "InvoiceAddress" => array(
             "Line1" => "1-3 The Court",
             "Town" => "Nottingham",
-            "PostCode" => "NT129AQ",
-            "Country Code" => "GB"
+            "Postcode" => "NT129AQ",
+            "Country" => array(
+               "Name" => "Great Britain",
+               "Code" => "GB"
+            )
          ),
          "InvoiceContact" => array(
-            "ForeName" => "Terry",
-            "LastName" => "Orange", 
+            "Forename" => "Terry",
+            "Surname" => "Orange", 
             "Email" => "terry@sample.com"
          ),
          "Header" => array(
             "AssociatedRef" => "web_order_".time(),
             "OrderDate" => "2017-04-28T05:57:14", // make dynamic
-            "Site ID" => "1",
-            "Discounts" => array()
+            "Site" => array(
+               "ID" => "1",
+               "Name" => "Main Site"
+            ),
+            "DiscountCodes" => array()
          ),
          "Items" => array(
-            "OrderItem" => array(
+            array(
                "SKU" => "MUG1",
                "Mapping" => "StockCode",
-               "Quantity" => "1",
-               "ExtendedDescription" => ""
+               "Quantity" => 1.00,
+               "ExtendedDescription" => array(""),
+               "StockDescription" => array(
+                  "Source" => "Explicit",
+                  "Parameter" => "This is a description"
+               )
             )
          ),
          "Payments" => array(
-            "OrderPayment" => array(
-               "Amount" => "2.00",
+            array(
+               "Amount" => 2.00,
                "Card" => array(
                   "CardType" => "Visa",
-                  "IsPreauth" => "false",
+                  "IsPreauth" => false,
                   "AuthCode" => "VISA",
                   "TransactionID" => "payment_".time()
                )
             )
          )
       ), array(
-         "CreateNew" => "IfNoMatch", // create new customer
-         "CompanyName" => "Mr Megan Red", 
-         "Current Code" => "GBP",
-         "MaiilingStatus" => "4",
+         "Customer" => array(
+            "CreateNew" => "IfNoMatch", // create new customer
+            "CompanyName" => "Mr Megan Red", 
+            "CompanyClass" => array(
+               "Name" => "Playground"
+            ),
+            "Currency" => array(
+               "Name" => "Pounds Sterling",
+               "Code" => "GBP"
+            )
+         ),
 
          "InvoiceAddress" => array(
             "Line1" => "1-3 The Tower",
             "Town" => "Lincoln",
-            "PostCode" => "LN127YU",
-            "Country Code" => "GB"
-         ),
-         "InvoiceContact" => array(
-            "ForeName" => "Megan",
-            "LastName" => "Red", 
-            "Email" => "megan@sample.com"
+            "Postcode" => "LN127YU",
+            "Country" => array(
+               "Name" => "Great Britain",
+               "Code" => "GB"
+            )
          ),
          "InvoiceAddress" => array(
             "Line1" => "1-3 The Tower",
             "Town" => "Lincoln",
-            "PostCode" => "LN127YU",
-            "Country Code" => "GB"
+            "Postcode" => "LN127YU",
+            "Country" => array(
+               "Name" => "Great Britain",
+               "Code" => "GB"
+            )
          ),
          "InvoiceContact" => array(
-            "ForeName" => "Tony",
-            "LastName" => "Red", 
+            "Forename" => "Tony",
+            "Surname" => "Red", 
             "Email" => "megan@sample.com"
          ),
          "Header" => array(
             "AssociatedRef" => "web_order_".(time()+2),
             "OrderDate" => "2017-04-28T05:57:14", // make dynamic
-            "Site ID" => "1",
-            "Discounts" => array()
+            "Site" => array(
+               "ID" => "1",
+               "Name" => "Main Site"
+            ),
+            "DiscountCodes" => array()
          ),
          "Items" => array(
-            "OrderItem" => array(
+            array(
                "SKU" => "MUG1",
                "Mapping" => "StockCode",
-               "Quantity" => "2",
-               "ExtendedDescription" => ""
+               "Quantity" => 2.0,
+               "ExtendedDescription" => array(""),
+               "StockDescription" => array(
+                  "Source" => "Explicit",
+                  "Parameter" => "This is a description"
+               )
             ),
-            "OrderItem" => array(
+            array(
                "SKU" => "MUG1",
                "Mapping" => "StockCode",
-               "Quantity" => "1",
-               "ExtendedDescription" => "Cloud needs to be in green"
+               "Quantity" => 1.00,
+               "ExtendedDescription" => array("Cloud needs to be in green"),
+               "StockDescription" => array(
+                  "Source" => "Explicit",
+                  "Parameter" => "This is a description"
+               )
             )
          ),
          "Payments" => array(
-            "OrderPayment" => array(
-               "Amount" => "6.00",
+            array(
+               "Amount" => 6.00,
                "Card" => array(
                   "CardType" => "Visa",
-                  "IsPreauth" => "false",
+                  "IsPreauth" => false,
                   "AuthCode" => "VISA",
                   "TransactionID" => "payment_".(time()+2)
                )
@@ -114,21 +150,17 @@
    // add tracking header, which will be sent back in the next order import pull request
    header("Sirion-Continuation", time());
    // wrap the orders inside a SalesOrderImport array
-   $output = array("SalesOrderImport" => array(
+   $output = array(
       "Orders" => array(),
-      "ApiVersion" => "10000",
+      "ApiVersion" => 10000,
       "Config" => array(
-         "MatchCompanyOn" => "Address1",
-         "MatchCompanyOn" => "CompanyCode",
-         "MatchAddressOn" => "Address1",
-         "MatchAddressOn" => "Postcode",
-         "MatchContactOn" => "Surname"
+         "MatchCompanyOn" => ["Address1", "CompanyCode"],
+         "MatchAddressOn" => ["Address1", "Postcode"],
+         "MatchContactOn" => ["Surname"]
       )
-   ));
+   );
    foreach($orders as $order) {
-      array_push($output["SalesOrderImport"]["Orders"], array(
-         "SalesOrder" => $order
-      ));
+      array_push($output["Orders"], $order);
    }
    echo json_encode($output);
 ?>

@@ -2,11 +2,60 @@
 
 Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to the API are to be made via ``http://khaoscloud.com/api``. For example, ``http://khaoscloud.com/api/stockstatus``.
 
-1. [Getting Started](#getting-started)
-2. [Config File](#config-file)
-3. [Data Continuity](#data-continuity)
-4. [Types &amp; Objects](#types--objects)
-5. [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
+<!-- MarkdownTOC depth=5 -->
+
+- [Getting Started](#getting-started)
+- [Config File](#config-file)
+   - [Structure](#structure)
+   - [Example](#example)
+- [Data Continuity](#data-continuity)
+- [Types &amp; Objects](#types--objects)
+   - [Types](#types)
+      - [DataItem](#dataitem)
+         - [XML](#xml)
+         - [JSON](#json)
+   - [Objects](#objects)
+      - [Customer](#customer)
+      - [Address](#address)
+      - [Contact](#contact)
+      - [SalesOrder](#salesorder)
+      - [OrderHeader](#orderheader)
+      - [OrderItem](#orderitem)
+      - [OrderPayment](#orderpayment)
+      - [CashPayment, ChequePayment, and VoucherPayment](#cashpayment-chequepayment-and-voucherpayment)
+      - [CardPayment](#cardpayment)
+      - [Price](#price)
+      - [OrderImportConfig](#orderimportconfig)
+      - [SalesOrderStatus](#salesorderstatus)
+      - [Shipment](#shipment)
+      - [ShipmentItem](#shipmentitem)
+      - [ShipmentPackage](#shipmentpackage)
+      - [StockStatuses](#stockstatuses)
+      - [StockLevel](#stocklevel)
+      - [BuildPotentials](#buildpotentials)
+      - [StockItem](#stockitem)
+      - [DeletedItem](#deleteditem)
+      - [StockOptions](#stockoptions)
+      - [WebProperties](#webproperties)
+      - [StockSupplier](#stocksupplier)
+      - [StockImage](#stockimage)
+      - [StockBarcode](#stockbarcode)
+- [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
+   - [Order Download](#order-download)
+      - [XML](#xml-1)
+         - [Properties](#properties)
+         - [Response](#response)
+      - [JSON](#json-1)
+         - [Properties](#properties-1)
+         - [Response](#response-1)
+   - [Order Status Uploading](#order-status-uploading)
+   - [Stock Update](#stock-update)
+         - [Response](#response-2)
+   - [Stock Status Update](#stock-status-update)
+         - [Response](#response-3)
+
+<!-- /MarkdownTOC -->
+
 
 # Getting Started
 
@@ -75,29 +124,44 @@ You may need to keep track of what data has been processed by us, especially whe
 
 # Types &amp; Objects
 
-### Types
----
+## Types
 
+### DataItem
 
-## DataItem
-
-The ``DataItem`` type for an object property can represent one of the following:
+The ``DataItem`` type can represent one of the following:
 
 + ID
 + Code
 + Name
 
-### Objects
----
+#### XML
 
-## Customer
+When used as XML, the ``ID``, ``Code``, or ``Name`` are set as attributes on a node.
+
+```xml
+<CompanyClass ID="55" />
+```
+
+#### JSON
+
+When used as JSON, the ``ID``, ``Code``, or ``Name`` are set as object properties.
+
+```json
+"CompanyClass": {
+   "ID": "55"
+},
+```
+
+## Objects
+
+### Customer
 
 The ``Customer`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
 **CreateNew** | String | Yes | Can either be ``IfNoMatch``, ``Always``, or ``Never``. This ensures that a new customer is created if one does not already exist, without a customer being assigned the order will not import
-**CompanyClass** | String | Yes | Which classification this customer is in. All customers **must** have a classification
+**CompanyClass** | ``DataItem`` | Yes | Which classification this customer is in. All customers **must** have a classification
 **Currency** | String | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
 **OtherRef** | String | | A reference, which is unique for other users
 **WebUser** | String | | The username of the user
@@ -110,7 +174,7 @@ Name | Type | Required | Description
 **URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
 **CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. This wil set the default calculation method for the customer for all future order
 
-## Address
+### Address
 
 The ``Address`` object is made up of the following properties:
 
@@ -127,7 +191,7 @@ Name | Type | Required | Description
 **Fax** | String | | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
 **Organization** | String | | Company/Organization name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
 
-## Contact
+### Contact
 
 The ``Contact`` object is made up of the following properties:
 
@@ -141,7 +205,7 @@ Name | Type | Required | Description
 **DateOfBirth** | Double | | Date of birth for this contact, if known. May not be relevant to many businesses
 **OptInNewsLetter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
 
-## SalesOrder
+### SalesOrder
 
 The ``SalesOrder`` object is made up of the following properties:
 
@@ -156,7 +220,7 @@ Name | Type | Required | Description
 **Items** | Array[[``OrderItem``](#orderitem)] | Yes | An array of ``OrderItem`` objects, representing the items that are part of the sales order
 **Payments** | Array[[``OrderPayment``](#orderpayment)] | | An array of ``OrderPayment`` objects, representing any payments that are part of the sales order
 
-## OrderHeader
+### OrderHeader
 
 The ``OrderHeader`` object is made up of the following properties:
 
@@ -185,7 +249,7 @@ Name | Type | Required | Description
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
 
-## OrderItem
+### OrderItem
 
 The ``OrderItem`` object is made up of the following properties:
 
@@ -206,7 +270,7 @@ Name | Type | Required | Description
 **MappingType** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
 **AlternateMapping** | ItemMapping | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
 
-## OrderPayment
+### OrderPayment
 
 The ``OrderPayment`` object is made up of the following properties:
 
@@ -216,7 +280,7 @@ Name | Type | Required | Description
 **Kind** | Object | Yes | This can either be:<br/>- [``CashPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``ChequePayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``CardPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``VoucherPayment``](#cashpayment-chequepayment-and-voucherpayment)
 **BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
 
-##  CashPayment, ChequePayment, and VoucherPayment
+### CashPayment, ChequePayment, and VoucherPayment
 
 The ``CashPayment``, ``ChequePayment``, and ``VoucherPayment`` objects are made up of the following properties:
 
@@ -224,7 +288,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **Reference** | String | Yes | Voucher reference. This is required so Khaos Control can match the payment against its list of issued vouchers.
 
-## CardPayment
+### CardPayment
 
 The ``CardPayment`` object is made up of the following properties:
 
@@ -247,7 +311,7 @@ Name | Type | Required | Description
 **FraudData** | String | | Fraud data, for reference
 **Timestamp** | Double | | The time the payment was processed
 
-## Price
+### Price
 
 The ``Price`` object is made up of the following properties:
 
@@ -256,7 +320,7 @@ Name | Type | Required | Description
 **Net** | Double | | The price in **net** format
 **Gross** | Double | | The price in **gross** format
 
-## OrderImportConfig
+### OrderImportConfig
 
 The ``OrderImportConfig`` object is made up of the following properties:
 
@@ -269,7 +333,7 @@ Name | Type | Required | Description
 **RunToZeroErrorItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
 **ImportAsUnconfirmed** | Boolean | | Sets whether or not the order is imported as unconfirmed or confirmed. If unconfirmed, the order is not ready for processing
 
-## SalesOrderStatus
+### SalesOrderStatus
 
 The ``SalesOrderStatus`` object is made up of the following properties:
 
@@ -282,7 +346,7 @@ Name | Type | Required | Description
 **ChannelId** | String | | The channel ID of the Sales Order
 **Shipments** | [``Shipment``](#shipment) | Yes | The shipment items of the order, this can either be the whole order or part
 
-## Shipment
+### Shipment
 
 The ``Shipment`` object is made up of the following properties:
 
@@ -294,7 +358,7 @@ Name | Type | Required | Description
 **Items** | Array[[``ShipmentItem``](#shipmentitem)] | Yes | A list of ``ShipmentItem`` being shipped
 **Packages** | Array[[``ShipmentPackage``](#shipmentpackage)] | Yes | A list of ``ShipmentPackage`` for the items being shipped
 
-## ShipmentItem
+### ShipmentItem
 
 The ``ShipmentItem`` object is made up of the following properties:
 
@@ -307,7 +371,7 @@ Name | Type | Requried | Description
 **ImportRef** | String | | 
 **WebsiteItemRef** | String | | 
 
-## ShipmentPackage
+### ShipmentPackage
 
 The ``ShipmentPackage`` object is made up of the following properties:
 
@@ -317,7 +381,7 @@ Name | Type | Required | Description
 **Courier** | [``DataItem``](#dataitem) | | Either the ID, Code or Name of the courier
 **ShipmentDate** | Double | | The date of the shipment
 
-## StockStatuses
+### StockStatuses
 
 The ``StockStatuses`` object is made up of the following properties:
 
@@ -325,7 +389,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **Statuses** | Array[[``StockStatus``](#data-item)] | Yes | A list of ``StockStatus`` objects which contains one entry per stock item / site combination that is being reported on
 
-## StockLevel
+### StockLevel
 
 The ``StockLevel`` object is made up of the following properties:
 
@@ -334,7 +398,7 @@ Name | Type | Required | Description
 **Available** | Float | Yes | This is the total in stock that is not assigned to orders already, and could potentially be ordered
 **Courier** | Float | Yes | This is the total quantity of stock for which purchase orders have been placed, and not yet received
 
-## BuildPotentials
+### BuildPotentials
 
 The ``BuildPotentials`` object is made up of the following properties:
 
@@ -344,7 +408,7 @@ Name | Type | Required | Description
 **Courier** | Float | Yes | This is the quantity that could be built from child (component) items. Note that other items might use the same child items, so this is the maximum quantity that could be built assuming no other build items or orders used the children
 **FromParents** | Integer | Yes | This is the quantity of items that could be produced if all parent items containing this were broken down into their component parts
 
-## StockItem
+### StockItem
 
 The ``StockItem`` object is made up of the following properties:
 
@@ -380,7 +444,7 @@ Name | Type | Required | Description
 **Images** | Array[[``StockImage``](#stockimage)] | Yes | 
 **Barcodes** | Array[[``StockBarcode``](#stockbarcode)] |
 
-## DeletedItem
+### DeletedItem
 
 The ``DeletedItem`` object is made up of the following properties:
 
@@ -388,7 +452,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **StockID** | String | Yes | The ID of the stock item
 
-## StockOptions
+### StockOptions
 
 The ``StockOptions`` object is made up of the following properties:
 
@@ -403,7 +467,7 @@ Name | Type | Required | Description
 **StockControlled** | Boolean | Yes | If the item is stock controlled in the system or not (or if it's a non-physical item)
 **FreeText** | Boolean | Yes | If the item supports free text and therefore can have an alternative stock description
 
-## WebProperties
+### WebProperties
 
 The ``WebProperties`` object is made up of the following properties:
 
@@ -416,7 +480,7 @@ Name | Type | Required | Description
 **MetaKeywords** | String | | The Meta Keywords for the website stock page
 **MetaDisplayQty** | Integer | | The maximum quantity to display on the website
 
-## StockSupplier
+### StockSupplier
 
 The ``StockSupplier`` object is made up of the following properties:
 
@@ -427,14 +491,14 @@ Name | Type | Required | Description
 **IsPreferred** | Boolean | | If this supplier is the preferred supplier for reordering this item
 **SupplierRef** | String | | An optional reference that the supplier uses for that stock item
 
-## StockImage
+### StockImage
 
 The ``StockImage`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
 
-## StockBarcode
+### StockBarcode
 
 The ``StockBarcode`` object is made up of the following properties:
 
@@ -446,33 +510,21 @@ Name | Type | Required | Description
 # Receiving &amp; Responding to server calls
 
 ## Order Download
-### GET http://playground.khaoscloud.com/orders.php
+> **GET** http://playground.khaoscloud.com/orders.php
 
-This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON``. There are differences to note between the two of these though. These are as follows:
+This is defined as your ``OrderDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON``.
 
-The ``XML`` response **must** contain a ``SalesOrderImport`` root node, and a ``SalesOrder`` child node for each sales order within ``Orders``.
+### XML
 
-The ``JSON`` response allows for anonymous objects, so the ``SalesOrderImport`` key is not needed, the same applies to the ``SalesOrder`` key.
-
-Please see the examples below if you are unsure on how to provide your ``XML`` and ``JSON`` responses.
-
-, with a ``SalesOrderImport`` root node; or ``JSON``, starting with an ``orders`` property. The API will be expecting the following properties for each ``SalesOrder``.
-
-Object | Property | Type | Required | Description
+#### Properties
+Node | Child Node | Type | Required | Description
 --- | --- | --- | --- | ---
-**SalesOrder** | | [``SalesOrder``](#salesorder) | Yes | The can consist of many ``SalesOrder`` objects, for high volume you may wish to split your orders in to 1000 at a time, find out more in ‘’Data Continuity’’.
-| | **Customer** | [``Customer``](#customer) | Yes | The customer of which the order is part of
-| | **InvoiceAddress** | [``Address``](#address) | Yes | The Invoice Address for the order
-| | **InvoiceContact** | [``Contact``](#contact) | Yes | The Invoice Contact for the order
-| | **DeliveryAddress** | [``address``](#address) | | The Shipping Address for the order
-| | **DeliveryContact** | [``Contact``](#contact) | | The Shipping Contact for the order
-| | **Header** | [``OrderHeader``](#orderheader) | Yes | Contains header information for the order
-| | **Items** | [``OrderItem``](#orderitem) | Yes | Contains multiple instances of ``OrderItem`` to make the order
-| | **Payments** | [``OrderPayment``](#orderpayment) | Yes | The payment details for the order, this can consist of multiple ``OrderPayment`` objects
-**ApiVersion** | | Integer | Yes | Must be set to 1000
-**Config** | | [``OrderImportConfig``](#orderimportconfig) | | The config options to use with this import.
+**SalesOrderImport** | | | Yes | The root node of the XML file
+| | **Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | A parent node containing all of the sales orders
+| | **ApiVersion** | Integer | Yes | Must be set to **1000**
+| | **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
 
-#### XML Response
+#### Response
 
 ```xml
 <SalesOrderImport>
@@ -695,101 +747,110 @@ Object | Property | Type | Required | Description
 </SalesOrderImport>
 ```
 
-#### JSON Response
+### JSON
+
+#### Properties
+
+Object | Property | Type | Required | Description
+--- | --- | --- | --- | ---
+**Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | An array containing ``SalesOrder`` objects. If you have a high volume of orders you may want to split your orders out into 1000 at a time using [``DataContinuity``](#data-continuity).
+**ApiVersion** | Integer | Yes | Must be set to **1000**
+**Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
+
+#### Response
 ```json
 {
-	"Orders": [{
-		"CreateNew": "IfNoMatch",
-		"CompanyName": "Mr Terry Orange",
-		"Currencyt Code": "GBP",
-		"MaiilingStatus": "4",
-		"InvoiceAddress": {
-			"Line1": "1-3 The Court",
-			"Town": "Nottingham",
-			"PostCode": "NT129AQ",
-			"Country Code": "GB"
-		},
-		"InvoiceContact": {
-			"ForeName": "Terry",
-			"LastName": "Orange",
-			"Email": "terry@sample.com"
-		},
-		"Header": {
-			"AssociatedRef": "web_order_1516105174",
-			"OrderDate": "2018-01-16T12:19:34",
-			"Site ID": "1",
-			"Discounts": []
-		},
-		"Items": {
-			"OrderItem": {
-				"SKU": "MUG1",
-				"Mapping": "StockCode",
-				"Quantity": "1",
-				"ExtendedDescription": ""
-			}
-		},
-		"Payments": {
-			"OrderPayment": {
-				"Amount": "2.00",
-				"Card": {
-					"CardType": "Visa",
-					"IsPreauth": "false",
-					"AuthCode": "VISA",
-					"TransactionID": "payment_1516105174"
-				}
-			}
-		}
-	}, {
-		"CreateNew": "IfNoMatch",
-		"CompanyName": "Mr Megan Red",
-		"Currencyt Code": "GBP",
-		"MaiilingStatus": "4",
-		"InvoiceAddress": {
-			"Line1": "1-3 The Tower",
-			"Town": "Lincoln",
-			"PostCode": "LN127YU",
-			"Country Code": "GB"
-		},
-		"InvoiceContact": {
-			"ForeName": "Tony",
-			"LastName": "Red",
-			"Email": "megan@sample.com"
-		},
-		"Header": {
-			"AssociatedRef": "web_order_1516105176",
-			"OrderDate": "2018-01-16T12:19:34",
-			"Site ID": "1",
-			"Discounts": []
-		},
-		"Items": {
-			"OrderItem": {
-				"SKU": "MUG1",
-				"Mapping": "StockCode",
-				"Quantity": "1",
-				"ExtendedDescription": "Cloud needs to be in green"
-			}
-		},
-		"Payments": {
-			"OrderPayment": {
-				"Amount": "6.00",
-				"Card": {
-					"CardType": "Visa",
-					"IsPreauth": "false",
-					"AuthCode": "VISA",
-					"TransactionID": "payment_1516105176"
-				}
-			}
-		}
-	}],
-	"ApiVersion": "10000",
-	"Config": {
-		"MatchCompanyOn": "CompanyCode",
-		"MatchAddressOn": "Postcode",
-		"MatchContactOn": "Surname"
-	}
+   "Orders": [{
+      "Customer": {
+         "CreateNew": "IfNoMatch",
+         "CompanyClass": {
+            "ID": "5"
+         },
+         "Currency": {
+            "Code": "GBP"
+         },
+         "CompanyName": "Toma",
+         "MailingStatus": {
+            "ID": ""
+         },
+         "URN": "Amazo-0118"
+      },
+      "InvoiceAddress": {
+         "Line1": "34 Blenheim Road",
+         "Town": "LONDON",
+         "Postcode": "E17 6HS",
+         "Country": {
+            "Code": "GB"
+         },
+         "Telephone": "07920405926",
+         "Organisation": "Toma Vaitiekute"
+      },
+      "InvoiceContact": {
+         "Surname": "Toma",
+         "Email": "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+      },
+      "Header": {
+         "AssociatedRef": "026-0800930-3625904AZ",
+         "OrderDate": "2018-01-16T13:18:04",
+         "Site": {
+            "ID": "1"
+         },
+         "Courier": {
+            "ID": ""
+         },
+         "SalesSource": {
+            "ID": ""
+         },
+         "DiscountCodes": [],
+         "DeliveryCharge": {
+            "Gross": 0.0
+         }
+      },
+      "Items": [{
+         "SKU": "B0714PRW7R",
+         "Mapping": "StockCode",
+         "Quantity": 1.0,
+         "StockDescription": {
+            "Source": "Explicit",
+            "Parameter": "Fun Maze Pen Pens Novelty Puzzle Ballpoint Labyrinth Office School Party Bag Gift"
+         },
+         "ExtendedDescription": [],
+         "ImportRef": "07758421861003",
+         "UnitPrice": {
+            "Gross": 2.1
+         },
+         "AlternateMapping": [
+            {
+               "Mapping": "Barcode",
+               "MappingItem": "1"
+            },
+            {
+               "Mapping": "StockCode"
+            },
+            {
+               "Mapping": "Barcode",
+               "MappingItem": "1"
+            }
+         ]
+      }],
+      "Payments": [{
+         "Amount": 2.1,
+         "Card": {
+            "CardType": "Amazon",
+            "IsPreauth": false,
+            "AuthCode": "AMAZON"
+         }
+      }]
+   }],
+   "ApiVersion": "10000",
+   "Config": {
+      "MatchCompanyOn": "CompanyCode",
+      "MatchAddressOn": "Postcode",
+      "MatchContactOn": "Surname"
+   }
 }
 ```
-    
+
 ## Order Status Uploading
 > This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
 
