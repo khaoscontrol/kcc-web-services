@@ -16,6 +16,8 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [JSON](#json)
       - [DateTime](#datetime)
       - [MappingType](#mappingtype)
+         - [OrderStatus](#orderstatus)
+      - [ShipmentStatus](#shipmentstatus)
    - [Objects](#objects)
       - [Customer](#customer)
       - [Address](#address)
@@ -58,7 +60,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [JSON](#json-3)
          - [Properties](#properties-1)
          - [Response](#response-1)
-   - [Order Status Uploading](#order-status-uploading)
+   - [Order Status Upload](#order-status-upload)
    - [Stock Upload](#stock-upload)
       - [XML](#xml-4)
          - [Properties](#properties-2)
@@ -188,6 +190,39 @@ OtherRef
 Barcode
 WebCode
 Automatic
+```
+
+#### OrderStatus
+
+The ``OrderStatus`` type is represented as one of the following:
+
+```
+Received
+Shipping
+PartialShip
+Complete
+Cancelled
+```
+
+### ShipmentStatus
+
+The ``ShipmentStatus`` type is represented as one of the following:
+
+```
+Released
+Staging
+Payment
+Picking
+Packing
+Shipping
+Invoicing
+Processing
+Issue
+AwaitingDate
+AwaitingStock
+ManualHold
+TermsHold
+Archived
 ```
 
 ## Objects
@@ -452,9 +487,9 @@ The ``SalesOrderStatus`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**OrderID** | String | Yes | The ID of the order, which will always be unique
 **OrderCode** | String | Yes | The sales order code
-**OrderStatus** | Integer | Yes | The status of shipment where:<br/>- ``1`` Received<br/>- ``2`` Shipping<br/>- ``3`` PartialShip<br/>- ``4`` Complete<br/>- ``100`` Cancelled
+**OrderID** | String | Yes | The ID of the order, which will always be unique
+**OrderStatus** | [``OrderStatus``](#orderstatus) | Yes | The status of the shipment
 **AssociatedRef** | String | | An associated reference to the Sales Order
 **ChannelId** | String | | The channel ID of the Sales Order
 **Shipments** | [``Shipment``](#shipment) | Yes | The shipment items of the order, this can either be the whole order or part
@@ -467,7 +502,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **ID** | String | Yes | The ID of the shipment
 **Code** | String | Yes | The code of the shipment, which may change from the user interaction
-**Status** | [``ShipmentStatus``](#shipmentstatus) | Yes | The status of the shipment, where:<br/>- ``9`` Released<br/>-``10`` Staging<br/>- ``11`` Payment<br/>- ``12`` Picking<br/>- ``13`` Packing<br/>- ``14`` Shipping<br/>- ``15`` Invoicing<br/>- ``20`` Processing<br/>- ``16`` Issue<br/>- ``20`` AwaitingDate<br/>- ``18`` AwaitingStock<br/>- ``19`` ManualHold<br/>- ``21`` TermsHold
+**Status** | [``ShipmentStatus``](#shipmentstatus) | Yes | The status of the shipment
 **Items** | Array[[``ShipmentItem``](#shipmentitem)] | Yes | A list of ``ShipmentItem`` being shipped
 **Packages** | Array[[``ShipmentPackage``](#shipmentpackage)] | Yes | A list of ``ShipmentPackage`` for the items being shipped
 
@@ -492,7 +527,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **ConsignmentRef** | String | | The Consignment Ref of the package
 **Courier** | [``DataItem``](#dataitem) | | Either the ID, Code or Name of the courier
-**ShipmentDate** | Double | | The date of the shipment
+**ShipmentDate** | [``DateTime``](#datetime) | | The date of the shipment
 
 ### StockStatus
 
@@ -971,14 +1006,12 @@ Object | Type | Required | Description
 }
 ```
 
-## Order Status Uploading
+## Order Status Upload
 > This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
 
 Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
 
-Property | Type | Description
---- | --- | ---
-Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
+
 
 ## Stock Upload
 
