@@ -751,8 +751,8 @@ Node | Child Node | Type | Required | Description
 
 #### Properties
 
-Object | Property | Type | Required | Description
---- | --- | --- | --- | ---
+Object | Type | Required | Description
+--- | --- | --- | ---
 **Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | An array containing ``SalesOrder`` objects. If you have a high volume of orders you may want to split your orders out into 1000 at a time using [``DataContinuity``](#data-continuity).
 **ApiVersion** | Integer | Yes | Must be set to **1000**
 **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
