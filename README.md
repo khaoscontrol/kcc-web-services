@@ -331,11 +331,11 @@ The ``OrderImportConfig`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**MatchCompanyOn** | String | Yes | Is used for matching existing customers, they can be:<br/>- ``1`` CompanyName<br/>- ``2`` Address1<br/>- ``3`` Address2<br/>- ``4`` Address3<br/>- ``5`` Town<br/>- ``6`` Postcode<br/>- ``7`` Surname<br/>- ``8`` Forename<br/>- ``9`` Telephone<br/>- ``10`` Email<br/>- ``11`` CompanyCode<br/>- ``12`` UseDeliveryAddress
-**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- ``1`` CompanyName<br/>- ``2`` Address1<br/>- ``3`` Address2<br/>- ``4``Address3<br/>- ``5`` Town<br/>- ``6`` Postcode<br/>- ``7`` Surname<br/>- ``8`` Forename<br/>- ``9`` Telephone<br/>- ``10`` Email<br/>- ``11`` CompanyCode<br/>- ``12`` UseDeliveryAddress
-**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- ``1`` CompanyName<br/>- ``2`` Address1<br/>- ``3`` Address2<br/>- ``4``Address3<br/>- ``5`` Town<br/>- ``6`` Postcode<br/>- ``7`` Surname<br/>- ``8`` Forename<br/>- ``9`` Telephone<br/>- ``10`` Email<br/>- ``11`` CompanyCode<br/>- ``12`` UseDeliveryAddress
-**DiscontinuedItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
-**RunToZeroErrorItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
+**MatchCompanyOn** | String | Yes | Is used for matching existing customers, they can be:<br/>-  CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>-Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>-Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**DiscontinuedItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
+**RunToZeroErrorItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
 **ImportAsUnconfirmed** | Boolean | | Sets whether or not the order is imported as unconfirmed or confirmed. If unconfirmed, the order is not ready for processing
 
 There are slight differences between the ``XML`` and ``JSON`` outputs, these are as follows:
@@ -358,7 +358,7 @@ There are slight differences between the ``XML`` and ``JSON`` outputs, these are
 "config": {
    "MatchCompanyOn": ["Address1", "CompanyCode"],
    "MatchAddressOn": ["Address1", "Postcode"],
-   "MatchContactOn"; ["Surname"]
+   "MatchContactOn": ["Surname"]
 }
 ```
 
