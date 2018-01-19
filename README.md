@@ -1,8 +1,8 @@
 # Khaos Control Cloud Web Services
 
-Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to the API are to be made via ``http://khaoscloud.com/api``. For example, ``http://khaoscloud.com/api/stockstatus``.
+Welcome to the **beta version** of the Khaos Control Cloud Web Services.
 
-<!-- MarkdownTOC depth=5 -->
+<!-- MarkdownTOC depth=4 -->
 
 - [Getting Started](#getting-started)
 - [Config File](#config-file)
@@ -14,6 +14,10 @@ Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to
       - [DataItem](#dataitem)
          - [XML](#xml)
          - [JSON](#json)
+      - [DateTime](#datetime)
+      - [MappingType](#mappingtype)
+      - [OrderStatus](#orderstatus)
+      - [ShipmentStatus](#shipmentstatus)
    - [Objects](#objects)
       - [Customer](#customer)
       - [Address](#address)
@@ -21,38 +25,62 @@ Welcome to the **beta version** of the Khaos Control Cloud Web API. All calls to
       - [SalesOrder](#salesorder)
       - [OrderHeader](#orderheader)
       - [OrderItem](#orderitem)
+      - [OrderItemDescription](#orderitemdescription)
+         - [XML](#xml-1)
+         - [JSON](#json-1)
+      - [ItemMapping](#itemmapping)
       - [OrderPayment](#orderpayment)
-      - [CashPayment, ChequePayment, and VoucherPayment](#cashpayment-chequepayment-and-voucherpayment)
+      - [CashPayment](#cashpayment)
+      - [ChequePayment](#chequepayment)
+      - [VoucherPayment](#voucherpayment)
       - [CardPayment](#cardpayment)
       - [Price](#price)
       - [OrderImportConfig](#orderimportconfig)
+         - [XML](#xml-2)
+         - [JSON](#json-2)
       - [SalesOrderStatus](#salesorderstatus)
       - [Shipment](#shipment)
       - [ShipmentItem](#shipmentitem)
       - [ShipmentPackage](#shipmentpackage)
-      - [StockStatuses](#stockstatuses)
-      - [StockLevel](#stocklevel)
+      - [StockStatus](#stockstatus)
+      - [StockLevels](#stocklevels)
       - [BuildPotentials](#buildpotentials)
       - [StockItem](#stockitem)
-      - [DeletedItem](#deleteditem)
       - [StockOptions](#stockoptions)
       - [WebProperties](#webproperties)
       - [StockSupplier](#stocksupplier)
       - [StockImage](#stockimage)
       - [StockBarcode](#stockbarcode)
+      - [DeletedItem](#deleteditem)
 - [Receiving &amp; Responding to server calls](#receiving--responding-to-server-calls)
    - [Order Download](#order-download)
-      - [XML](#xml-1)
+      - [XML](#xml-3)
          - [Properties](#properties)
          - [Response](#response)
-      - [JSON](#json-1)
+      - [JSON](#json-3)
          - [Properties](#properties-1)
          - [Response](#response-1)
-   - [Order Status Uploading](#order-status-uploading)
-   - [Stock Update](#stock-update)
-         - [Response](#response-2)
-   - [Stock Status Update](#stock-status-update)
-         - [Response](#response-3)
+   - [Order Status Upload](#order-status-upload)
+      - [XML](#xml-4)
+         - [Properties](#properties-2)
+         - [Request](#request)
+      - [JSON](#json-4)
+         - [Properties](#properties-3)
+         - [Request](#request-1)
+   - [Stock Upload](#stock-upload)
+      - [XML](#xml-5)
+         - [Properties](#properties-4)
+         - [Request](#request-2)
+      - [JSON](#json-5)
+         - [Properties](#properties-5)
+         - [Request](#request-3)
+   - [Stock Status Upload](#stock-status-upload)
+      - [XML](#xml-6)
+         - [Properties](#properties-6)
+         - [Request](#request-4)
+      - [JSON](#json-6)
+         - [Properties](#properties-7)
+         - [Request](#request-5)
 
 <!-- /MarkdownTOC -->
 
@@ -83,13 +111,13 @@ Object | Property | Description
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
-**[OrderStatusUpdate](#order-status-uploading)** | | The endpoint of where the status information will be POSTed to
+**[OrderStatusUpdate](#order-status-upload)** | | The endpoint of where the status information will be POSTed to
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
 **[StockStatusUpdate](#stock-status-update)** | | This will define the endpoint to sync Stock Statuses
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[StockUpdate](#stock-update)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
+**[StockUpdate](#stock-upload)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
 
@@ -152,6 +180,57 @@ When used as JSON, the ``ID``, ``Code``, or ``Name`` are set as object propertie
 },
 ```
 
+### DateTime
+
+The ``DateTime`` type is by represented as a ``string`` using the RFC 3339 format without the timezone offset.
+
+``2018-01-18T12:20:48``
+
+### MappingType
+
+The ``MappingType`` type is represented as a one of the following:
+
+```
+StockCode
+OtherRef
+Barcode
+WebCode
+Automatic
+```
+
+### OrderStatus
+
+The ``OrderStatus`` type is represented as one of the following:
+
+```
+Received
+Shipping
+PartialShip
+Complete
+Cancelled
+```
+
+### ShipmentStatus
+
+The ``ShipmentStatus`` type is represented as one of the following:
+
+```
+Released
+Staging
+Payment
+Picking
+Packing
+Shipping
+Invoicing
+Processing
+Issue
+AwaitingDate
+AwaitingStock
+ManualHold
+TermsHold
+Archived
+```
+
 ## Objects
 
 ### Customer
@@ -161,15 +240,15 @@ The ``Customer`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **CreateNew** | String | Yes | Can either be ``IfNoMatch``, ``Always``, or ``Never``. This ensures that a new customer is created if one does not already exist, without a customer being assigned the order will not import
-**CompanyClass** | ``DataItem`` | Yes | Which classification this customer is in. All customers **must** have a classification
-**Currency** | String | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
+**CompanyClass** | [``DataItem``](#dataitem) | Yes | Which classification this customer is in. All customers **must** have a classification
+**Currency** | [``DataItem``](#dataitem) | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
 **OtherRef** | String | | A reference, which is unique for other users
 **WebUser** | String | | The username of the user
 **CompanyType** | [``DataItem``](#dataitem) | | The company classification, which can be set in the System Data area of Khaos Control Cloud
 **CompanyName** | String | | Business/Company name for the customer. If left blank; e.g. for a residential consumer; Khaos Control will generate a company name from the contact details on the account
-**WebsiteURL** | String | | The URL of the customer's website
+**WebsiteUrl** | String | | The URL of the customer's website
 **SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
-**MailingFlag** | String | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
+**MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
 **URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
 **CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. This wil set the default calculation method for the customer for all future order
@@ -184,8 +263,8 @@ Name | Type | Required | Description
 **Line2** | String | | Second line of the address
 **Line3** | String | | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
 **Town** | String | Yes | Address town. Required by Khaos and all couriers
-**County** | String | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
-**Postcode** | String | | Address postcode. Technically not required, althoigh the vast majority of countries/couriers require this
+**County** | [``DataItem``](#dataitem) | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
+**Postcode** | String | | Address postcode. Technically not required, although the vast majority of countries/couriers require this
 **Country** | String | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
 **Telephone** | String | | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
 **Fax** | String | | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
@@ -202,7 +281,7 @@ Name | Type | Required | Description
 **Surname** | String | | Surname(s) for this contact. Either forname or surname must be filled in (or both, preferably)
 **Email** | String | | Primary email address for this contact. Can be used to (e.g.) send notifications/updates on order status
 **Mobile** | String | | Mobile phone number for this contact
-**DateOfBirth** | Double | | Date of birth for this contact, if known. May not be relevant to many businesses
+**DateOfBirth** | [``DateTime``](#datetime) | | Date of birth for this contact, if known. May not be relevant to many businesses
 **OptInNewsLetter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
 
 ### SalesOrder
@@ -227,27 +306,29 @@ The ``OrderHeader`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **AssociatedRef** | String | Yes | Order reference number. This **must** be unique amongst all orders from a given website/source. When sending updates for order status, the ``AssociatedRef`` will be passed back to the source website, so it can tell which order has changed
-**OrderDate** | Double | Yes | The date the order was **placed**, not necessarily the date the order was placed or will be shipped
+**OrderDate** | [``DateTime``](#datetime) | Yes | The date the order was **placed**.
 **Site** | [``DataItem``](#dataitem) | Yes | Which site/location the order should be fulfilled from
 **Agent** | [``DataItem``](#dataitem) | | Which sales agent to attribute the sale to
 **Courier** | [``DataItem``](#dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
 **CourierGroup** | [``DataItem``](#dataitem) | | Which group of courier services to ship the order with; use this if you want to restrict Khaos Control to shipping via a group/type of courier(s), but allowing it to select which specific courier service to use based on courier rules. For example, a Khaos Control system might have a courier group of "Next Day", which selects from many different next day services depending on package size, weight and destination
 **Keycode** | [``DataItem``](#dataitem) | | The keycode to use with this order
-**SalesSource** | [``DataItem``](#dataitem) | | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control
+**SalesSource** | [``DataItem``](#dataitem) | Yes | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control
 **Client** | [``DataItem``](#dataitem) | | 
 **Website** | [``DataItem``](#dataitem) | |
 **Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of
 **InvoicePriority** | [``DataItem``](#dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
-**DiscountCode** | [``DataItem``](#dataitem) | Yes | The discount code for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
+**DiscountCode** | Array[[``DataItem``](#dataitem)] | Yes | An array of discount codes for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
 **OrderNote** | String | | The note for the order
 **InvoiceNote** | String | | The invoice note for the order
-**DeliveryDate** | Double | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
-**RequiredDate** | Double | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
+**DeliveryDate** | [``DateTime``](#datetime) | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
+**RequiredDate** | [``DateTime``](#datetime) | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
 **PONumber** | String | | Customer's PO (Purchase Order) reference. Usually relevant for business customers paying on account
 **DeliveryCharge** | [``Price``](#price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
 **RemainderOnAccount** | Boolean | | 
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
+**SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
+**SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
 
 ### OrderItem
 
@@ -256,10 +337,10 @@ The ``OrderItem`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **SKU** | String | Yes | The code of the stock item being sold. May not actually be the stock code in Khaos Control; the ``Mapping`` controls how it locates an item in Khaos Control
-**Mapping** | String | Yes | Controls how the SKU is used to locate a stock item in Khaos Control. Can either be ``0`` for StockCode, ``1`` for OtherRef, ``2`` for BarCode, ``3`` for WebCode, or ``100`` for Auto
+**Mapping** | [``MappingType``](#mappingtype) | Yes | Controls how the SKU is used to locate a stock item in Khaos Control.
 **Quantity** | Double | Yes | How many units of the item were sold. Do not use non-integer quantites unless specifically requested to do by the Khaos Control user
-**StockDescription** | String | | Specify which description to place against this item; If omitted, the standard description against the stock item is used. If the source is ``Explicit``, provides the description use against this line. If ``WebCategories``, sets which set of categories to look up a description in. ``StockDesc`` is normally the best fit.
-**ExtendedDescription** | String | Yes | Additional lines of description for the order item; for example, additional instructions/requests, or a gift message
+**StockDescription** | [``OrderItemDescription``](#orderitemdescription) | | Specify which description to place against this item; If omitted, the standard description against the stock item is used.
+**ExtendedDescription** | Array[String] | Yes | Additional lines of description for the order item; for example, additional instructions/requests, or a gift message
 **FreeItemReason** | [``DataItem``](#dataitem) | | If the item is free (zero price), a reason can be provided specifying why. Only set if requested to by the Khaos Control user
 **ImportRef** | String | | Optional item reference from the website/source. Will be passed back in any future order updates
 **WebItemRef** | String | | Second item reference from the website/source. Will be passed back in any future order updates
@@ -267,8 +348,41 @@ Name | Type | Required | Description
 **PackLink** | String | | 
 **UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If omitted, system will calculate price; unlikely to be relevant for a website order
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
-**MappingType** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
-**AlternateMapping** | ItemMapping | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
+**MappingItem** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
+**AlternateMapping** | Array[[``ItemMapping``](#itemmapping)] | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
+
+### OrderItemDescription
+
+The ``OrderItemDescription`` object is similar to a [``DataItem``](#dataitem) but differs between ``XML`` and ``JSON`` outputs (see below).
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Source** | String | Yes | The source of the stock description. This can be either:<br/>**Explicit** (uses the description set against this line),<br/>**StockDesc** (this is normally the best fit),<br/>**WebCategories** (which set of categories to look up a description in)
+**Parameter** | String | Yes | The description of the stock item
+
+#### XML
+
+```xml
+<OrderItemDescription Source="Explicit">Croquet set - Luxury 4 Player - Oxford - Jaques</StockDescription>
+```
+
+#### JSON
+
+```json
+"OrderItemDescription": {
+   "Source": "Explicit",
+   "Parameter": "Croquet set - Luxury 4 Player - Oxford - Jaques"
+},
+```
+
+### ItemMapping
+
+The ``ItemMapping`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Mapping** | [``MappingType``](#mappingtype) | Yes | Select how to map the stock code from the website/source to a stock code in Khaos Control Cloud
+**MappingItem** | String | |  If the mapping type is Barcode, sets which barcode type to search in.
 
 ### OrderPayment
 
@@ -277,16 +391,32 @@ The ``OrderPayment`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **Amount** | Double | Yes | The amount paid in this transaction
-**Kind** | Object | Yes | This can either be:<br/>- [``CashPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``ChequePayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``CardPayment``](#cashpayment-chequepayment-and-voucherpayment)<br/>- [``VoucherPayment``](#cashpayment-chequepayment-and-voucherpayment)
+**Cash** or <br/>**Cheque** or <br/>**Card** or<br/>**Voucher** | [``CashPayment``](#cashpayment)<br/>[``ChequePayment``](#chequepayment)<br/>[``CardPayment``](#cardpayment)<br/>[``VoucherPayment``](#voucherpayment) | Yes | What type of transaction was used when making the payment
 **BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
 
-### CashPayment, ChequePayment, and VoucherPayment
+### CashPayment
 
-The ``CashPayment``, ``ChequePayment``, and ``VoucherPayment`` objects are made up of the following properties:
+The ``CashPayment`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**Reference** | String | Yes | Voucher reference. This is required so Khaos Control can match the payment against its list of issued vouchers.
+**Reference** | string | | Payment reference, if you have a relevant payment reference to provide
+
+### ChequePayment
+
+The ``ChequePayment`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Reference** | string | | Payment reference, if you have a relevant payment reference to provide
+
+### VoucherPayment
+
+The ``VoucherPayment`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Reference** | string | Yes | Voucher reference. This is required so Khaos Control Cloud can match the payment against its list of issued vouchers
 
 ### CardPayment
 
@@ -309,7 +439,7 @@ Name | Type | Required | Description
 **Last4Digits** | String | | The last four digits of the card number, for reference
 **AccountNumber** | Integer | | Which card integration account to use in Khaos Control. If omitted, system will pick default based on currency or other rules
 **FraudData** | String | | Fraud data, for reference
-**Timestamp** | Double | | The time the payment was processed
+**Timestamp** | [``DateTime``](#datetime) | | The time the payment was processed
 
 ### Price
 
@@ -326,12 +456,36 @@ The ``OrderImportConfig`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**MatchCompanyOn** | String | Yes | Is used for matching existing customers, they can be:<br/>- ``1`` CompanyName<br/>- ``2`` Address1<br/>- ``3`` Address2<br/>- ``4`` Address3<br/>- ``5`` Town<br/>- ``6`` Postcode<br/>- ``7`` Surname<br/>- ``8`` Forename<br/>- ``9`` Telephone<br/>- ``10`` Email<br/>- ``11`` CompanyCode<br/>- ``12`` UseDeliveryAddress
-**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- ``1`` CompanyName<br/>- ``2`` Address1<br/>- ``3`` Address2<br/>- ``4``Address3<br/>- ``5`` Town<br/>- ``6`` Postcode<br/>- ``7`` Surname<br/>- ``8`` Forename<br/>- ``9`` Telephone<br/>- ``10`` Email<br/>- ``11`` CompanyCode<br/>- ``12`` UseDeliveryAddress
-**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- ``1`` CompanyName<br/>- ``2`` Address1<br/>- ``3`` Address2<br/>- ``4``Address3<br/>- ``5`` Town<br/>- ``6`` Postcode<br/>- ``7`` Surname<br/>- ``8`` Forename<br/>- ``9`` Telephone<br/>- ``10`` Email<br/>- ``11`` CompanyCode<br/>- ``12`` UseDeliveryAddress
-**DiscontinuedItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
-**RunToZeroErrorItems** | String | | Can either be:<br/>- ``0`` Abort<br/>- ``1`` ImportAndHold<br/>- ``2`` Skip (not recommended)
+**MatchCompanyOn** | String | Yes | Is used for matching existing customers, they can be:<br/>-  CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>-Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>-Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**DiscontinuedItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
+**RunToZeroErrorItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
 **ImportAsUnconfirmed** | Boolean | | Sets whether or not the order is imported as unconfirmed or confirmed. If unconfirmed, the order is not ready for processing
+
+There are slight differences between the ``XML`` and ``JSON`` outputs, these are as follows:
+
+#### XML
+
+```xml
+<Config>
+    <MatchCompanyOn>Address1</MatchCompanyOn>
+    <MatchCompanyOn>CompanyCode</MatchCompanyOn>
+    <MatchAddressOn>Address1</MatchAddressOn>
+    <MatchAddressOn>Postcode</MatchAddressOn>
+    <MatchContactOn>Surname</MatchContactOn>
+</Config>
+```
+
+#### JSON
+
+```json
+"config": {
+   "MatchCompanyOn": ["Address1", "CompanyCode"],
+   "MatchAddressOn": ["Address1", "Postcode"],
+   "MatchContactOn": ["Surname"]
+}
+```
 
 ### SalesOrderStatus
 
@@ -339,11 +493,11 @@ The ``SalesOrderStatus`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**OrderID** | String | Yes | The ID of the order, which will always be unique
 **OrderCode** | String | Yes | The sales order code
-**OrderStatus** | Integer | Yes | The status of shipment where:<br/>- ``1`` Received<br/>- ``2`` Shipping<br/>- ``3`` PartialShip<br/>- ``4`` Complete<br/>- ``100`` Cancelled
+**OrderID** | String | Yes | The ID of the order, which will always be unique
+**OrderStatus** | [``OrderStatus``](#orderstatus) | Yes | The status of the shipment
 **AssociatedRef** | String | | An associated reference to the Sales Order
-**ChannelId** | String | | The channel ID of the Sales Order
+**ChannelID** | String | | The channel ID of the Sales Order
 **Shipments** | [``Shipment``](#shipment) | Yes | The shipment items of the order, this can either be the whole order or part
 
 ### Shipment
@@ -354,7 +508,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **ID** | String | Yes | The ID of the shipment
 **Code** | String | Yes | The code of the shipment, which may change from the user interaction
-**Status** | [``ShipmentStatus``](#shipmentstatus) | Yes | The status of the shipment, where:<br/>- ``9`` Released<br/>-``10`` Staging<br/>- ``11`` Payment<br/>- ``12`` Picking<br/>- ``13`` Packing<br/>- ``14`` Shipping<br/>- ``15`` Invoicing<br/>- ``20`` Processing<br/>- ``16`` Issue<br/>- ``20`` AwaitingDate<br/>- ``18`` AwaitingStock<br/>- ``19`` ManualHold<br/>- ``21`` TermsHold
+**Status** | [``ShipmentStatus``](#shipmentstatus) | Yes | The status of the shipment
 **Items** | Array[[``ShipmentItem``](#shipmentitem)] | Yes | A list of ``ShipmentItem`` being shipped
 **Packages** | Array[[``ShipmentPackage``](#shipmentpackage)] | Yes | A list of ``ShipmentPackage`` for the items being shipped
 
@@ -379,19 +533,23 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **ConsignmentRef** | String | | The Consignment Ref of the package
 **Courier** | [``DataItem``](#dataitem) | | Either the ID, Code or Name of the courier
-**ShipmentDate** | Double | | The date of the shipment
+**ShipmentDate** | [``DateTime``](#datetime) | | The date of the shipment
 
-### StockStatuses
+### StockStatus
 
-The ``StockStatuses`` object is made up of the following properties:
+The ``StockStatus`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**Statuses** | Array[[``StockStatus``](#data-item)] | Yes | A list of ``StockStatus`` objects which contains one entry per stock item / site combination that is being reported on
+**StockCode** | String | Yes | This is the Stock Code from within Khaos Control Cloud
+**StockID** | string | Yes | This is the StockID from within Khaos Control Cloud
+**SiteID** | Integer | Yes | This is the SiteID from within Khaos Control Cloud that any levels refer to. If Khaos contains more than one stock control site (e.g. multiple warehouses), then each ``StockStatus`` entry refers to the stock present in one specific site
+**Levels**  | [``StockLevels``](#stocklevels) | | This contains the current stock levels of the item. The levels will not be present if the item isn't stock controlled
+**BuildPotential** | [``BuildPotentials``](#buildpotentials) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "out of stock", but has a non-zero build potential, you may wish to mark it as ``Available`` - since it's possible more could be constructed from other stock items that are themselves available
 
-### StockLevel
+### StockLevels
 
-The ``StockLevel`` object is made up of the following properties:
+The ``StockLevels`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
@@ -404,8 +562,7 @@ The ``BuildPotentials`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**FromChildren** | Integer | Yes | This will either be ``1`` or ``0``
-**Courier** | Float | Yes | This is the quantity that could be built from child (component) items. Note that other items might use the same child items, so this is the maximum quantity that could be built assuming no other build items or orders used the children
+**FromChildren** | Integer | Yes | This is the quantity that could be built from child (component) items. Note that other items might use the same child items, so this is the maximum quantity that could be built assuming no other build items or orders used the children
 **FromParents** | Integer | Yes | This is the quantity of items that could be produced if all parent items containing this were broken down into their component parts
 
 ### StockItem
@@ -416,7 +573,7 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **StockID** | String | Yes | The ID of the stock item, which is always unique
 **StockCode** | String | Yes | The stock code, which can change
-**ShortDescription** | String | Yes | A brief description of the stock item, normally used as a name
+**StockDescription** | string | Yes | A brief description of the stock item, normally used as a name
 **BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier
 **SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer
 **TaxRate** | [``DataItem``](#dataitem) | Yes | The tax type of the item, e.g. Zero Tax, Standard Tax, Fixed Tax, etc.
@@ -436,7 +593,7 @@ Name | Type | Required | Description
 **ReorderMultiple** | Float | | The reordering multiple of the stock item, e.g. re-ordering an item with your supplier where they come in packs of 100, this value would be set to 100
 **MinLevel** | Float | | The minimum level of stock before a reorder must be actioned
 **SafeLevel** | Float | | The level of stock where a reorder needs to be considered
-**SalesMultiple** | Float | This will force customers to only order in multiples of this quantity
+**SalesMultiple** | Float | | This will force customers to only order in multiples of this quantity
 **LeadTime** | Integer | | The amount of lead time between a reorder and delivery of stock (in days)
 **Availability** | String | | A free text field to indicate the availability of the item. For example, if the level was zero, this could say "Expected back in stock mid-December"
 **WebProperties** | [``WebProperties``](#webproperties) | | See ``WebProperties`` object
@@ -444,21 +601,13 @@ Name | Type | Required | Description
 **Images** | Array[[``StockImage``](#stockimage)] | Yes | 
 **Barcodes** | Array[[``StockBarcode``](#stockbarcode)] |
 
-### DeletedItem
-
-The ``DeletedItem`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**StockID** | String | Yes | The ID of the stock item
-
 ### StockOptions
 
 The ``StockOptions`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**PublishOnWeb** | Boolean | Yes | If the option to "Publish to web** is enabled or not
+**PublishOnWeb** | Boolean | Yes | If the option to "Publish to web" is enabled or not
 **Discontinued** | Boolean | Yes | If the item is discontinued or not
 **DropShipItem** | Boolean | Yes | If the item is dropship or not
 **DiscountsDisabled** | Boolean | Yes | If the item can have discounts or not
@@ -497,6 +646,10 @@ The ``StockImage`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
+Name | String | | The name of the image
+Description | String | | The description of the image
+Filename | String | | The filename of the image
+ImageType | [``DataItem``](#dataitem) | | The type of image
 
 ### StockBarcode
 
@@ -506,6 +659,14 @@ Name | Type | Required | Description
 --- | --- | --- | ----
 **Barcode** | String | Yes | The barcode value
 **Type** | [``DataItem``](#dataitem) | | The type of barcode e.g. ISBN, EAN
+
+### DeletedItem
+
+The ``DeletedItem`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**StockID** | String | Yes | The ID of the stock item
 
 # Receiving &amp; Responding to server calls
 
@@ -751,8 +912,8 @@ Node | Child Node | Type | Required | Description
 
 #### Properties
 
-Object | Property | Type | Required | Description
---- | --- | --- | --- | ---
+Object | Type | Required | Description
+--- | --- | --- | ---
 **Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | An array containing ``SalesOrder`` objects. If you have a high volume of orders you may want to split your orders out into 1000 at a time using [``DataContinuity``](#data-continuity).
 **ApiVersion** | Integer | Yes | Must be set to **1000**
 **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
@@ -844,191 +1005,495 @@ Object | Property | Type | Required | Description
    }],
    "ApiVersion": "10000",
    "Config": {
-      "MatchCompanyOn": "CompanyCode",
-      "MatchAddressOn": "Postcode",
-      "MatchContactOn": "Surname"
+      "MatchCompanyOn": ["CompanyCode"],
+      "MatchAddressOn": ["Postcode"],
+      "MatchContactOn": ["Surname"]
    }
 }
 ```
 
-## Order Status Uploading
-> This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
+## Order Status Upload
 
-Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
+Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
 
-Property | Type | Description
---- | --- | ---
-Statuses | Array[[``SalesOrderStatus``](#salesorderstatus)] | A list of ``SalesOrderStatus`` object
+### XML
 
-## Stock Update
+#### Properties
 
-Defined as ``StockUpdate`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen *frequently* and you do not need to respond to this request. You will get between 0 and 100 stock items per request.
-
-Object | Property | Type | Required | Description
+Node | Child Node | Type | Always present? | Description
 --- | --- | --- | --- | ---
-**StockItems** | | | |
-| | **Items** | [``StockItem``](#stockitem) | Yes | A collection of ``StockItem`` objects
-| | **Deleted** | [``DeletedItem``](#deleteditem) | Yes | A collection of ``DeletedItem`` objects
+**OrderStatuses** | | | Yes | The root node of the XML file
+| | **Statuses** | Array[[``SalesOrderStatus``](#salesorderstatus)] | Yes | A parent node containing all of the sales order statuses
 
-#### Response
+#### Request
+
+```xml
+<OrderStatuses>
+   <Statuses>
+      <SalesOrderStatus>
+         <OrderCode>SO02075</OrderCode>
+         <OrderID>2075</OrderID>
+         <Status>Received</Status>
+         <AssociatedRef>web_order_1516288492</AssociatedRef>
+         <ChannelID>21</ChannelID>
+         <Shipments>
+            <Shipment>
+               <ID>BFDPDD09FZZW7ZZ</ID>
+               <Code>INV106</Code>
+               <Status>Staging</Status>
+               <Items>
+                  <ShipmentItem>
+                     <OrderItemID>BFDPDC00ZZZW7ZZ</OrderItemID>
+                     <ShipmentItemID>BFDPDD09ZZZW7ZZ</ShipmentItemID>
+                     <SKU>MUG1</SKU>
+                     <Quantity>2.0</Quantity>
+                  </ShipmentItem>
+                  <ShipmentItem>
+                     <OrderItemID>BFDPDC01FZZW7ZZ</OrderItemID>
+                     <ShipmentItemID>BFDPDD0AFZZW7ZZ</ShipmentItemID>
+                     <SKU>MUG1</SKU>
+                     <Quantity>1.0</Quantity>
+                  </ShipmentItem>
+               </Items>
+               <Packages>
+                  <ShipmentPackage>
+                     <Courier Code="24H" ID="76">Metapack 24Hr</Courier>
+                  </ShipmentPackage>
+               </Packages>
+            </Shipment>
+         </Shipments>
+      </SalesOrderStatus>
+      <SalesOrderStatus>
+         <OrderCode>SO02076</OrderCode>
+         <OrderID>2076</OrderID>
+         <Status>Received</Status>
+         <AssociatedRef>web_order_1516288490</AssociatedRef>
+         <ChannelID>21</ChannelID>
+         <Shipments>
+            <Shipment>
+               <ID>BFDPDD02ZZZW7ZZ</ID>
+               <Code>INV105</Code>
+               <Status>Staging</Status>
+               <Items>
+                  <ShipmentItem>
+                     <OrderItemID>BFDPDC00FZZW7ZZ</OrderItemID>
+                     <ShipmentItemID>BFDPDD03FZZW7ZZ</ShipmentItemID>
+                     <SKU>MUG1</SKU>
+                     <Quantity>1.0</Quantity>
+                  </ShipmentItem>
+               </Items>
+               <Packages>
+                  <ShipmentPackage>
+                     <Courier Code="24H" ID="76">Metapack 24Hr</Courier>
+                  </ShipmentPackage>
+               </Packages>
+            </Shipment>
+         </Shipments>
+      </SalesOrderStatus>
+   </Statuses>
+</OrderStatuses>
+```
+
+### JSON
+
+#### Properties
+
+Object | Type | Always present? | Description
+--- | --- | --- | ---
+**Statuses** | Array[[``SalesOrderStatus``](#salesorderstatus)] | Yes | An array containing ``SalesOrderStatus`` objects.
+
+#### Request
+
+```json
+{
+   "Statuses": [
+   {
+      "OrderCode": "SO02075",
+      "OrderID": "2075",
+      "Status": "Received",
+      "AssociatedRef": "web_order_1516288492",
+      "ChannelID": "21",
+      "Shipments": [{
+         "ID": "BFDPDD09FZZW7ZZ",
+         "Code": "INV106",
+         "Status": "Staging",
+         "Items": [{
+            "OrderItemID": "BFDPDC00ZZZW7ZZ",
+            "ShipmentItemID": "BFDPDD09ZZZW7ZZ",
+            "SKU": "MUG1",
+            "Quantity": 2.0
+         },
+         {
+            "OrderItemID": "BFDPDC01FZZW7ZZ",
+            "ShipmentItemID": "BFDPDD0AFZZW7ZZ",
+            "SKU": "MUG1",
+            "Quantity": 1.0
+         }],
+         "Packages": [{
+            "Courier": {
+               "Name": "Metapack 24Hr",
+               "Code": "24HR",
+               "ID": "76"
+            }
+         }]
+      }]
+   },
+   {
+      "OrderCode": "SO02076",
+      "OrderID": "2076",
+      "Status": "Received",
+      "AssociatedRef": "web_order_1516288490",
+      "ChannelID": "21",
+      "Shipments": [{
+         "ID": "BFDPDD02ZZZW7ZZ",
+         "Code": "INV105",
+         "Status": "Staging",
+         "Items": [{
+            "OrderItemID": "BFDPDC00FZZW7ZZ",
+            "ShipmentItemID": "BFDPDD03FZZW7ZZ",
+            "SKU": "MUG1",
+            "Quantity": 1.0
+         }],
+         "Packages": [{
+            "Courier": {
+               "Name": "Metapack 24Hr",
+               "Code": "24HR",
+               "ID": "76"
+            }
+         }]
+      }]
+   }]
+}
+```
+
+## Stock Upload
+
+Defined as ``StockUpdate`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
+
+### XML
+
+#### Properties
+Node | Child Node | Type | Always present? | Description
+--- | --- | --- | --- | ---
+**StockItems** | | | Yes | The root node of the XML file
+| | **Items** | Array[[``StockItem``](#stockitem)] | Yes | A parent node containing all of the stock items
+| | **Deleted** | Array[[``DeletedItem``](#deleteditem)] | Yes | A parent node containing all of the deleted stock items
+
+#### Request
 
 ```xml
 <?xml version="1.0"?>
 <StockItems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Items>
-      <StockItem>
-          <StockID>2076</StockID>
-          <StockCode>001-AH-00300</StockCode>
-          <ShortDescription>NEA0100-083</ShortDescription>
-          <BuyPrice>
-              <Net>112.26</Net>
-              <Gross xsi:nil="true" />
-          </BuyPrice>
-          <SellPrice>
-              <Net>198.75</Net>
-              <Gross xsi:nil="true" />
-          </SellPrice>
-          <TaxRate>
-              <Name>Standard</Name>
-              <Code>1</Code>
-              <ID>1</ID>
-          </TaxRate>
-          <StockType1>
-              <Name>DS</Name>
-              <ID>172</ID>
-          </StockType1>
-          <StockType2>
-              <Name>Arjo Hoist Spare</Name>
-              <ID>259</ID>
-          </StockType2>
-          <Options>
-              <PublishOnWeb>true</PublishOnWeb>
-              <Discontinued>false</Discontinued>
-              <DropShipItem>false</DropShipItem>
-              <DiscountsDisabled>false</DiscountsDisabled>
-              <RunToZero>false</RunToZero>
-              <VatReliefQualified>false</VatReliefQualified>
-              <StockControlled>true</StockControlled>
-              <FreeText>false</FreeText>
-              <CustomOptions />
-          </Options>
-          <LongDescription>battery pack 24V 2,5Ah NiMH polyfuse self-healing suitable for Maxi twin / Maxi twin compact / Carendo / Carino</LongDescription>
-          <AverageWeight xsi:nil="true" />
-          <Height>5.13</Height>
-            <Width xsi:nil="true" />
-          <Depth xsi:nil="true" />
-          <ReorderMultiple xsi:nil="true" />
-          <MinLevel xsi:nil="true" />
-          <SafeLevel>2</SafeLevel>
-          <SalesMultiple>1</SalesMultiple>
-          <LeadTime>1</LeadTime>
-          <Availability>123</Availability>
-          <SupplierInfo>
-              <StockSupplier>
-                  <URN>AOS</URN>
-                  <Name>American Office Supplies</Name>
-                  <IsPreferred>false</IsPreferred>
-                  <SupplierRef>123456789012345678</SupplierRef>
-              </StockSupplier>
-          </SupplierInfo>
-          <Images>
-              <StockImage>
-                  <Name>61b7_swingline_stapler.jpg</Name>
-              </StockImage>
-          </Images>
-          <Barcodes />
-      </StockItem>
-      <StockItem>
-          <StockID>2074</StockID>
-          <StockCode>001-AH-00120</StockCode>
-          <ShortDescription>NDA0200</ShortDescription>
-          <BuyPrice>
-              <Net>132.51</Net>
-              <Gross xsi:nil="true" />
-          </BuyPrice>
-          <SellPrice>
-              <Net>198.95</Net>
-              <Gross xsi:nil="true" />
-          </SellPrice>
-          <TaxRate>
-              <Name>Standard</Name>
-              <Code>1</Code>
-              <ID>1</ID>
-          </TaxRate>
-          <StockType1>
-              <Name>DS</Name>
-              <ID>172</ID>
-          </StockType1>
-          <StockType2>
-              <Name>Arjo Hoist Spare</Name>
-              <ID>259</ID>
-          </StockType2>
-          <Options>
-              <PublishOnWeb>true</PublishOnWeb>
-              <Discontinued>false</Discontinued>
-              <DropShipItem>false</DropShipItem>
-              <DiscountsDisabled>false</DiscountsDisabled>
-              <RunToZero>false</RunToZero>
-              <VatReliefQualified>false</VatReliefQualified>
-              <StockControlled>true</StockControlled>
-              <FreeText>false</FreeText>
-              <CustomOptions />
-          </Options>
-          <LongDescription>battery pack 24V 5Ah polyfuse self-healing suitable for axi Move</LongDescription>
-          <AverageWeight xsi:nil="true" />
-          <Height xsi:nil="true" />
-          <Width xsi:nil="true" />
-          <Depth xsi:nil="true" />
-          <ReorderMultiple xsi:nil="true" />
-          <MinLevel xsi:nil="true" />
-          <SafeLevel>1</SafeLevel>
-          <SalesMultiple>1</SalesMultiple>
-          <LeadTime>1</LeadTime>
-          <SupplierInfo />
-          <Images />
-          <Barcodes>
-              <StockBarcode>
-                  <Barcode>13543576ee</Barcode>
-                  <Type>
-                      <Name>Shopify</Name>
-                      <ID>10</ID>
-                  </Type>
-              </StockBarcode>
-              <StockBarcode>
-                  <Barcode>4411235468354</Barcode>
-                  <Type>
-                      <Name>EAN</Name>
-                      <ID>12</ID>
-                  </Type>
-              </StockBarcode>
-              <StockBarcode>
-                  <Barcode>3576843wefwefkwegf772j23</Barcode>
-                  <Type>
-                      <Name>ASIN UK</Name>
-                      <ID>2</ID>
-                  </Type>
-              </StockBarcode>
-          </Barcodes>
-      </StockItem>
+    <StockItem>
+      <StockID>323</StockID>
+      <StockCode>120</StockCode>
+      <ShortDescription>Paracetamol (pack Of 32 Capulets)</ShortDescription>
+      <BuyPrice>
+        <Net>0.23</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>1.89</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate ID="2"/>
+      <StockType1 Name="Medicines" ID="13"/>
+      <StockType2 Name="[Medicines] Pain Killers" ID="27"/>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <OtherRef>120</OtherRef>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple>29</ReorderMultiple>
+      <MinLevel>7</MinLevel>
+      <SafeLevel>22</SafeLevel>
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>GIL</URN>
+          <Name>Gillette</Name>
+          <IsPreferred>true</IsPreferred>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>Default</Name>
+          <Description>Image not yet available - coming soon</Description>
+          <ImageType Name="Other" ID="4"/>
+        </StockImage>
+      </Images>
+      <Barcodes />
+    </StockItem>
+    <StockItem>
+      <StockID>1226</StockID>
+      <StockCode>15BB</StockCode>
+      <ShortDescription>15 Litre Black Bucket</ShortDescription>
+      <BuyPrice>
+        <Net>0.31</Net>
+        <Gross xsi:nil="true" />
+      </BuyPrice>
+      <SellPrice>
+        <Net>1.5</Net>
+        <Gross xsi:nil="true" />
+      </SellPrice>
+      <TaxRate Name="Standard" Code="1" ID="1"/>
+      <StockType1 Name="Automotive" ID="59"/>
+      <StockType2 Name="[Automotive] Car Care" ID="101"/>
+      <Options>
+        <PublishOnWeb>true</PublishOnWeb>
+        <Discontinued>false</Discontinued>
+        <DropShipItem>false</DropShipItem>
+        <DiscountsDisabled>false</DiscountsDisabled>
+        <RunToZero>false</RunToZero>
+        <VatReliefQualified>false</VatReliefQualified>
+        <StockControlled>true</StockControlled>
+        <FreeText>false</FreeText>
+        <CustomOptions />
+      </Options>
+      <Manufacturer Name="Addidass" ID="53"/>
+      <AverageWeight xsi:nil="true" />
+      <Height xsi:nil="true" />
+      <Width xsi:nil="true" />
+      <Depth xsi:nil="true" />
+      <ReorderMultiple xsi:nil="true" />
+      <MinLevel xsi:nil="true" />
+      <SafeLevel xsi:nil="true" />
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <WebProperties>
+        <WebTeaser>This is the web teaser</WebTeaser>
+        <MetaTitle>15 Litre Black Bucket</MetaTitle>
+        <MetaDescription>15 Litre Black Bucket</MetaDescription>
+        <MetaKeywords>15 Litre Black Bucket</MetaKeywords>
+        <MaxDisplayQty xsi:nil="true" />
+      </WebProperties>
+      <SupplierInfo>
+        <StockSupplier>
+          <URN>DAC</URN>
+          <Name>DAC</Name>
+          <IsPreferred>true</IsPreferred>
+        </StockSupplier>
+      </SupplierInfo>
+      <Images>
+        <StockImage>
+          <Name>Bucket</Name>
+          <Description>15 Litre Bucket</Description>
+          <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket.jpg</Filename>
+          <ImageType Name="KC:Web" ID="1563"/>
+        </StockImage>
+        <StockImage>
+          <Name>Bucket</Name>
+          <Description>15 Litre Bucket</Description>
+          <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket - large.jpg</Filename>
+          <ImageType Name="KC:Web" ID="1564"/>
+        </StockImage>
+        <StockImage>
+          <Name>Bucket</Name>
+          <Description>15 Litre Bucket</Description>
+          <Filename>G:\KeystoneSoftware\KhaosControlWeb\Test Files\bucket - larger.jpg</Filename>
+          <ImageType Name="KC:Web" ID="1565"/>
+        </StockImage>
+      </Images>
+      <Barcodes>
+        <StockBarcode>
+          <Barcode>B0076Y6HK0</Barcode>
+          <Type Name="ASIN UK" ID="2"/>
+        </StockBarcode>
+      </Barcodes>
+    </StockItem>
   </Items>
   <Deleted />
 </StockItems>
 ```
-        
-## Stock Status Update
-> This will occur when a stock adjustment is made, or the level of stock is changed automatically.
 
-Defined as ``StockStatusUpload`` in your ``configuration file``, the API will push via a ``POST`` to your endpoint in the data format you specified. This will happen frequently and you do not need to respond to this request. You will get between 0 and 1000 status items per request.
+### JSON
 
-Property | Type | Required | Description
+#### Properties
+
+Object | Type | Always present? | Description
 --- | --- | --- | ---
-**StockCode** | String | Yes | The stock code of the item, these are generally unique but can also be edited by user input
-**StockID** | String | Yes | The ID of the item
-**SiteID** | Integer | Yes | This is the site identifier, where the stock is located
-**Levels** | [``StockLevel``](#stocklevel) | | This is the ``StockLevel`` object which details the amount of stock available
-**BuildPotentials** | [``BuildPotentials``](#buildpotential) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "Out of stock", but has a non-zero build potential, you may wish to mark it as Available. This is because it's possible more could be constructed from other stock items that are themselves available
+**Items** | Array[[``StockItem``](#stockitem)] | Yes | An array containing ``StockItem`` objects.
+**Deleted** | Array[[``DeletedItem``](#deleteditem)] | Yes | An array containing ``DeletedItem`` objects.
 
-#### Response
+#### Request
+
+```json
+{
+   "Items": [{
+      "StockID": "323",
+      "StockCode": "120",
+      "ShortDescription": "Paracetamol (pack Of 32 Capulets)",
+      "BuyPrice": {
+         "Net": 0.23,
+      },
+      "SellPrice": {
+         "Net": 1.89
+      },
+      "TaxRate": {
+         "ID": "2"
+      },
+      "StockType1": {
+         "Name": "Medicines",
+         "ID": "13"
+      },
+      "StockType2": {
+         "Name": "[Medicines] Pain Killers",
+         "ID": "27"
+      },
+      "Options": {
+         "PublishOnWeb": true,
+         "Discontinued": false,
+         "DropShipItem": false,
+         "DiscountsDisabled": false,
+         "RunToZero": false,
+         "VatReliefQualified": false,
+         "StockControlled": true,
+         "FreeText": false,
+         "CustomOptions": {}
+      },
+      "OtherRef": "120",
+      "AverageWeight": null,
+      "Height": null,
+      "Width": null,
+      "Depth": null,
+      "ReorderMultiple": 29.00,
+      "MinLevel": 7.00,
+      "SafeLevel": 22.00,
+      "SalesMultiple": 1.00,
+      "LeadTime": 1.00,
+      "SupplierInfo": {
+         "URN": "GIL",
+         "Name": "Gillette",
+         "IsPreferred": true
+      },
+      "Images": [{
+         "Name": "Default",
+         "Description": "Image not yet available - coming soon",
+         "ImageType": {
+            "Name": "Other",
+            "ID": "4"
+         }
+      }],
+      "Barcodes": []
+   }, {
+      "StockID": "1226",
+      "StockCode": "15BB",
+      "ShortDescription": "15 Litre Black Bucket",
+      "BuyPrice": {
+         "Net": 0.31
+      },
+      "SellPrice": {
+         "Net":  1.5
+      },
+      "TaxRate": {
+         "Name": "Standard",
+         "ID": "1",
+         "Code": "1"
+      },
+      "StockType1": {
+         "Name": "Automotive",
+         "ID": "59"
+      },
+      "StockType2": {
+         "Name": "[Automotive] Care Care",
+         "ID": "101"
+      },
+      "Options": {
+         "PublishOnWeb": true,
+         "Discontinued": false,
+         "DropShipItem": false,
+         "DiscountsDisabled": false,
+         "RunToZero": false,
+         "VatReliefQualified": false,
+         "StockControlled": true,
+         "FreeText": false,
+         "CustomOptions": {}
+      },
+      "Manufacturer": {
+         "Name": "Addidass",
+         "ID": "53"
+      },
+      "OtherRef": "120",
+      "AverageWeight": null,
+      "Height": null,
+      "Width": null,
+      "Depth": null,
+      "ReorderMultiple": 29.00,
+      "MinLevel": 7.00,
+      "SafeLevel": 22.00,
+      "SalesMultiple": 1.00,
+      "LeadTime": 1.00,
+      "SupplierInfo": {
+         "URN": "DAC",
+         "Name": "DAC",
+         "IsPreferred": true
+      },
+      "Images": [{
+         "Name": "Bucket",
+         "Description": "15 Litre Bucket",
+         "Filename": "KhaosControlWeb\\Test Files\\bucket.jpg",
+         "ImageType": {
+            "Name": "KC:Web",
+            "ID": "1563"
+         }
+      }, {
+         "Name": "Bucket",
+         "Description": "15 Litre Bucket",
+         "Filename": "KhaosControlWeb\\Test Files\\bucket - large.jpg",
+         "ImageType": {
+            "Name": "KC:Web",
+            "ID": "1564"
+         }
+      }, {
+         "Name": "Bucket",
+         "Description": "15 Litre Bucket",
+         "Filename": "KhaosControlWeb\\Test Files\\bucket - larger.jpg",
+         "ImageType": {
+            "Name": "KC:Web",
+            "ID": "1565"
+         }
+      }],
+      "Barcodes": [{
+         "Barcode": "B0076Y6HK0",
+         "Type": {
+            "Name": "ASIN UK",
+            "ID": "2"
+         }
+      }]
+   }],
+   "Deleted": [{
+      "StockID": "20BB"
+   }]
+}
+```
+
+## Stock Status Upload
+
+Defined as ``StockStatusUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will occur when a stock adjustment is made, or the level of stock is changed automatically. You do not need to respond to this request, and you will receive between 0 and 100 stock items per request.
+
+### XML
+
+#### Properties
+
+Node | Child Node | Type | Always present? | Description
+--- | --- | --- | --- | ---
+**StockStatuses** | | | Yes | The root node of the XML file
+| | **Statuses** | Array[[``StockStatus``](#stockstatus)] | Yes | A parent node containing all of the stock item statuses
+
+#### Request
 ```xml
 <?xml version="1.0"?>
 <StockStatuses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -1125,4 +1590,36 @@ Property | Type | Required | Description
     </StockStatus>
   </Statuses>
 </StockStatuses>
+```
+
+### JSON
+
+#### Properties
+
+Object | Type | Always present? | Description
+--- | --- | --- | ---
+**Statuses** | Array[[``StockStatus``](#stockstatus)] | Yes | An array containing all of the stock item statuses
+
+#### Request
+
+```json
+{
+   "Statuses": [{
+      "StockCode": "BOO",
+      "StockID": "112",
+      "SiteID": 1,
+      "Levels": {
+         "Available": 77.0,
+         "OnOrder": 84.0
+      }
+   }, {
+      "StockCode": "MUG1",
+      "StockID": "505",
+      "SiteID": 1,
+      "Levels": {
+         "Available": 110.0,
+         "OnOrder": 0.0
+      }
+   }]
+}
 ```

@@ -1,7 +1,7 @@
 <?php 
    /*
-      This is an example file for getting the stock statuses and applying them to your application
-      See the documentation for Stock Status Update
+      This is an example file for getting the order statuses and applying them to your application
+      See the documentation for Order Status Update
    */
    try
    {
@@ -13,20 +13,20 @@
       $json = json_decode($data);
       if(!isset($json->Statuses))
          throw new Exception("No statuses");
-      // Now let's process our stock levels to be written to a TSV file
+      // Now let's process our orders to be written to a TSV file
       $file_data = array();
-      $output_file = "output/stock_history.tsv";
+      $output_file = "output/order_history.tsv";
       if(!file_exists($output_file)) {
          // create and add files to the output file
          $file = fopen($output_file, "w");
-         array_push($file_data, "ID\tSiteID\tAvailable");
+         array_push($file_data, "KCC_Code\tMy_Code\tStatus");
       } else {
          $file = fopen($output_file, "a");
          $file_data = array("");
       }
-      // loop through the statuses of each stock item
+      // loop through the statuses of each order
       foreach($json->Statuses as $status) // create file line 
-         array_push($file_data, $status->StockID."\t".$status->SiteID."\t".$status->Levels->Available);
+         array_push($file_data, $status->OrderCode."\t".$status->AssociatedRef."\t".$status->Status);
       // Write to file
       if(sizeOf($file_data) > 0)
          fwrite($file, implode("\r\n", $file_data));
