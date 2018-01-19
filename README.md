@@ -111,7 +111,7 @@ Object | Property | Description
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
-**[OrderStatusUpdate](#order-status-uploading)** | | The endpoint of where the status information will be POSTed to
+**[OrderStatusUpdate](#order-status-upload)** | | The endpoint of where the status information will be POSTed to
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
 **[StockStatusUpdate](#stock-status-update)** | | This will define the endpoint to sync Stock Statuses
@@ -281,7 +281,7 @@ Name | Type | Required | Description
 **Surname** | String | | Surname(s) for this contact. Either forname or surname must be filled in (or both, preferably)
 **Email** | String | | Primary email address for this contact. Can be used to (e.g.) send notifications/updates on order status
 **Mobile** | String | | Mobile phone number for this contact
-**DateOfBirth** | Double | | Date of birth for this contact, if known. May not be relevant to many businesses
+**DateOfBirth** | [``DateTime``](#datetime) | | Date of birth for this contact, if known. May not be relevant to many businesses
 **OptInNewsLetter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
 
 ### SalesOrder
@@ -497,7 +497,7 @@ Name | Type | Required | Description
 **OrderID** | String | Yes | The ID of the order, which will always be unique
 **OrderStatus** | [``OrderStatus``](#orderstatus) | Yes | The status of the shipment
 **AssociatedRef** | String | | An associated reference to the Sales Order
-**ChannelId** | String | | The channel ID of the Sales Order
+**ChannelID** | String | | The channel ID of the Sales Order
 **Shipments** | [``Shipment``](#shipment) | Yes | The shipment items of the order, this can either be the whole order or part
 
 ### Shipment
@@ -1013,21 +1013,158 @@ Object | Type | Required | Description
 ```
 
 ## Order Status Upload
-> This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
 
-Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will happen frequently and you doesn’t need to be responded to. You will get between 0 and 1000 status items per request. 
+Defined as ``OrderStatusUpload`` in your ``configuration file``, the API will push information as a ``POST`` to the endpoint in your desired format. This will occur when an order has been moved through the Sales Invoice Manager in Khaos Control Cloud, and it will only send the statuses for the orders that it has downloaded from the web service.
 
 ### XML
 
 #### Properties
 
+Node | Child Node | Type | Always present? | Description
+--- | --- | --- | --- | ---
+**OrderStatuses** | | | Yes | The root node of the XML file
+| | **Statuses** | Array[[``SalesOrderStatus``](#salesorderstatus)] | Yes | A parent node containing all of the sales order statuses
+
 #### Request
+
+```xml
+<OrderStatuses>
+   <Statuses>
+      <SalesOrderStatus>
+         <OrderCode>SO02075</OrderCode>
+         <OrderID>2075</OrderID>
+         <Status>Received</Status>
+         <AssociatedRef>web_order_1516288492</AssociatedRef>
+         <ChannelID>21</ChannelID>
+         <Shipments>
+            <Shipment>
+               <ID>BFDPDD09FZZW7ZZ</ID>
+               <Code>INV106</Code>
+               <Status>Staging</Status>
+               <Items>
+                  <ShipmentItem>
+                     <OrderItemID>BFDPDC00ZZZW7ZZ</OrderItemID>
+                     <ShipmentItemID>BFDPDD09ZZZW7ZZ</ShipmentItemID>
+                     <SKU>MUG1</SKU>
+                     <Quantity>2.0</Quantity>
+                  </ShipmentItem>
+                  <ShipmentItem>
+                     <OrderItemID>BFDPDC01FZZW7ZZ</OrderItemID>
+                     <ShipmentItemID>BFDPDD0AFZZW7ZZ</ShipmentItemID>
+                     <SKU>MUG1</SKU>
+                     <Quantity>1.0</Quantity>
+                  </ShipmentItem>
+               </Items>
+               <Packages>
+                  <ShipmentPackage>
+                     <Courier Code="24H" ID="76">Metapack 24Hr</Courier>
+                  </ShipmentPackage>
+               </Packages>
+            </Shipment>
+         </Shipments>
+      </SalesOrderStatus>
+      <SalesOrderStatus>
+         <OrderCode>SO02076</OrderCode>
+         <OrderID>2076</OrderID>
+         <Status>Received</Status>
+         <AssociatedRef>web_order_1516288490</AssociatedRef>
+         <ChannelID>21</ChannelID>
+         <Shipments>
+            <Shipment>
+               <ID>BFDPDD02ZZZW7ZZ</ID>
+               <Code>INV105</Code>
+               <Status>Staging</Status>
+               <Items>
+                  <ShipmentItem>
+                     <OrderItemID>BFDPDC00FZZW7ZZ</OrderItemID>
+                     <ShipmentItemID>BFDPDD03FZZW7ZZ</ShipmentItemID>
+                     <SKU>MUG1</SKU>
+                     <Quantity>1.0</Quantity>
+                  </ShipmentItem>
+               </Items>
+               <Packages>
+                  <ShipmentPackage>
+                     <Courier Code="24H" ID="76">Metapack 24Hr</Courier>
+                  </ShipmentPackage>
+               </Packages>
+            </Shipment>
+         </Shipments>
+      </SalesOrderStatus>
+   </Statuses>
+</OrderStatuses>
+```
 
 ### JSON
 
 #### Properties
 
+Object | Type | Always present? | Description
+--- | --- | --- | ---
+**Statuses** | Array[[``SalesOrderStatus``](#salesorderstatus)] | Yes | An array containing ``SalesOrderStatus`` objects.
+
 #### Request
+
+```json
+{
+   "Statuses": [
+   {
+      "OrderCode": "SO02075",
+      "OrderID": "2075",
+      "Status": "Received",
+      "AssociatedRef": "web_order_1516288492",
+      "ChannelID": "21",
+      "Shipments": [{
+         "ID": "BFDPDD09FZZW7ZZ",
+         "Code": "INV106",
+         "Status": "Staging",
+         "Items": [{
+            "OrderItemID": "BFDPDC00ZZZW7ZZ",
+            "ShipmentItemID": "BFDPDD09ZZZW7ZZ",
+            "SKU": "MUG1",
+            "Quantity": 2.0
+         },
+         {
+            "OrderItemID": "BFDPDC01FZZW7ZZ",
+            "ShipmentItemID": "BFDPDD0AFZZW7ZZ",
+            "SKU": "MUG1",
+            "Quantity": 1.0
+         }],
+         "Packages": [{
+            "Courier": {
+               "Name": "Metapack 24Hr",
+               "Code": "24HR",
+               "ID": "76"
+            }
+         }]
+      }]
+   },
+   {
+      "OrderCode": "SO02076",
+      "OrderID": "2076",
+      "Status": "Received",
+      "AssociatedRef": "web_order_1516288490",
+      "ChannelID": "21",
+      "Shipments": [{
+         "ID": "BFDPDD02ZZZW7ZZ",
+         "Code": "INV105",
+         "Status": "Staging",
+         "Items": [{
+            "OrderItemID": "BFDPDC00FZZW7ZZ",
+            "ShipmentItemID": "BFDPDD03FZZW7ZZ",
+            "SKU": "MUG1",
+            "Quantity": 1.0
+         }],
+         "Packages": [{
+            "Courier": {
+               "Name": "Metapack 24Hr",
+               "Code": "24HR",
+               "ID": "76"
+            }
+         }]
+      }]
+   }]
+}
+```
 
 ## Stock Upload
 
