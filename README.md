@@ -264,7 +264,7 @@ Name | Type | Required | Description
 **Line3** | String | | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
 **Town** | String | Yes | Address town. Required by Khaos and all couriers
 **County** | [``DataItem``](#dataitem) | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
-**Postcode** | String | | Address postcode. Technically not required, althoigh the vast majority of countries/couriers require this
+**Postcode** | String | | Address postcode. Technically not required, although the vast majority of countries/couriers require this
 **Country** | String | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
 **Telephone** | String | | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
 **Fax** | String | | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
@@ -337,7 +337,7 @@ The ``OrderItem`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **SKU** | String | Yes | The code of the stock item being sold. May not actually be the stock code in Khaos Control; the ``Mapping`` controls how it locates an item in Khaos Control
-**Mapping** | String | Yes | Controls how the SKU is used to locate a stock item in Khaos Control. Can either be:<br/>``StockCode``<br/>``OtherRef``,<br/>``Barcode``,<br/>``Webcode``,<br/>``Automatic``
+**Mapping** | [``MappingType``](#mappingtype) | Yes | Controls how the SKU is used to locate a stock item in Khaos Control.
 **Quantity** | Double | Yes | How many units of the item were sold. Do not use non-integer quantites unless specifically requested to do by the Khaos Control user
 **StockDescription** | [``OrderItemDescription``](#orderitemdescription) | | Specify which description to place against this item; If omitted, the standard description against the stock item is used.
 **ExtendedDescription** | Array[String] | Yes | Additional lines of description for the order item; for example, additional instructions/requests, or a gift message
@@ -607,7 +607,7 @@ The ``StockOptions`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**PublishOnWeb** | Boolean | Yes | If the option to "Publish to web** is enabled or not
+**PublishOnWeb** | Boolean | Yes | If the option to "Publish to web" is enabled or not
 **Discontinued** | Boolean | Yes | If the item is discontinued or not
 **DropShipItem** | Boolean | Yes | If the item is dropship or not
 **DiscountsDisabled** | Boolean | Yes | If the item can have discounts or not
@@ -1481,9 +1481,8 @@ Object | Type | Always present? | Description
 ```
 
 ## Stock Status Upload
-> This will occur when a stock adjustment is made, or the level of stock is changed automatically.
 
-Defined as ``StockStatusUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
+Defined as ``StockStatusUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will occur when a stock adjustment is made, or the level of stock is changed automatically. You do not need to respond to this request, and you will receive between 0 and 100 stock items per request.
 
 ### XML
 
