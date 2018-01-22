@@ -99,7 +99,7 @@ Error codes will make the API try again, therefore if you do not respond with a 
 
 # Config File
 
-Your configuration file should be publicly accessible via a URL and is specified within the Khaos Control Cloud application. Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud.
+Your configuration file should be publicly accessible via a URL and is specified within the Khaos Control Cloud application. Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud. To do this you will need to change the ``Configuration URL`` field within Khaos Control Cloud, save the document, and then change it back to what it was originally.
 
 ## Structure
 
@@ -111,13 +111,13 @@ Object | Property | Description
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
-**[OrderStatusUpdate](#order-status-upload)** | | The endpoint of where the status information will be POSTed to
+**[OrderStatusUpload](#order-status-upload)** | | The endpoint of where the status information will be POSTed to
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[StockStatusUpdate](#stock-status-update)** | | This will define the endpoint to sync Stock Statuses
+**[StockStatusUpload](#stock-status-upload)** | | This will define the endpoint to sync Stock Statuses
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[StockUpdate](#stock-upload)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
+**[StockUpload](#stock-upload)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
 
@@ -125,14 +125,6 @@ Object | Property | Description
 
 ```xml
 <EndpointConfig>
-    <StockStatusUpload>
-        <URL>http://siriongenerictest.azurewebsites.net/api/StockStatus</URL>
-        <Format>XML</Format>
-    </StockStatusUpload>
-    <StockUpload>
-        <URL>http://siriongenerictest.azurewebsites.net/api/Stock</URL>
-        <Format>JSON</Format>
-    </StockUpload>
     <OrderDownload>
         <URL>http://siriongenerictest.azurewebsites.net/api/Orders</URL>
         <Format>XML</Format>
@@ -142,13 +134,21 @@ Object | Property | Description
         <URL>http://siriongenerictest.azurewebsites.net/api/OrderStatus</URL>
         <Format>XML</Format>
     </OrderStatusUpload>
+    <StockStatusUpload>
+        <URL>http://siriongenerictest.azurewebsites.net/api/StockStatus</URL>
+        <Format>XML</Format>
+    </StockStatusUpload>
+    <StockUpload>
+        <URL>http://siriongenerictest.azurewebsites.net/api/Stock</URL>
+        <Format>JSON</Format>
+    </StockUpload>
 </EndpointConfig>
 ```
 
 # Data Continuity
 You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario:
 
-> *You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.*
+> You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.
 
 # Types &amp; Objects
 
@@ -1168,7 +1168,7 @@ Object | Type | Always present? | Description
 
 ## Stock Upload
 
-Defined as ``StockUpdate`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
+Defined as ``StockUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
 
 ### XML
 
