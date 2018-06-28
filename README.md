@@ -1848,7 +1848,7 @@ This is defined as your ``CustomerReturnDownload`` object within your Configurat
 Node | Child Node | Type | Required | Description
 --- | --- | --- | --- | ---
 **CustomerReturnImport** | | | Yes | The root node of the XML file
-| | **Returns** | Array[[``CustomerReturn``](#customerreturn)] | Yes | A parent node containing all of the cystiner returns
+| | **Returns** | Array[[``CustomerReturn``](#customerreturn)] | Yes | A parent node containing all of the customer returns
 | | **ApiVersion** | Integer | Yes | Must be set to **1000**
 | | **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
 
