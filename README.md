@@ -2,7 +2,106 @@
 
 Welcome to the **beta version** of the Khaos Control Cloud Web Services.
 
-<!-- MarkdownTOC depth=4 -->
+<!-- TOC -->
+
+- [Khaos Control Cloud Web Services](#khaos-control-cloud-web-services)
+- [Getting Started](#getting-started)
+- [Config File](#config-file)
+   - [Structure](#structure)
+   - [Example](#example)
+- [Data Continuity](#data-continuity)
+- [Types &amp; Objects](#types-amp-objects)
+   - [Types](#types)
+      - [DataItem](#dataitem)
+         - [XML](#xml)
+         - [JSON](#json)
+      - [DateTime](#datetime)
+      - [MappingType](#mappingtype)
+      - [OrderStatus](#orderstatus)
+      - [ShipmentStatus](#shipmentstatus)
+   - [Objects](#objects)
+      - [Customer](#customer)
+      - [Address](#address)
+      - [Contact](#contact)
+      - [SalesOrder](#salesorder)
+      - [OrderHeader](#orderheader)
+      - [OrderItem](#orderitem)
+      - [OrderItemDescription](#orderitemdescription)
+         - [XML](#xml-1)
+         - [JSON](#json-1)
+      - [ItemMapping](#itemmapping)
+      - [OrderPayment](#orderpayment)
+      - [CashPayment](#cashpayment)
+      - [ChequePayment](#chequepayment)
+      - [VoucherPayment](#voucherpayment)
+      - [CardPayment](#cardpayment)
+      - [Price](#price)
+      - [OrderImportConfig](#orderimportconfig)
+         - [XML](#xml-2)
+         - [JSON](#json-2)
+      - [SalesOrderStatus](#salesorderstatus)
+      - [Shipment](#shipment)
+      - [ShipmentItem](#shipmentitem)
+      - [ShipmentPackage](#shipmentpackage)
+      - [StockStatus](#stockstatus)
+      - [StockLevels](#stocklevels)
+      - [BuildPotentials](#buildpotentials)
+      - [StockItem](#stockitem)
+      - [StockOptions](#stockoptions)
+      - [WebProperties](#webproperties)
+      - [StockSupplier](#stocksupplier)
+      - [StockImage](#stockimage)
+      - [StockBarcode](#stockbarcode)
+      - [DeletedItem](#deleteditem)
+      - [CustomerReturn](#customerreturn)
+      - [SourceReturnReference](#sourcereturnreference)
+      - [SourceOrder](#sourceorder)
+      - [CustomerReturnItem](#customerreturnitem)
+      - [CustomerExchangeItem](#customerexchangeitem)
+      - [CustomerReturnImport](#customerreturnimport)
+      - [CustomerReturnImportResults](#customerreturnimportresults)
+      - [CustomerReturnImportResult](#customerreturnimportresult)
+      - [CustomerReturnImportConfig](#customerreturnimportconfig)
+         - [XML](#xml-3)
+         - [JSON](#json-3)
+- [Receiving &amp; Responding to server calls](#receiving-amp-responding-to-server-calls)
+   - [Order Download](#order-download)
+      - [XML](#xml-4)
+         - [Properties](#properties)
+         - [Response](#response)
+      - [JSON](#json-4)
+         - [Properties](#properties-1)
+         - [Response](#response-1)
+   - [Order Status Upload](#order-status-upload)
+      - [XML](#xml-5)
+         - [Properties](#properties-2)
+         - [Request](#request)
+      - [JSON](#json-5)
+         - [Properties](#properties-3)
+         - [Request](#request-1)
+   - [Stock Upload](#stock-upload)
+      - [XML](#xml-6)
+         - [Properties](#properties-4)
+         - [Request](#request-2)
+      - [JSON](#json-6)
+         - [Properties](#properties-5)
+         - [Request](#request-3)
+   - [Stock Status Upload](#stock-status-upload)
+      - [XML](#xml-7)
+         - [Properties](#properties-6)
+         - [Request](#request-4)
+      - [JSON](#json-7)
+         - [Properties](#properties-7)
+         - [Request](#request-5)
+   - [Customer Return Download](#customer-return-download)
+      - [XML](#xml-8)
+         - [Properties](#properties-8)
+         - [Response](#response-2)
+      - [JSON](#json-8)
+         - [Properties](#properties-9)
+         - [Response](#response-3)
+
+<!-- /TOC -->
 
 - [Getting Started](#getting-started)
 - [Config File](#config-file)
@@ -99,7 +198,7 @@ Error codes will make the API try again, therefore if you do not respond with a 
 
 # Config File
 
-Your configuration file should be publicly accessible via a URL and is specified within the Khaos Control Cloud application. Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud.
+Your configuration file should be publicly accessible via a URL and is specified within the Khaos Control Cloud application. Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud. To do this you will need to change the ``Configuration URL`` field within Khaos Control Cloud, save the document, and then change it back to what it was originally.
 
 ## Structure
 
@@ -111,28 +210,24 @@ Object | Property | Description
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
-**[OrderStatusUpdate](#order-status-upload)** | | The endpoint of where the status information will be POSTed to
+**[OrderStatusUpload](#order-status-upload)** | | The endpoint of where the status information will be POSTed to
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[StockStatusUpdate](#stock-status-update)** | | This will define the endpoint to sync Stock Statuses
+**[StockStatusUpload](#stock-status-upload)** | | This will define the endpoint to sync Stock Statuses
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[StockUpdate](#stock-upload)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
+**[StockUpload](#stock-upload)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
+**[CustomerReturnDownload](#customer-return-download)** | | The endpoint for where your customer returns can be imported into Khaos Control Cloud
+| | URL | The URL of the endpoint, where data is POSTed for you to process
+| | Frequency | How frequently (, in minutes,) the endpoint will be contacted
+| | Format | The format of the file you have produced, either ``XML`` or ``JSON``
 
 ## Example
 
 ```xml
 <EndpointConfig>
-    <StockStatusUpload>
-        <URL>http://siriongenerictest.azurewebsites.net/api/StockStatus</URL>
-        <Format>XML</Format>
-    </StockStatusUpload>
-    <StockUpload>
-        <URL>http://siriongenerictest.azurewebsites.net/api/Stock</URL>
-        <Format>JSON</Format>
-    </StockUpload>
     <OrderDownload>
         <URL>http://siriongenerictest.azurewebsites.net/api/Orders</URL>
         <Format>XML</Format>
@@ -142,13 +237,25 @@ Object | Property | Description
         <URL>http://siriongenerictest.azurewebsites.net/api/OrderStatus</URL>
         <Format>XML</Format>
     </OrderStatusUpload>
+    <StockStatusUpload>
+        <URL>http://siriongenerictest.azurewebsites.net/api/StockStatus</URL>
+        <Format>XML</Format>
+    </StockStatusUpload>
+    <StockUpload>
+        <URL>http://siriongenerictest.azurewebsites.net/api/Stock</URL>
+        <Format>JSON</Format>
+    </StockUpload>
+    <CustomerReturnDownload>
+        <URL>http://siriongenerictest.azurewebsites.net/api/CustomerReturn</URL>
+        <Format>JSON</Format>    
+    </CustomerReturnDownload>
 </EndpointConfig>
 ```
 
 # Data Continuity
 You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario:
 
-> *You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.*
+> You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.
 
 # Types &amp; Objects
 
@@ -313,7 +420,7 @@ Name | Type | Required | Description
 **CourierGroup** | [``DataItem``](#dataitem) | | Which group of courier services to ship the order with; use this if you want to restrict Khaos Control to shipping via a group/type of courier(s), but allowing it to select which specific courier service to use based on courier rules. For example, a Khaos Control system might have a courier group of "Next Day", which selects from many different next day services depending on package size, weight and destination
 **Keycode** | [``DataItem``](#dataitem) | | The keycode to use with this order
 **SalesSource** | [``DataItem``](#dataitem) | Yes | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control
-**Client** | [``DataItem``](#dataitem) | | 
+**Client** | [``DataItem``](#dataitem) | |
 **Website** | [``DataItem``](#dataitem) | |
 **Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of
 **InvoicePriority** | [``DataItem``](#dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
@@ -324,7 +431,7 @@ Name | Type | Required | Description
 **RequiredDate** | [``DateTime``](#datetime) | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
 **PONumber** | String | | Customer's PO (Purchase Order) reference. Usually relevant for business customers paying on account
 **DeliveryCharge** | [``Price``](#price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
-**RemainderOnAccount** | Boolean | | 
+**RemainderOnAccount** | Boolean | |
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
 **SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
@@ -345,7 +452,7 @@ Name | Type | Required | Description
 **ImportRef** | String | | Optional item reference from the website/source. Will be passed back in any future order updates
 **WebItemRef** | String | | Second item reference from the website/source. Will be passed back in any future order updates
 **Site** | [``DataItem``](#dataitem) | | The site that this item will be fulfilled from. Usually this isn't specified, and the site recorded against the entire order is used
-**PackLink** | String | | 
+**PackLink** | String | |
 **UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If omitted, system will calculate price; unlikely to be relevant for a website order
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
 **MappingItem** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
@@ -457,8 +564,8 @@ The ``OrderImportConfig`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **MatchCompanyOn** | String | Yes | Is used for matching existing customers, they can be:<br/>-  CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
-**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>-Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
-**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>-Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
 **DiscontinuedItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
 **RunToZeroErrorItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
 **ImportAsUnconfirmed** | Boolean | | Sets whether or not the order is imported as unconfirmed or confirmed. If unconfirmed, the order is not ready for processing
@@ -522,8 +629,8 @@ Name | Type | Requried | Description
 **ShipmentItemID** | String | Yes | The ID of the item in the shipment
 **SKU** | String | Yes | The SKU of the item
 **Quantity** | Double | Yes | The quantity of the item being shipped
-**ImportRef** | String | | 
-**WebsiteItemRef** | String | | 
+**ImportRef** | String | |
+**WebsiteItemRef** | String | |
 
 ### ShipmentPackage
 
@@ -597,8 +704,8 @@ Name | Type | Required | Description
 **LeadTime** | Integer | | The amount of lead time between a reorder and delivery of stock (in days)
 **Availability** | String | | A free text field to indicate the availability of the item. For example, if the level was zero, this could say "Expected back in stock mid-December"
 **WebProperties** | [``WebProperties``](#webproperties) | | See ``WebProperties`` object
-**SupplierInfo** | [``StockSupplier``](#stocksupplier) | Yes | 
-**Images** | Array[[``StockImage``](#stockimage)] | Yes | 
+**SupplierInfo** | [``StockSupplier``](#stocksupplier) | Yes |
+**Images** | Array[[``StockImage``](#stockimage)] | Yes |
 **Barcodes** | Array[[``StockBarcode``](#stockbarcode)] |
 
 ### StockOptions
@@ -667,6 +774,119 @@ The ``DeletedItem`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **StockID** | String | Yes | The ID of the stock item
+
+### CustomerReturn
+
+The ``CustomerReturn`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**AssociatedRef** | String | Yes | Return reference number. This **must** be unique amongst all returns from a given website/source.
+**CreatedDate** | [``DateTime``](#datetime) | Yes | Date the return was created
+**URN** | String | Yes | URN of the customer account return the items. This **must** be an existing customer account in Khaos Control
+**InvoiceAddress** | [``Address``](#address) | Yes | The invoice address for this customer
+**InvoiceContact** | [``Contact``](#contact) | Yes | The invoice contact for the customer
+**DeliveryAddress** | [``Address``](#address) | | The delivery address for this customer
+**DeliveryContact** | [``Contact``](#contact) | | The delivery contact for this customer
+**ReturnItems** | Array[[``CustomerReturnItem``](#customerreturnitem)] | | One or more items being return by the customer
+**ExchangeItems** | Array[[``CustomerExchangeItem``](#customerexchangeitem)] | | One or more items being sent to the customer in exchange for returned items
+**Brand** | [``DataItem``](#dataitem) | | The branding for the return
+**SalesSource** | [``DataItem``](#dataitem) | | The sales source for this return
+**Notes** | String | | Any notes relating to this return
+
+### SourceReturnReference
+
+The ``SourceReturnReference`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**SourceOrder** | [``SourceOrder``](#sourceorder) | Yes | The information about the original order
+
+### SourceOrder
+
+The ``SourceOrder`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**AssociatedRef** | String | | The AssociatedRef of the original sales order to return items from
+**SOrderID** | String | | The internal KhaosControl ID of the original sales order to return items from
+**SOrderCode** | String | | The KhaosControl order code of the original sales order to return items from
+**SOrderItemID** | String | | The specific KhaosControl item ID of the original sales order item that is being returned
+
+### CustomerReturnItem
+
+The ``CustomerReturnItem`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**SKU** | String | Yes | The code of the stock item being sold. May not actually be the stock item in Khaos Control; the mapping controls how it locates an item in Khaos Control.
+**ItemMapping** | Array[[``Mapping``](#mapping)] | | Controls how the SKU is used to locate a stock item in Khaos Control
+**Quantity** | Double | Yes | How many of the item were sold. Do not use non-integer quantites unless specifically requested to do so by the Khaos Control user
+**ReturnReason** | [``DataItem``](#dataitem) | Yes | Reason for the item being return. This is configurable by the Khaos Control administrator - check which values are applicable
+**ExtendedDescription** | Array[String] | | Additional lines of description for the order item; for example, additional instructions/requests or a gift message
+**SourceReturnReference** | [``SourceReturnReference``](#sourcereturnreference) | | Which original sales order to return items from
+
+### CustomerExchangeItem
+
+The ``CustomerExchangeItem`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**SKU** | String | Yes | The code of the stock item being sent to the customer. May not actually be the stock code in Khaos Control; the mapping controls how it locates an in item in Khaos Control
+**ItemMapping** | Array[[``Mapping``](#mapping)] | | Controls how the SKU is used to locate a stock item in Khaos Control
+**Quantity** | Double | Yes | How many of the item to send back out. Do not use non-integer quantities unless specifically requested to do so by the Khaos Control user
+**ExtendedDescription** | Array[String] | | Additional lines of description for the item order item; for example, additional instructions/requests or a gift message
+
+### CustomerReturnImport
+
+### CustomerReturnImportResults
+
+### CustomerReturnImportResult
+
+The ``CustomerReturnImportResult`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Index** | Integer | Yes
+**Status** | [``ImportStatus``](#importstatus) | Yes
+**StatusDetail** | String | Yes
+**AssociatedRef** | String
+**CustomerReturnCode** | String
+**CustomerReturnID** | String
+**CustomerID** | String
+
+### CustomerReturnImportConfig
+
+The ``CustomerReturnImportConfig`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**MatchAddressOn** | String | Yes | Is used for matching existing addresses against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+**MatchContactOn** | String | Yes | Is used for matching existing contacts against the customer, they can be:<br/>- CompanyName<br/>- Address1<br/>- Address2<br/>- Address3<br/>- Town<br/>- Postcode<br/>- Surname<br/>- Forename<br/>- Telephone<br/>- Email<br/>- CompanyCode<br/>- UseDeliveryAddress
+
+There are slight differences between the ``XML`` and ``JSON`` outputs, these are as follows:
+
+#### XML
+
+```xml
+<Config>
+    <MatchCompanyOn>Address1</MatchCompanyOn>
+    <MatchCompanyOn>CompanyCode</MatchCompanyOn>
+    <MatchAddressOn>Address1</MatchAddressOn>
+    <MatchAddressOn>Postcode</MatchAddressOn>
+    <MatchContactOn>Surname</MatchContactOn>
+</Config>
+```
+
+#### JSON
+
+```json
+"config": {
+   "MatchCompanyOn": ["Address1", "CompanyCode"],
+   "MatchAddressOn": ["Address1", "Postcode"],
+   "MatchContactOn": ["Surname"]
+}
+```
 
 # Receiving &amp; Responding to server calls
 
@@ -1168,7 +1388,7 @@ Object | Type | Always present? | Description
 
 ## Stock Upload
 
-Defined as ``StockUpdate`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
+Defined as ``StockUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format you specified. This will happen *frequently* and you **do not** need to respond to this request. You will get between 0 and 100 stock items per request.
 
 ### XML
 
@@ -1621,5 +1841,158 @@ Object | Type | Always present? | Description
          "OnOrder": 0.0
       }
    }]
+}
+```
+## Customer Return Download
+> **GET** http://playground.khaoscloud.com/returns.php
+
+This is defined as your ``CustomerReturnDownload`` object within your Configuration file. The endpoint (URL) you specify will be called upon frequently to gain orders to import. The output of this URL should be either ``XML`` or ``JSON``.
+
+### XML
+
+#### Properties
+Node | Child Node | Type | Required | Description
+--- | --- | --- | --- | ---
+**CustomerReturnImport** | | | Yes | The root node of the XML file
+| | **Returns** | Array[[``CustomerReturn``](#customerreturn)] | Yes | A parent node containing all of the cystiner returns
+| | **ApiVersion** | Integer | Yes | Must be set to **1000**
+| | **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
+
+#### Response
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomerReturnImport>
+   <Returns>
+      <CustomerReturn>
+         <AssociatedRef />
+         <CreatedDate>2018-06-28T15:18:39</CreatedDate>
+         <URN>TOMA</URN>
+         <InvoiceAddress>
+            <Line1>34 Blenheim Road</Line1>
+            <Town>LONDON</Town>
+            <Postcode>E17 6HS</Postcode>
+            <Country Code="GB"/>
+            <Telephone>07920405926</Telephone>
+            <Organisation>Toma Vaitiekute</Organisation>
+         </InvoiceAddress>
+         <InvoiceContact>
+            <Forename>Karen</Forename>
+            <Email>3ff90pf51cg8kk4@marketplace.amazon.co.uk</Email>
+         </InvoiceContact>
+         <DeliveryAddress>
+            <Line1>38 Blenheim Road</Line1>
+            <Town>LONDON</Town>
+            <Postcode>E17 6HS</Postcode>
+            <Country Code="GB"/>
+            <Telephone>07920405926</Telephone>
+            <Organisation>Toma Vaitiekute</Organisation>
+         </DeliveryAddress>
+         <ReturnItems>
+            <ReturnItem>
+               <SKU>B0714PRW7R</SKU>
+               <Mapping>StockCode</Mapping>
+               <Quantity>3</Quantity>
+               <ReturnReason ID="6"/>
+               <ExtendedDescription />
+               <SourceReturnReference>
+                  <SourceOrder>
+                     <AssociatedRef />
+                     <SOrderID>2075</SOrderID>
+                     <SOrderCode>SO2075</SOrderCode>
+                  </SourceOrder>
+               </SourceReturnReference>
+            </ReturnItem>
+         </ReturnItems>
+         <ExchangeItems>
+            <ExchangeItem>
+               <SKU>B0714PRW7R-10</SKU>
+               <Mapping>StockCode</Mapping>
+               <Quantity>1</Quantity>
+               <ExtendedDescription />
+            </ExchangeItem>
+         </ExchangeItems>
+      </CustomerReturn>
+   </Returns>
+   <ApiVersion>10000</ApiVersion>
+   <Config>
+      <MatchCompanyOn>Address1</MatchCompanyOn>
+      <MatchCompanyOn>CompanyCode</MatchCompanyOn>
+      <MatchAddressOn>Address1</MatchAddressOn>
+      <MatchAddressOn>Postcode</MatchAddressOn>
+      <MatchContactOn>Surname</MatchContactOn>
+   </Config>
+</CustomerReturnImport>
+```
+
+### JSON
+
+#### Properties
+
+Object | Type | Required | Description
+--- | --- | --- | ---
+**Returns** | Array[[``CustomerReturn``](#customerreturn)] | Yes | An array containing ``CustomerReturn`` objects.
+**ApiVersion** | Integer | Yes | Must be set to **1000**
+**Config** | [``CustomerReturnImportConfig``](#customerreturnimportconfig) | | The config options to be used with this import
+
+#### Response
+```json
+{
+	"Returns": {
+		"AssociatedRef": "",
+		"CreatedDate": "2018-06-28T15:14:56",
+		"URN": "TOMA",
+		"InvoiceAddress": {
+			"Line1": "34 Blenheim Road",
+			"Town": "LONDON",
+			"Postcode": "E17 6HS",
+			"Country": {
+				"Code": "GB"
+			},
+			"Telephone": "07920405926",
+			"Organisation": "Toma Vaitiekute"
+		},
+		"InvoiceContact": {
+			"Forename": "Karen",
+			"Email": "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+		},
+		"DeliveryAddress": {
+			"Line1": "38 Blenheim Road",
+			"Town": "LONDON",
+			"Postcode": "E17 6HS",
+			"Country": {
+				"Code": "GB"
+			},
+			"Telephone": "07920405926",
+			"Organisation": "Toma Vaitiekute"
+		},
+		"ReturnItems": [{
+			"SKU": "B0714PRW7R",
+			"Mapping": "StockCode",
+			"Quantity": 3,
+			"ReturnReason": {
+				"ID": "6"
+			},
+			"ExtendedDescription": [],
+			"SourceReturnReference": {
+				"SourceOrder": {
+					"AssociatedRef": "",
+					"SOrderID": "2075",
+					"SOrderCode": "SO2075"
+				}
+			}
+		}],
+		"ExchangeItems": [{
+			"SKU": "B0714PRW7R-10",
+			"Mapping": "StockCode",
+			"Quantity": 1,
+			"ExtendedDescription": []
+		}]
+	},
+	"ApiVersion": 10000,
+	"Config": {
+		"MatchCompanyOn": ["Address1", "CompanyCode"],
+		"MatchAddressOn": ["Address1", "Postcode"],
+		"MatchContactOn": ["Surname"]
+	}
 }
 ```
