@@ -58,9 +58,6 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [SourceOrder](#sourceorder)
       - [CustomerReturnItem](#customerreturnitem)
       - [CustomerExchangeItem](#customerexchangeitem)
-      - [CustomerReturnImport](#customerreturnimport)
-      - [CustomerReturnImportResults](#customerreturnimportresults)
-      - [CustomerReturnImportResult](#customerreturnimportresult)
       - [CustomerReturnImportConfig](#customerreturnimportconfig)
          - [XML](#xml-3)
          - [JSON](#json-3)
@@ -837,11 +834,7 @@ Name | Type | Required | Description
 **Quantity** | Double | Yes | How many of the item to send back out. Do not use non-integer quantities unless specifically requested to do so by the Khaos Control user
 **ExtendedDescription** | Array[String] | | Additional lines of description for the item order item; for example, additional instructions/requests or a gift message
 
-### CustomerReturnImport
-
-### CustomerReturnImportResults
-
-### CustomerReturnImportResult
+<!-- ### CustomerReturnImportResult
 
 The ``CustomerReturnImportResult`` object is made up of the following properties:
 
@@ -854,6 +847,7 @@ Name | Type | Required | Description
 **CustomerReturnCode** | String
 **CustomerReturnID** | String
 **CustomerID** | String
+-->
 
 ### CustomerReturnImportConfig
 
