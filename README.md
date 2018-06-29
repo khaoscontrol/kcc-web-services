@@ -749,6 +749,7 @@ Name | Type | Required | Description
 **ReturnReason** | [``DataItem``](#dataitem) | Yes | Reason for the item being return. This is configurable by the Khaos Control administrator - check which values are applicable
 **ExtendedDescription** | Array[String] | | Additional lines of description for the order item; for example, additional instructions/requests or a gift message
 **SourceReturnReference** | [``SourceReturnReference``](#sourcereturnreference) | | Which original sales order to return items from
+**UnitPrice** | [``Price``](#price) | | The price of the item that is being returned
 
 ### CustomerExchangeItem
 
@@ -760,21 +761,7 @@ Name | Type | Required | Description
 **ItemMapping** | [``ItemMapping``](#itemmapping) | | Controls how the SKU is used to locate a stock item in Khaos Control
 **Quantity** | Double | Yes | How many of the item to send back out. Do not use non-integer quantities unless specifically requested to do so by the Khaos Control user
 **ExtendedDescription** | Array[String] | | Additional lines of description for the item order item; for example, additional instructions/requests or a gift message
-
-<!-- ### CustomerReturnImportResult
-
-The ``CustomerReturnImportResult`` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**Index** | Integer | Yes
-**Status** | [``ImportStatus``](#importstatus) | Yes
-**StatusDetail** | String | Yes
-**AssociatedRef** | String
-**CustomerReturnCode** | String
-**CustomerReturnID** | String
-**CustomerID** | String
--->
+**UnitPrice** | [``Price``](#price) | | The price of the item that is being exchanged
 
 ### CustomerReturnImportConfig
 
