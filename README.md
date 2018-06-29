@@ -19,6 +19,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [MappingType](#mappingtype)
       - [OrderStatus](#orderstatus)
       - [ShipmentStatus](#shipmentstatus)
+      - [OneOf](#oneof)
    - [Objects](#objects)
       - [Customer](#customer)
       - [Address](#address)
@@ -136,7 +137,7 @@ Object | Property | Description
 **[StockUpload](#stock-upload)** | | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Format | The format of which to export the information, either ``XML`` or ``JSON``
-**[CustomerReturnDownload](#customer-return-download)** | | The endpoint for where your customer returns can be imported into Khaos Control Cloud
+**[CReturnDownload](#customer-return-download)** | | The endpoint for where your customer returns can be imported into Khaos Control Cloud
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
@@ -162,7 +163,7 @@ Object | Property | Description
         <URL>http://siriongenerictest.azurewebsites.net/api/Stock</URL>
         <Format>JSON</Format>
     </StockUpload>
-    <CustomerReturnDownload>
+    <CReturnDownload>
         <URL>http://siriongenerictest.azurewebsites.net/api/CustomerReturn</URL>
         <Format>JSON</Format>    
     </CustomerReturnDownload>
@@ -254,6 +255,12 @@ ManualHold
 TermsHold
 Archived
 ```
+
+### OneOf
+
+The ``OneOf`` type means that only one of the properties in the specified ``object`` needs to present.
+
+For example when ``OneOf[SourceReturnReference]`` is specified and you provide ``SOrderID``, the remaining properties (``SOrderCode``, ``AssociatedRef`` etc.) cannot be present.
 
 ## Objects
 
@@ -717,7 +724,7 @@ The ``SourceReturnReference`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**SourceOrder** | [``SourceOrder``](#sourceorder) | Yes | The information about the original order
+**SourceOrder** | OneOf[[``SourceOrder``](#sourceorder)] | Yes | The information about the original order
 
 ### SourceOrder
 
@@ -784,8 +791,6 @@ There are slight differences between the ``XML`` and ``JSON`` outputs, these are
 
 ```xml
 <Config>
-    <MatchCompanyOn>Address1</MatchCompanyOn>
-    <MatchCompanyOn>CompanyCode</MatchCompanyOn>
     <MatchAddressOn>Address1</MatchAddressOn>
     <MatchAddressOn>Postcode</MatchAddressOn>
     <MatchContactOn>Surname</MatchContactOn>
@@ -796,7 +801,6 @@ There are slight differences between the ``XML`` and ``JSON`` outputs, these are
 
 ```json
 "config": {
-   "MatchCompanyOn": ["Address1", "CompanyCode"],
    "MatchAddressOn": ["Address1", "Postcode"],
    "MatchContactOn": ["Surname"]
 }
@@ -1778,7 +1782,7 @@ Node | Child Node | Type | Required | Description
 <CustomerReturnImport>
    <Returns>
       <CustomerReturn>
-         <AssociatedRef />
+         <AssociatedRef>AREF021242</AssociatedRef>
          <CreatedDate>2018-06-28T15:18:39</CreatedDate>
          <URN>TOMA</URN>
          <InvoiceAddress>
@@ -1829,8 +1833,6 @@ Node | Child Node | Type | Required | Description
    </Returns>
    <ApiVersion>10000</ApiVersion>
    <Config>
-      <MatchCompanyOn>Address1</MatchCompanyOn>
-      <MatchCompanyOn>CompanyCode</MatchCompanyOn>
       <MatchAddressOn>Address1</MatchAddressOn>
       <MatchAddressOn>Postcode</MatchAddressOn>
       <MatchContactOn>Surname</MatchContactOn>
@@ -1852,7 +1854,7 @@ Object | Type | Required | Description
 ```json
 {
 	"Returns": {
-		"AssociatedRef": "",
+		"AssociatedRef": "AREF021242",
 		"CreatedDate": "2018-06-28T15:14:56",
 		"URN": "TOMA",
 		"InvoiceAddress": {
@@ -1904,7 +1906,6 @@ Object | Type | Required | Description
 	},
 	"ApiVersion": 10000,
 	"Config": {
-		"MatchCompanyOn": ["Address1", "CompanyCode"],
 		"MatchAddressOn": ["Address1", "Postcode"],
 		"MatchContactOn": ["Surname"]
 	}

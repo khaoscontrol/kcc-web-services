@@ -20,7 +20,7 @@
 
    // create some sample returns, ready for import. These would normally come from your database
    $returns = array(
-      "AssociatedRef" => "",
+      "AssociatedRef" => "AREF1530" . date("mdH"),
       "CreatedDate" => date("Y-m-d\TH:i:s", time()),
       "URN" => "TOMA",
       "InvoiceAddress" => arraY(
