@@ -1,4 +1,4 @@
-<?JSON version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <EndpointConfig>
     <StockStatusUpload>
         <URL>http://playground.khaoscloud.com/stock_status.php</URL>
@@ -17,4 +17,8 @@
         <URL>http://playground.khaoscloud.com/order_status.php</URL>
         <Format>JSON</Format>
     </OrderStatusUpload>
+    <CReturnDownload>
+        <URL>http://playground.khaoscloud.com/returns.php</URL>
+        <Format>JSON</Format>    
+    </CReturnDownload>
 </EndpointConfig>
