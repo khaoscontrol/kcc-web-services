@@ -51,10 +51,10 @@
          "Forename" => "Karen",
          "Email" => "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
       ),  
-      "ReturnItems" => array(
+      "ReturnedItems" => array(
          array(
             "SKU" => "B0714PRW7R",
-            "Mapping" => "StockCode",
+            "Mapping" => array(array("Mapping" => "StockCode")),
             "Quantity" => 3.0,
             "ReturnReason" => array(
                "ID" => "6"
@@ -62,19 +62,15 @@
             "ExtendedDescription" => array(
 
             ),
-            "SourceReturnReference" => array(
-               "SourceOrder" => array(
-                  "AssociatedRef" => "",
-                  "SOrderID" => "2075",
-                  "SOrderCode" => "SO2075"
-               )
+            "SourceReference" => array(
+               "SOrderID" => "2075"
             )
          )
       ),
       "ExchangeItems" => array(
          array(
             "SKU" => "B0714PRW7R-10",
-            "Mapping" => "StockCode",
+            "Mapping" => array(array("Mapping" => "StockCode")),
             "Quantity" => 1.0,
             "ExtendedDescription" => array(
                
@@ -89,10 +85,9 @@
  
    // wrap the orders inside a SalesOrderImport array
    $output = array(
-      "Returns" => $returns,
+      "Returns" => array($returns),
       "ApiVersion" => 10000,
       "Config" => array(
-         "MatchCompanyOn" => ["Address1", "CompanyCode"],
          "MatchAddressOn" => ["Address1", "Postcode"],
          "MatchContactOn" => ["Surname"]
       )
