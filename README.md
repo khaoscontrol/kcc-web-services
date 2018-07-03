@@ -712,7 +712,7 @@ Name | Type | Required | Description
 **InvoiceContact** | [``Contact``](#contact) | Yes | The invoice contact for the customer
 **DeliveryAddress** | [``Address``](#address) | | The delivery address for this customer
 **DeliveryContact** | [``Contact``](#contact) | | The delivery contact for this customer
-**ReturnItems** | Array[[``CustomerReturnItem``](#customerreturnitem)] | | One or more items being return by the customer
+**ReturnedItems** | Array[[``CustomerReturnItem``](#customerreturnitem)] | | One or more items being return by the customer
 **ExchangeItems** | Array[[``CustomerExchangeItem``](#customerexchangeitem)] | | One or more items being sent to the customer in exchange for returned items
 **Brand** | [``DataItem``](#dataitem) | | The branding for the return
 **SalesSource** | [``DataItem``](#dataitem) | | The sales source for this return
@@ -744,11 +744,11 @@ The ``CustomerReturnItem`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **SKU** | String | Yes | The code of the stock item being sold. May not actually be the stock item in Khaos Control; the mapping controls how it locates an item in Khaos Control.
-**ItemMapping** | [``ItemMapping``](#itemmapping) | | Controls how the SKU is used to locate a stock item in Khaos Control
+**Mapping** | Array[[``ItemMapping``](#itemmapping)] | | Controls how the SKU is used to locate a stock item in Khaos Control
 **Quantity** | Double | Yes | How many of the item were sold. Do not use non-integer quantites unless specifically requested to do so by the Khaos Control user
 **ReturnReason** | [``DataItem``](#dataitem) | Yes | Reason for the item being return. This is configurable by the Khaos Control administrator - check which values are applicable
 **ExtendedDescription** | Array[String] | | Additional lines of description for the order item; for example, additional instructions/requests or a gift message
-**SourceReturnReference** | [``SourceReturnReference``](#sourcereturnreference) | | Which original sales order to return items from
+**SourceReference** | [``SourceReturnReference``](#sourcereturnreference) | | Which original sales order to return items from
 **UnitPrice** | [``Price``](#price) | | The price of the item that is being returned
 
 ### CustomerExchangeItem
@@ -758,7 +758,7 @@ The ``CustomerExchangeItem`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **SKU** | String | Yes | The code of the stock item being sent to the customer. May not actually be the stock code in Khaos Control; the mapping controls how it locates an in item in Khaos Control
-**ItemMapping** | [``ItemMapping``](#itemmapping) | | Controls how the SKU is used to locate a stock item in Khaos Control
+**Mapping** | Array[[``ItemMapping``](#itemmapping)] | | Controls how the SKU is used to locate a stock item in Khaos Control
 **Quantity** | Double | Yes | How many of the item to send back out. Do not use non-integer quantities unless specifically requested to do so by the Khaos Control user
 **ExtendedDescription** | Array[String] | | Additional lines of description for the item order item; for example, additional instructions/requests or a gift message
 **UnitPrice** | [``Price``](#price) | | The price of the item that is being exchanged
