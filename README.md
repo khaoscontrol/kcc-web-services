@@ -78,25 +78,19 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [Properties](#properties-3)
          - [Request](#request-1)
    - [Stock Upload](#stock-upload)
+   - [Stock Status Upload](#stock-status-upload)
       - [XML](#xml-6)
          - [Properties](#properties-4)
          - [Request](#request-2)
       - [JSON](#json-6)
          - [Properties](#properties-5)
          - [Request](#request-3)
-   - [Stock Status Upload](#stock-status-upload)
+   - [Customer Return Download](#customer-return-download)
       - [XML](#xml-7)
          - [Properties](#properties-6)
-         - [Request](#request-4)
+         - [Response](#response-2)
       - [JSON](#json-7)
          - [Properties](#properties-7)
-         - [Request](#request-5)
-   - [Customer Return Download](#customer-return-download)
-      - [XML](#xml-8)
-         - [Properties](#properties-8)
-         - [Response](#response-2)
-      - [JSON](#json-8)
-         - [Properties](#properties-9)
          - [Response](#response-3)
 
 <!-- /TOC -->
@@ -717,6 +711,7 @@ Name | Type | Required | Description
 **Brand** | [``DataItem``](#dataitem) | | The branding for the return
 **SalesSource** | [``DataItem``](#dataitem) | | The sales source for this return
 **Notes** | String | | Any notes relating to this return
+**ProcessReturn** | Boolean | | Whether to process the return as soon as it has been imported
 
 ### SourceReturnReference
 
