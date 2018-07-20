@@ -9,6 +9,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
 - [Config File](#config-file)
    - [Structure](#structure)
    - [Example](#example)
+- [Security](#security)
 - [Data Continuity](#data-continuity)
 - [Types &amp; Objects](#types-amp-objects)
    - [Types](#types)
@@ -159,10 +160,14 @@ Object | Property | Description
     </StockUpload>
     <CReturnDownload>
         <URL>http://siriongenerictest.azurewebsites.net/api/CustomerReturn</URL>
-        <Format>JSON</Format>    
+        <Format>JSON</Format>
     </CReturnDownload>
 </EndpointConfig>
 ```
+
+# Security
+
+It is advised that all endpoints are secured via HTTPS. The API also supports HTTP Basic Authentication for all operations, it is recommended that these values are validated accordingly. Basic Auth can be setup within the KC application/channel screens of KCC.
 
 # Data Continuity
 You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario:
