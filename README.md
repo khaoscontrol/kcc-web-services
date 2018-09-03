@@ -347,7 +347,7 @@ Name | Type | Required | Description
 **Website** | [``DataItem``](#dataitem) | |
 **Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of
 **InvoicePriority** | [``DataItem``](#dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
-**DiscountCode** | Array[[``DataItem``](#dataitem)] | Yes | An array of discount codes for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
+**DiscountCodes** | Array[[``DataItem``](#dataitem)] | Yes | An array of discount codes for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
 **OrderNote** | String | | The note for the order
 **InvoiceNote** | String | | The invoice note for the order
 **DeliveryDate** | [``DateTime``](#datetime) | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
