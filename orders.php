@@ -34,8 +34,8 @@
             "Email" => "terry@sample.com"
          ),
          "Header" => array(
-            "AssociatedRef" => "web_order_".time(),
-            "OrderDate" => "2018-01-18T10:53:23", // make dynamic
+            "AssociatedRef" => "AREF1530" . date("mdH"),
+            "CreatedDate" => date("Y-m-d\TH:i:s", time()),
             "Site" => array(
                "ID" => "1",
                "Name" => "Main Site"
@@ -95,8 +95,8 @@
             "Email" => "megan@sample.com"
          ),
          "Header" => array(
-            "AssociatedRef" => "web_order_".(time()+2),
-            "OrderDate" => "2018-01-18T10:53:23", // make dynamic
+            "AssociatedRef" => "AREF1531" . date("mdH"),
+            "CreatedDate" => date("Y-m-d\TH:i:s", time()),
             "Site" => array(
                "ID" => "1",
                "Name" => "Main Site"
