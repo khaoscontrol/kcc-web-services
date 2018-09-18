@@ -11,6 +11,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
    - [Example](#example)
 - [Security](#security)
 - [Data Continuity](#data-continuity)
+   - [Retrying Orders](#retrying-orders)
 - [Types &amp; Objects](#types-amp-objects)
    - [Types](#types)
       - [DataItem](#dataitem)
@@ -173,6 +174,16 @@ It is advised that all endpoints are secured via HTTPS. The API also supports HT
 You may need to keep track of what data has been processed by us, especially when importing large quantity of orders or potentially recovering from an error. To tackle this, you can pass through a a HTTP Header called ``Sirion-Continuation``, this can have any value you like and will be passed back to you, as demonstrated in the following scenario:
 
 > You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuity HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.
+
+## Retrying Orders
+
+Khaos Control Cloud allows you to retry the download of previously failed orders. When this happens Sirion will send a header to your endpoint called ``Specificids``. When this is present in your headers you need to provide just the requested orders, rather than all of them.
+
+> ``Specificids: "AREF1531082922"``
+
+If multiple orders are set to retry then the header will have multiple comma seperated values, for example:
+
+> ``Specificids: "AREF1530082911,AREF1531082912"``
 
 # Types &amp; Objects
 
