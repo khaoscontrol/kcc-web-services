@@ -858,6 +858,7 @@ Node | Child Node | Type | Required | Description
                <DeliveryCharge>
                    <Gross>0</Gross>
                </DeliveryCharge>
+               <DeliveryTaxAmount>2.50</DeliveryTaxAmount>
            </Header>
            <Items>
                <OrderItem>
@@ -1102,7 +1103,8 @@ Object | Type | Required | Description
          "DiscountCodes": [],
          "DeliveryCharge": {
             "Gross": 0.0
-         }
+         },
+         "DeliveryTaxAmount": 2.50
       },
       "Items": [{
          "SKU": "B0714PRW7R",
