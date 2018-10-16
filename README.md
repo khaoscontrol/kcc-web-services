@@ -162,6 +162,7 @@ Object | Property | Description
     <CReturnDownload>
         <URL>http://siriongenerictest.azurewebsites.net/api/CustomerReturn</URL>
         <Format>JSON</Format>
+        <Frequency>15</Frequency>
     </CReturnDownload>
 </EndpointConfig>
 ```
