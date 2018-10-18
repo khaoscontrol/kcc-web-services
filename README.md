@@ -1500,7 +1500,11 @@ Node | Child Node | Type | Required | Description
          <ReturnItems>
             <ReturnItem>
                <SKU>B0714PRW7R</SKU>
-               <Mapping>StockCode</Mapping>
+               <Mapping>
+                  <ItemMapping>
+                     <Mapping>StockCode</Mapping>
+                  </ItemMapping>
+               </Mapping>
                <Quantity>3</Quantity>
                <ReturnReason ID="6"/>
                <ExtendedDescription />
@@ -1516,7 +1520,11 @@ Node | Child Node | Type | Required | Description
          <ExchangeItems>
             <ExchangeItem>
                <SKU>B0714PRW7R-10</SKU>
-               <Mapping>StockCode</Mapping>
+               <Mapping>
+                  <ItemMapping>
+                     <Mapping>StockCode</Mapping>
+                  </ItemMapping>
+               </Mapping>
                <Quantity>1</Quantity>
                <ExtendedDescription />
             </ExchangeItem>
@@ -1575,7 +1583,7 @@ Object | Type | Required | Description
 		},
 		"ReturnItems": [{
 			"SKU": "B0714PRW7R",
-			"Mapping": "StockCode",
+			"Mapping": ["StockCode"],
 			"Quantity": 3,
 			"ReturnReason": {
 				"ID": "6"
@@ -1591,7 +1599,7 @@ Object | Type | Required | Description
 		}],
 		"ExchangeItems": [{
 			"SKU": "B0714PRW7R-10",
-			"Mapping": "StockCode",
+			"Mapping": ["StockCode"],
 			"Quantity": 1,
 			"ExtendedDescription": []
 		}]
