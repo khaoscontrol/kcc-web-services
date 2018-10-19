@@ -5,7 +5,7 @@
         <Format>JSON</Format>
     </StockStatusUpload>
     <StockUpload>
-        <URL>http://playground.khaoscloud.com/stock.php</URL>
+        <URL>http://playground.khaoscloud.com/stock_upload.php</URL>
         <Format>JSON</Format>
     </StockUpload>
     <OrderDownload>

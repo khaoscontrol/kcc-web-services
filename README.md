@@ -308,6 +308,7 @@ Name | Type | Required | Description
 **County** | [``DataItem``](#dataitem) | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
 **Postcode** | String | | Address postcode. Technically not required, although the vast majority of countries/couriers require this
 **Country** | String | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
+**Email** | String | | Email address for this address. In most cases, associating an email address with the contact makes more sense, but this field allows associating an email with the address as a whole.
 **Telephone** | String | | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
 **Fax** | String | | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
 **Organization** | String | | Company/Organization name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
