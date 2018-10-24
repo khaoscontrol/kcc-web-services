@@ -1554,61 +1554,79 @@ Object | Type | Required | Description
 #### Response
 ```json
 {
-	"Returns": {
-		"AssociatedRef": "AREF021242",
-		"CreatedDate": "2018-06-28T15:14:56",
-		"URN": "TOMA",
-		"InvoiceAddress": {
-			"Line1": "34 Blenheim Road",
-			"Town": "LONDON",
-			"Postcode": "E17 6HS",
-			"Country": {
-				"Code": "GB"
-			},
-			"Telephone": "07920405926",
-			"Organisation": "Toma Vaitiekute"
-		},
-		"InvoiceContact": {
-			"Forename": "Karen",
-			"Email": "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
-		},
-		"DeliveryAddress": {
-			"Line1": "38 Blenheim Road",
-			"Town": "LONDON",
-			"Postcode": "E17 6HS",
-			"Country": {
-				"Code": "GB"
-			},
-			"Telephone": "07920405926",
-			"Organisation": "Toma Vaitiekute"
-		},
-		"ReturnItems": [{
-			"SKU": "B0714PRW7R",
-			"Mapping": ["StockCode"],
-			"Quantity": 3,
-			"ReturnReason": {
-				"ID": "6"
-			},
-			"ExtendedDescription": [],
-			"SourceReturnReference": {
-				"SourceOrder": {
-					"AssociatedRef": "",
-					"SOrderID": "2075",
-					"SOrderCode": "SO2075"
-				}
-			}
-		}],
-		"ExchangeItems": [{
-			"SKU": "B0714PRW7R-10",
-			"Mapping": ["StockCode"],
-			"Quantity": 1,
-			"ExtendedDescription": []
-		}]
-	},
-	"ApiVersion": 10000,
-	"Config": {
-		"MatchAddressOn": ["Address1", "Postcode"],
-		"MatchContactOn": ["Surname"]
-	}
+   "Returns": {
+      "AssociatedRef": "AREF021242",
+      "CreatedDate": "2018-06-28T15:14:56",
+      "URN": "TOMA",
+      "InvoiceAddress": {
+         "Line1": "34 Blenheim Road",
+         "Town": "LONDON",
+         "Postcode": "E17 6HS",
+         "Country": {
+            "Code": "GB"
+         },
+         "Telephone": "07920405926",
+         "Organisation": "Toma Vaitiekute"
+      },
+      "InvoiceContact": {
+         "Forename": "Karen",
+         "Email": "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+      },
+      "DeliveryAddress": {
+         "Line1": "38 Blenheim Road",
+         "Town": "LONDON",
+         "Postcode": "E17 6HS",
+         "Country": {
+            "Code": "GB"
+         },
+         "Telephone": "07920405926",
+         "Organisation": "Toma Vaitiekute"
+      },
+      "ReturnItems": [
+         {
+            "SKU": "B0714PRW7R",
+            "Mapping": [
+               {
+                  "Mapping": "StockCode"
+               }
+            ],
+            "Quantity": 3,
+            "ReturnReason": {
+               "ID": "6"
+            },
+            "ExtendedDescription": [],
+            "SourceReturnReference": {
+               "SourceOrder": {
+                  "AssociatedRef": "",
+                  "SOrderID": "2075",
+                  "SOrderCode": "SO2075"
+               }
+            }
+         }
+      ],
+      "ExchangeItems": [
+         {
+            "SKU": "B0714PRW7R-10",
+            "Mapping": [
+               {
+                  "Mapping": "StockCode"
+               }
+            ],
+            "Quantity": 1,
+            "ExtendedDescription": []
+         }
+      ]
+   },
+   "ApiVersion": 10000,
+   "Config": {
+      "MatchAddressOn": [
+         "Address1",
+         "Postcode"
+      ],
+      "MatchContactOn": [
+         "Surname"
+      ]
+   }
 }
+
 ```
