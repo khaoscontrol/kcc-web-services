@@ -59,6 +59,12 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [CustomerReturn](#customerreturn)
       - [SourceReturnReference](#sourcereturnreference)
       - [SourceOrder](#sourceorder)
+      - [StockItems](#stockitems)
+      - [Relationships](#relationships)
+      - [Relationship](#relationship)
+      - [SCSParentRelationship](#scsparentrelationship)
+      - [SCSChildRelationship](#scschildrelationship)
+      - [LinkedItem](#linkeditem)
       - [CustomerReturnItem](#customerreturnitem)
       - [CustomerExchangeItem](#customerexchangeitem)
       - [CustomerReturnImportConfig](#customerreturnimportconfig)
@@ -80,19 +86,21 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [Properties](#properties-3)
          - [Request](#request-1)
    - [Stock Upload](#stock-upload)
+      - [JSON](#json-6)
+         - [Properties](#properties-4)
    - [Stock Status Upload](#stock-status-upload)
       - [XML](#xml-6)
-         - [Properties](#properties-4)
-         - [Request](#request-2)
-      - [JSON](#json-6)
          - [Properties](#properties-5)
+         - [Request](#request-2)
+      - [JSON](#json-7)
+         - [Properties](#properties-6)
          - [Request](#request-3)
    - [Customer Return Download](#customer-return-download)
       - [XML](#xml-7)
-         - [Properties](#properties-6)
-         - [Response](#response-2)
-      - [JSON](#json-7)
          - [Properties](#properties-7)
+         - [Response](#response-2)
+      - [JSON](#json-8)
+         - [Properties](#properties-8)
          - [Response](#response-3)
 
 <!-- /TOC -->
@@ -751,6 +759,62 @@ Name | Type | Required | Description
 **SOrderCode** | String | | The KhaosControl order code of the original sales order to return items from
 **SOrderItemID** | String | | The specific KhaosControl item ID of the original sales order item that is being returned
 
+### StockItems
+
+The ``StockItems`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Items** | Array[[``StockItem``]](#stockitem) | Yes | An array of stock items to upload
+
+### Relationships
+
+The ``Relationships` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Relationships** | Array[[``Relationship``]](#relationship) | Yes | An array of relationships for each stock item
+
+### Relationship
+
+The ``Relationship`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**StockID** | String | Yes | The Stock ID this relationships relates to
+**SCSParent** | [``SCSParentRelationship``](#scsparentrelationship) | | The parent relationships
+**SCSChildRelationship** | [``SCSChildRelationship``](#scschildrelationship) | | The child relationships
+**Linked** | Array[``LinkedItem``](#linkeditem) | |
+
+### SCSParentRelationship
+
+The ``SCSParentRelationship`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Headings** | Array[String] | | 
+
+### SCSChildRelationship
+
+The ``SCSChildRelationship`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**ParentStockID** | String | Yes | 
+**SCSValues** | Array[String] | |
+**SCSDescription** | Array[String] | |
+
+### LinkedItem
+
+The ``LinkedItem`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**LinkedStockID** | String | Yes
+**LinkedItemType** | [``Type``](#type) | Yes
+**AutoAdd** | Boolean | Yes
+**SellPrice** | Double | |
+
 ### CustomerReturnItem
 
 The ``CustomerReturnItem`` object is made up of the following properties:
@@ -1309,7 +1373,16 @@ Object | Type | Always present? | Description
 
 ## Stock Upload
 
-*Coming soon*
+Defined as ``StockUpload`` in your ``configuration file``, the API will ``GET`` a request from your endpoint in the data format your specified.
+
+### JSON
+
+#### Properties
+
+Object | Type | Always present? | Description
+--- | --- | --- | ---
+**StockItems** | [``StockItems``](#stockitems) | Yes | An object containing an array of stock items to upload
+**Relationships** | [``Relationships``](#relationships) | Yes | An object containing an array of relationships for each stock item
 
 ## Stock Status Upload
 
