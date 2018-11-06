@@ -19,6 +19,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [JSON](#json)
       - [DateTime](#datetime)
       - [MappingType](#mappingtype)
+      - [LinkedItemType](#linkeditemtype)
       - [OrderStatus](#orderstatus)
       - [ShipmentStatus](#shipmentstatus)
       - [OneOf](#oneof)
@@ -240,6 +241,16 @@ OtherRef
 Barcode
 WebCode
 Automatic
+```
+
+### LinkedItemType
+
+The ``LinkedItemType`` type is represented as one of the following:
+
+```
+UpSell
+CrossSell
+Associated
 ```
 
 ### OrderStatus
@@ -782,8 +793,8 @@ The ``Relationship`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **StockID** | String | Yes | The Stock ID this relationships relates to
-**SCSParent** | [``SCSParentRelationship``](#scsparentrelationship) | | The parent relationships
-**SCSChildRelationship** | [``SCSChildRelationship``](#scschildrelationship) | | The child relationships
+**SCSParent** | [``SCSParentRelationship``](#scsparentrelationship) | | The parent relationships. This cannot be set if ``SCSChild`` has been set.
+**SCSChild** | [``SCSChildRelationship``](#scschildrelationship) | | The child relationships. This cannot be set if ``SCSParent`` has been set.
 **Linked** | Array[``LinkedItem``](#linkeditem) | |
 
 ### SCSParentRelationship
@@ -792,7 +803,7 @@ The ``SCSParentRelationship`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**Headings** | Array[String] | | 
+**Headings** | Array[String] | | This is the list of SCS variations for the product. For example, if a parent comes in both multiple colours and sizes, heading could contain two elements, "Colour" and "Size"
 
 ### SCSChildRelationship
 
@@ -800,8 +811,8 @@ The ``SCSChildRelationship`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**ParentStockID** | String | Yes | 
-**SCSValues** | Array[String] | |
+**ParentStockID** | String | Yes | Stock ID of the parent item this child is based on
+**SCSValues** | Array[String] | | Specific variation values for this child item. For example, if the parent item varied based on Colour and Size, then ``SCSDescription`` might contain "Red", "Large", while ``SCSValues`` could contain "R", "L". Effectively ``SCSValues`` is the abbreviation [usually] used to construct a unique stock code for this child item.
 **SCSDescription** | Array[String] | |
 
 ### LinkedItem
@@ -810,10 +821,10 @@ The ``LinkedItem`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**LinkedStockID** | String | Yes
-**LinkedItemType** | [``Type``](#type) | Yes
-**AutoAdd** | Boolean | Yes
 **SellPrice** | Double | |
+**LinkedStockID** | String | Yes
+**LinkedItemType** | [``LinkedItemType``](#linkeditemtype) | Yes
+**AutoAdd** | Boolean | Yes
 
 ### CustomerReturnItem
 
