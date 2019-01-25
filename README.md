@@ -1384,7 +1384,7 @@ Object | Type | Always present? | Description
 
 ## Stock Upload
 
-Defined as ``StockUpload`` in your ``configuration file``, the API will ``GET`` a request from your endpoint in the data format your specified.
+Defined as ``StockUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format your specified. This can be used to update product descriptions or other properties on your website from the application. When you stock upload is linked for the first time, the API will push all stock items in bulk to your endpoint now and again until everything has been pushed, after that, stock will be pushed after modification by the user. 
 
 ### JSON
 
@@ -1392,8 +1392,108 @@ Defined as ``StockUpload`` in your ``configuration file``, the API will ``GET`` 
 
 Object | Type | Always present? | Description
 --- | --- | --- | ---
-**StockItems** | [``StockItems``](#stockitems) | Yes | An object containing an array of stock items to upload
-**Relationships** | [``Relationships``](#relationships) | Yes | An object containing an array of relationships for each stock item
+**Items** | [``StockItems``](#stockitems) | Yes | An object containing an array of stock items
+**Deleted** | Array | Yes | An array containing IDs of deleted stock items
+
+#### Request
+```xml
+Coming soon...
+
+#### Request
+```json
+{
+  "Items": [
+    {
+      "StockID": "6027",
+      "StockCode": "100",
+      "ShortDescription": "Hippo Giant Driver",
+      "BuyPrice": {
+        "Net": 10.0
+      },
+      "SellPrice": {
+        "Net": 140.0
+      },
+      "TaxRate": {
+        "Name": "Standard",
+        "Code": "1",
+        "ID": "1"
+      },
+      "StockType1": {
+        "Name": "System & Misc Types",
+        "ID": "1"
+      },
+      "StockType2": {
+        "Name": "System & Miscellaneous",
+        "ID": "1"
+      },
+      "Options": {
+        "PublishOnWeb": true,
+        "Discontinued": false,
+        "DropShipItem": false,
+        "DiscountsDisabled": false,
+        "RunToZero": false,
+        "VatReliefQualified": false,
+        "StockControlled": true,
+        "FreeText": false,
+        "CustomOptions": []
+      },
+      "SalesMultiple": 1.0,
+      "LeadTime": 1,
+      "SupplierInfo": [],
+      "Images": [],
+      "Barcodes": []
+    },
+    {
+      "StockID": "6023",
+      "StockCode": "002253",
+      "ShortDescription": "Test",
+      "BuyPrice": {
+        "Net": 10.0
+      },
+      "SellPrice": {
+        "Net": 20.0
+      },
+      "TaxRate": {
+        "Name": "Standard",
+        "Code": "1",
+        "ID": "1"
+      },
+      "StockType1": {
+        "Name": "System & Misc Types",
+        "ID": "1"
+      },
+      "StockType2": {
+        "Name": "System & Miscellaneous",
+        "ID": "1"
+      },
+      "Options": {
+        "PublishOnWeb": true,
+        "Discontinued": false,
+        "DropShipItem": false,
+        "DiscountsDisabled": false,
+        "RunToZero": false,
+        "VatReliefQualified": false,
+        "StockControlled": true,
+        "FreeText": false,
+        "CustomOptions": []
+      },
+      "SalesMultiple": 1.0,
+      "LeadTime": 1,
+      "SupplierInfo": [],
+      "Images": [],
+      "Barcodes": [
+        {
+          "Barcode": "002253",
+          "Type": {
+            "Name": "Shopify",
+            "ID": "9"
+          }
+        }
+      ]
+    }
+  ],
+  "Deleted": []
+}
 
 ## Stock Status Upload
 
