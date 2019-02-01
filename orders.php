@@ -1,4 +1,25 @@
 <?php
+$valid_passwords = array("bob" => "jim");
+$valid_users = array_keys($valid_passwords);
+
+$user = (isset($_SERVER["PHP_AUTH_USER"]) ? $_SERVER["PHP_AUTH_USER"] : "");
+$pass = (isset($_SERVER["PHP_AUTH_PW"]) ? $_SERVER["PHP_AUTH_PW"] : "");
+
+$validated = (in_array($user, $valid_users) && $pass == $valid_passwords[$user]);
+
+if (!isset($_SERVER["PHP_AUTH_USER"]) || !$validated) {
+   header('WWW-Authenticate: Basic realm="KCC Web Services Demo"');
+   header("HTTP/1.0 401 Unauthorized");
+   die(json_encode(array("error" => "Basic auth failed. Invalid credentials were provided.")));
+}
+
+$req_dump = print_r($_REQUEST, TRUE);
+$fp = fopen('logs/request.log', 'wa');
+fwrite($fp, "\r\n".$req_dump);
+// also include the headers
+fwrite($fp, "\r\nheaders: ".json_encode(getallheaders())."\r\n");
+fclose($fp);
+
    /*
       This shows a sample of sending orders to the web service
       See order download in teh documentation
@@ -16,13 +37,14 @@
             "Currency" => array(
                "Name" => "Pounds Sterling",
                "Code" => "GBP"
-            )
+            ),
+            "URN" => "AA_Test_1"
          ),
 
          "InvoiceAddress" => array(
-            "Line1" => "1-3 The Court",
+            "Line1" => "Addr1",
             "Town" => "Nottingham",
-            "Postcode" => "NT129AQ",
+            "Postcode" => "NG31 7AA",
             "Country" => array(
                "Name" => "Great Britain",
                "Code" => "GB"
@@ -34,13 +56,13 @@
             "Email" => "terry@sample.com"
          ),
          "Header" => array(
-            "AssociatedRef" => "AREF1530" . date("mdH"),
-            "CreatedDate" => date("Y-m-d\TH:i:s", time()),
+            "AssociatedRef" => "AREF1630" . date("mdH"),
+            "OrderDate" => date("Y-m-d\TH:i:s", time()),
             "Site" => array(
                "ID" => "1",
                "Name" => "Main Site"
             ),
-            "DiscountCodes" => array(),
+            "DiscountCodes" => array(array("Code" => "sp-y8h-nwj-13")),
             "SalesSource" => array(
                "ID" => "5"
             )
@@ -96,7 +118,7 @@
          ),
          "Header" => array(
             "AssociatedRef" => "AREF1531" . date("mdH"),
-            "CreatedDate" => date("Y-m-d\TH:i:s", time()),
+            "OrderDate" => date("Y-m-d\TH:i:s", time()),
             "Site" => array(
                "ID" => "1",
                "Name" => "Main Site"
