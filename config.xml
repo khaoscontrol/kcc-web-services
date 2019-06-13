@@ -8,10 +8,6 @@
         <URL>http://playground.khaoscloud.com/stock_upload.php</URL>
         <Format>JSON</Format>
     </StockUpload>
-    <StockUpload>
-        <URL>http://playground.khaoscloud.com/stock_upload.php</URL>
-        <Format>JSON</Format>
-    </StockUpload>
     <OrderDownload>
         <URL>http://playground.khaoscloud.com/orders.php</URL>
         <Format>JSON</Format>
@@ -21,10 +17,6 @@
         <URL>http://playground.khaoscloud.com/order_status.php</URL>
         <Format>JSON</Format>
     </OrderStatusUpload>
-    <CustomerUpload>
-        <URL>http://playground.khaoscloud.com/customers.php</URL>
-        <Format>JSON</Format>
-    </CustomerUpload>
     <CReturnDownload>
         <URL>http://playground.khaoscloud.com/returns.php</URL>
         <Format>JSON</Format>

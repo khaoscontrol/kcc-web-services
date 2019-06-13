@@ -18,6 +18,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
          - [XML](#xml)
          - [JSON](#json)
       - [DateTime](#datetime)
+      - [LockableDate](#lockabledate)
       - [MappingType](#mappingtype)
       - [LinkedItemType](#linkeditemtype)
       - [OrderStatus](#orderstatus)
@@ -227,10 +228,16 @@ When used as JSON, the ``ID``, ``Code``, or ``Name`` are set as object propertie
 
 ### DateTime
 
-The ``DateTime`` type is by represented as a ``string`` using the RFC 3339 format without the timezone offset.
+The ``DateTime`` type is represented as a ``string`` using the RFC 3339 format without the timezone offset.
 
 ``2018-01-18T12:20:48``
 
+
+### LockableDate
+
+The ``LockableDate`` type is represented as a ``string`` using the RFC 3339 format without the timezone offset.
+
+``2018-01-18T12:20:48``
 ### MappingType
 
 The ``MappingType`` type is represented as a one of the following:
@@ -382,7 +389,7 @@ Name | Type | Required | Description
 **DiscountCodes** | Array[[``DataItem``](#dataitem)] | Yes | An array of discount codes for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
 **OrderNote** | String | | The note for the order
 **InvoiceNote** | String | | The invoice note for the order
-**DeliveryDate** | [``DateTime``](#datetime) | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
+**DeliveryDate** | [``LockableDate``](#lockabledate) | | Which date the order should be delivered on. If this field isn't locked, Khaos Control may recalculate it based on rules
 **RequiredDate** | [``DateTime``](#datetime) | | The latest possible date the customer has indicated the order can arrive. Distinct from ``DeliveryDate``, this field implies the order could arrive earlier, whereas ``DeliveryDate`` implies a specific day the order must arrive on
 **PONumber** | String | | Customer's PO (Purchase Order) reference. Usually relevant for business customers paying on account
 **DeliveryCharge** | [``Price``](#price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
