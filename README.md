@@ -235,9 +235,14 @@ The ``DateTime`` type is represented as a ``string`` using the RFC 3339 format w
 
 ### LockableDate
 
-The ``LockableDate`` type is represented as a ``string`` using the RFC 3339 format without the timezone offset.
+The ``LockableDate`` type is represented as an object
 
-``2018-01-18T12:20:48``
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Date** | [``DateTime``](#datetime) | Yes | The date value
+**Locked** | Boolean | No | Whether the date can be changed or not at a later time
+
+
 ### MappingType
 
 The ``MappingType`` type is represented as a one of the following:
