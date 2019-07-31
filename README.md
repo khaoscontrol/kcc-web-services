@@ -651,6 +651,7 @@ Name | Type | Required | Description
 **StockDescription** | string | Yes | A brief description of the stock item, normally used as a name
 **BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier
 **SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer
+**ChannelListingPrice** | [``Price``](#price) | No | If set against the channel setup, this reflects the channel list price of the item
 **TaxRate** | [``DataItem``](#dataitem) | Yes | The tax type of the item, e.g. Zero Tax, Standard Tax, Fixed Tax, etc.
 **StockType1** | [``DataItem``](#dataitem) | Yes | The overall type of the stock item, e.g. Clothing, Electronics
 **StockType2** | [``DataItem``](#dataitem) | Yes | The secondary type of the stock item within Stock Type 1, e.g. Computing, Jumpers, Televisions
