@@ -909,7 +909,7 @@ Node | Child Node | Type | Required | Description
 --- | --- | --- | --- | ---
 **SalesOrderImport** | | | Yes | The root node of the XML file
 | | **Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | A parent node containing all of the sales orders
-| | **ApiVersion** | Integer | Yes | Must be set to **1000**
+| | **ApiVersion** | Integer | Yes | Must be set to **10000* and always present if there are orders or not
 | | **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
 
 #### Response
