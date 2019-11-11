@@ -421,7 +421,7 @@ Name | Type | Required | Description
 **WebItemRef** | String | | Second item reference from the website/source. Will be passed back in any future order updates
 **Site** | [``DataItem``](#dataitem) | | The site that this item will be fulfilled from. Usually this isn't specified, and the site recorded against the entire order is used
 **PackLink** | String | |
-**UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If omitted, system will calculate price; unlikely to be relevant for a website order
+**UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If possible, populate this - if omitted, system will calculate price but it is likely to be less accurate than if prices are populated for each item.
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
 **MappingItem** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
 **AlternateMapping** | Array[[``ItemMapping``](#itemmapping)] | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
