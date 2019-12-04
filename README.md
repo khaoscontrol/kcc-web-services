@@ -186,6 +186,8 @@ You may need to keep track of what data has been processed by us, especially whe
 
 > You have 1200 orders to import but you find it best to import 1000 at a time,  by passing through a Sirion-Continuation HTTP header with the value of 1000, the next time we request the orders you will be able to grab the reference of “1000” and make the following 200 orders available for import.
 
+Our general expectation for this field, and what you will receive on your first contact with the API, is a datetime of the form 2019-12-31 12:00:00Z. This can be used by you to determine the last order you sent to KC/KCC and then only send us orders from that date forward, to reduce the amount of data you need to handle per request.
+
 ## Retrying Orders
 
 Khaos Control Cloud allows you to retry the download of previously failed orders. When this happens Sirion will send a header to your endpoint called ``SpecificIDs``. When this is present in your headers you need to provide just the requested orders, rather than all of them.
