@@ -1841,7 +1841,7 @@ Object | Type | Required | Description
 
 SagePay payments can be imported into KCC webservices and then authorised from within KCC and KC. To do that, the card payment must be filled in and have specific values. Please note there are two configs - one for Deferred or Authenticated (Preauth) Payments and one for Released or Authorised (Fully authorised) Payments. 
 
-#Deferred or Authenticated (Preauth) Payments
+### Deferred or Authenticated (Preauth) Payments
 
 Field | Value
 --- | --- |
@@ -1853,7 +1853,7 @@ Field | Value
 **AAVCV2Result** | OPTIONAL - but recommended, this should contain the AAV check result text [AVSCV2] from SagePay i.e. [ALL MATCH]
 **AccountNumber** | OPTIONAL - but recommended, as this controls which Card Integration Account the payment is attached to. This will dictate which merchant account is contacted when making payments / refunds. If not populated is will default to 0 (the primary account).
 
-#Released or Authorised (Fully authorised) Payments
+### Released or Authorised (Fully authorised) Payments
 
 Field | Value
 --- | --- |
