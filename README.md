@@ -1839,8 +1839,9 @@ Object | Type | Required | Description
 
 *Please note: When using SagePay forms integration it is NOT possible to perform refunds ect from Khaos Control once the payment has been taken.*
 
-SagePay payments can be imported into KCC webservices and then authorised from within KCC and KC. To do that, the card payment must be filled in and have these values:
+SagePay payments can be imported into KCC webservices and then authorised from within KCC and KC. To do that, the card payment must be filled in and have specific values. Please note there are two configs - one for Deferred or Authenticated (Preauth) Payments and one for Released or Authorised (Fully authorised) Payments. 
 
+#Deferred or Authenticated (Preauth) Payments
 Field | Value
 --- | --- |
 **IsPreAuth** | MANDATORY - must be set to true
@@ -1848,5 +1849,16 @@ Field | Value
 **TransactionID** | MANDATORY - this must be the SagePay [VPSTxID]
 **PreauthRef** | MANDATORY - this must be the value supplied by the website as the SagePay [VendorTxCode]
 **Security Ref** | MANDATORY - this must be the SagePay [SecurityKey] NOTE: When using SagePay forms integration it is NOT possible to perform refunds etc from Khaos Control once the payment has been taken.
+**AAVCV2Result** | OPTIONAL - but recommended, this should contain the AAV check result text [AVSCV2] from SagePay i.e. [ALL MATCH]
+**AccountNumber** | OPTIONAL - but recommended, as this controls which Card Integration Account the payment is attached to. This will dictate which merchant account is contacted when making payments / refunds. If not populated is will default to 0 (the primary account).
+
+#Released or Authorised (Fully authorised) Payments
+Field | Value
+--- | --- |
+**IsPreAuth** | MANDATORY - must be set to false
+**AuthCode** | MANDATORY - This must be the autorisation code returned by SagePay when the original call was made [TxAuthNo] (if no call is made, please use REGISTERED).
+**TransactionID** | MANDATORY - this must be the SagePay [VPSTxID]
+**PreauthRef** | MANDATORY - this must be the value supplied by the website as the SagePay [VendorTxCode]
+**Security Ref** | MANDATORY - this must be the SagePay [SecurityKey] NOTE: Not available in SagePay Forms Integration - You cannot perform refunds using Khaos Control without this.
 **AAVCV2Result** | OPTIONAL - but recommended, this should contain the AAV check result text [AVSCV2] from SagePay i.e. [ALL MATCH]
 **AccountNumber** | OPTIONAL - but recommended, as this controls which Card Integration Account the payment is attached to. This will dictate which merchant account is contacted when making payments / refunds. If not populated is will default to 0 (the primary account).
