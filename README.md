@@ -338,7 +338,7 @@ Name | Type | Required | Description
 **Line2** | String | | Second line of the address
 **Line3** | String | | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
 **Town** | String | Yes | Address town. Required by Khaos and all couriers
-**County** | [``DataItem``](#dataitem) | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
+**County** | String | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
 **Postcode** | String | | Address postcode. Technically not required, although the vast majority of countries/couriers require this
 **Country** | [``DataItem``](#dataitem) | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
 **Email** | String | | Email address for this address. In most cases, associating an email address with the contact makes more sense, but this field allows associating an email with the address as a whole.
