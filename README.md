@@ -326,7 +326,7 @@ Name | Type | Required | Description
 **MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
 **URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
-**CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. This wil set the default calculation method for the customer for all future order
+**CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. This wil set the default calculation method for the customer for all future order
 
 ### Address
 
