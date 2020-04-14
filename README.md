@@ -1239,7 +1239,7 @@ Object | Type | Required | Description
          }
       }]
    }],
-   "ApiVersion": "10000",
+   "ApiVersion": 10000,
    "Config": {
       "MatchCompanyOn": ["CompanyCode"],
       "MatchAddressOn": ["Postcode"],
