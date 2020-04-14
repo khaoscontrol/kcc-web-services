@@ -50,7 +50,7 @@ Welcome to the **beta version** of the Khaos Control Cloud Web Services.
       - [ShipmentPackage](#shipmentpackage)
       - [StockStatus](#stockstatus)
       - [StockLevels](#stocklevels)
-      - [BuildPotentials](#buildpotentials)
+      - [RelationshipPotential](#relationshippotential)
       - [StockItem](#stockitem)
       - [StockOptions](#stockoptions)
       - [WebProperties](#webproperties)
@@ -627,7 +627,9 @@ Name | Type | Required | Description
 **StockID** | string | Yes | This is the StockID from within Khaos Control Cloud
 **SiteID** | Integer | Yes | This is the SiteID from within Khaos Control Cloud that any levels refer to. If Khaos contains more than one stock control site (e.g. multiple warehouses), then each ``StockStatus`` entry refers to the stock present in one specific site
 **Levels**  | [``StockLevels``](#stocklevels) | | This contains the current stock levels of the item. The levels will not be present if the item isn't stock controlled
-**BuildPotential** | [``BuildPotentials``](#buildpotentials) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "out of stock", but has a non-zero build potential, you may wish to mark it as ``Available`` - since it's possible more could be constructed from other stock items that are themselves available
+**RelationshipPotential** | [``RelationshipPotential``](#relationshippotential) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "out of stock", but has a non-zero build potential, you may wish to mark it as ``Available`` - since it's possible more could be constructed from other stock items that are themselves available
+
+Please note that the Levels or RelationshipPotential sections may not be available for some items depending on their setup within Khaos Control Cloud, and some items may have both sections. We therefore recommend that both sections are searched for to extract the full stock level available for an item.
 
 ### StockLevels
 
@@ -638,9 +640,9 @@ Name | Type | Required | Description
 **Available** | Float | Yes | This is the total in stock that is not assigned to orders already, and could potentially be ordered
 **Courier** | Float | Yes | This is the total quantity of stock for which purchase orders have been placed, and not yet received
 
-### BuildPotentials
+### RelationshipPotential
 
-The ``BuildPotentials`` object is made up of the following properties:
+The ``RelationshipPotential`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
