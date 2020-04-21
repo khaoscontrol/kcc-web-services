@@ -638,7 +638,7 @@ The ``StockLevels`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **Available** | Float | Yes | This is the total in stock that is not assigned to orders already, and could potentially be ordered
-**Courier** | Float | Yes | This is the total quantity of stock for which purchase orders have been placed, and not yet received
+**OnOrder** | Float | Yes | This is the total quantity of stock for which purchase orders have been placed, and not yet received
 
 ### RelationshipPotential
 
