@@ -629,7 +629,9 @@ Name | Type | Required | Description
 **Levels**  | [``StockLevels``](#stocklevels) | | This contains the current stock levels of the item. The levels will not be present if the item isn't stock controlled
 **RelationshipPotential** | [``RelationshipPotential``](#relationshippotential) | | If the stock item is a build item, then this specifies what quantity could theoretically be built. If the item is "out of stock", but has a non-zero build potential, you may wish to mark it as ``Available`` - since it's possible more could be constructed from other stock items that are themselves available
 
-Please note that the Levels or RelationshipPotential sections may not be available for some items depending on their setup within Khaos Control Cloud, and some items may have both sections. We therefore recommend that both sections are searched for to extract the full stock level available for an item.
+Please note that the Levels or RelationshipPotential sections may not be available for some items depending on their setup within Khaos Control Cloud, and some items may have both sections.
+
+If the Levels section is present, the Available figure here will be the full level for the item so just use this. If the Levels section is not available, use the RelationshipPotential.FromChildren figure.
 
 ### StockLevels
 
