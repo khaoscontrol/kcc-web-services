@@ -129,7 +129,8 @@ Once our API knows about this file it will cache it once a day, or, you can forc
 ```Authorization: Basic [Username:Password encoded as Base 64 string]```
 
 using the Username and Password fields defined within the channel in Khaos Control Cloud. For example, a username of "khaos" and a password of control would be sent as:
-```Authorization: Basic a2hhb3M6Y29udHJvbA==``` 
+```Authorization: Basic a2hhb3M6Y29udHJvbA==```
+This allows you to prevent unauthorised access to your configuration file.
 
 To force a manul update of the channel's configuration file, you will need to change the ``Configuration URL`` field within Khaos Control Cloud, save the document, and then change it back to what it was originally.
 
