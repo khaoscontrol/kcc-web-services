@@ -122,7 +122,14 @@ Error codes will make the API try again, therefore if you do not respond with a 
 
 # Config File
 
-Your configuration file should be publicly accessible via a URL and is specified within the Khaos Control Cloud application. Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud. To do this you will need to change the ``Configuration URL`` field within Khaos Control Cloud, save the document, and then change it back to what it was originally.
+Your configuration file should be accessible via a URL that is specified within the Khaos Control Cloud application. 
+
+Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud. As part of the configuration file retrieval, the API sends a GET request to it with an Authorisation Header, as so:
+
+```Authorization : Basic [Username:Password encoded as Base 64 string]```
+using the Username and Password fields defined within the channel in Khaos Control Cloud.
+
+To force a manul update of the channel's configuration file, you will need to change the ``Configuration URL`` field within Khaos Control Cloud, save the document, and then change it back to what it was originally.
 
 ## Structure
 
