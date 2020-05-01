@@ -126,8 +126,10 @@ Your configuration file should be accessible via a URL that is specified within 
 
 Once our API knows about this file it will cache it once a day, or, you can force a manual update from within Khaos Control Cloud. As part of the configuration file retrieval, the API sends a GET request to it with an Authorisation Header, as so:
 
-```Authorization : Basic [Username:Password encoded as Base 64 string]```
-using the Username and Password fields defined within the channel in Khaos Control Cloud.
+```Authorization: Basic [Username:Password encoded as Base 64 string]```
+
+using the Username and Password fields defined within the channel in Khaos Control Cloud. For example, a username of "khaos" and a password of control would be sent as:
+```Authorization: Basic a2hhb3M6Y29udHJvbA==``` 
 
 To force a manul update of the channel's configuration file, you will need to change the ``Configuration URL`` field within Khaos Control Cloud, save the document, and then change it back to what it was originally.
 
