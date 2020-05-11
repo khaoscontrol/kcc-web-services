@@ -212,6 +212,10 @@ If multiple orders are set to retry then the header will have multiple comma sep
 
 # Types &amp; Objects
 
+When a field is not required, the value provided must still be of the relevant data type. E.g. the Forename field isn't a required field against Contact objects, but if the Forename tag is provided the value must be valid string data. A null value will cause errors, therefore a blank string must be used in place of null values.
+
+Alternatively the field can be removed from the data entirely and that will prevent errors from occurring.
+
 ## Types
 
 ### DataItem
