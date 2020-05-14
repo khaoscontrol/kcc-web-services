@@ -341,7 +341,7 @@ Name | Type | Required | Description
 **SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
 **MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
-**URN** | String | | Unique Reference Number for this customer. This should be excluded unless you know the customer already exists in Khaos Control Cloud and has the URN you're providing. Including an incorrect or blank URN will cause errors when importing the orders into Khaos Control Cloud.
+**URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
 **CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. This wil set the default calculation method for the customer for all future order
 
 ### Address
@@ -560,6 +560,8 @@ Name | Type | Required | Description
 **DiscontinuedItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
 **RunToZeroErrorItems** | String | | Can either be:<br/>- Abort<br/>- ImportAndHold<br/>- Skip (not recommended)
 **ImportAsUnconfirmed** | Boolean | | Sets whether or not the order is imported as unconfirmed or confirmed. If unconfirmed, the order is not ready for processing
+
+Please note that if you are providing the CompanyCode MatchCompanyOn option, this should be the only matching option used. We recommend only using this option if there is a specific need to do so. If the order doesn't contain URN information for the customer, then the URN tag should be removed from the order completely (don't provide a null or blank URN) to avoid problems during import.
 
 There are slight differences between the ``XML`` and ``JSON`` outputs, these are as follows:
 
