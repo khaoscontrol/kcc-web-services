@@ -341,7 +341,7 @@ Name | Type | Required | Description
 **SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
 **MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
 **TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
-**URN** | String | | Unique Reference Number for this customer. Leave this blank unless you know that the customer already exists in Khaos Control with that reference; or, you wish to create a new account and are sure no customer with that URN already exists
+**URN** | String | | Unique Reference Number for this customer. This should be excluded unless you know the customer already exists in Khaos Control Cloud and has the URN you're providing. Including an incorrect or blank URN will cause errors when importing the orders into Khaos Control Cloud.
 **CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. This wil set the default calculation method for the customer for all future order
 
 ### Address
