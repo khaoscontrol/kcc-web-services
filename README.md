@@ -1,6 +1,6 @@
 # Khaos Control Cloud Web Services
 
-Welcome to the **beta version** of the Khaos Control Cloud Web Services.
+Welcome to the documentation for the Khaos Control Cloud Web Services.
 
 <!-- TOC -->
 
