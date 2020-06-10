@@ -422,6 +422,7 @@ Name | Type | Required | Description
 **ValueDiscount** | Double | | Gross discount to apply to the order
 **SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
 **SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
+**GrossTotal** | Double | | The final total value of the order. This is used to allow Khaos Control Cloud to automatically correct rounding differences that may have occurred during price calculations.
 
 ### OrderItem
 
