@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EndpointConfig>
     <StockStatusUpload>
-        <URL>https://enpisgu6xzg8i.x.pipedream.net/</URL>
+        <URL>http://playground.khaoscloud.com/stock_status.php</URL>
         <Format>JSON</Format>
     </StockStatusUpload>
     <StockUpload>
-        <URL>https://eny8kuztyb1h.x.pipedream.net/</URL>
+        <URL>http://playground.khaoscloud.com/stock_upload.php</URL>
         <Format>JSON</Format>
     </StockUpload>
     <OrderDownload>
@@ -14,11 +14,11 @@
         <Frequency>15</Frequency>
     </OrderDownload>
     <OrderStatusUpload>
-        <URL>https://en9h47m4n3qse.x.pipedream.net/</URL>
+        <URL>http://playground.khaoscloud.com/order_status.php</URL>
         <Format>JSON</Format>
     </OrderStatusUpload>
     <CustomerUpload>
-        <URL>https://enom875449jrl.x.pipedream.net/</URL>
+        <URL>http://playground.khaoscloud.com/customer_download.php</URL>
         <Format>JSON</Format>
     </CustomerUpload>
     <CReturnDownload>
