@@ -1,7 +1,7 @@
 <?php
    /*
       This shows a sample of sending returns to the web service
-      See return download in teh documentation
+      See return download in the documentation
    */
 
   function array_to_xml( $data, &$xml_data ) {
@@ -78,7 +78,7 @@
          )
       )
    );
-   // create the orders in XML format, this could be JSON
+   // create the orders in JSON format, this could be XML
    header('Content-Type: application/json');
    // add tracking header, which will be sent back in the next order import pull request
    header("Sirion-Continuation", time());

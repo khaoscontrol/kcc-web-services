@@ -1,28 +1,20 @@
 <?php
-$valid_passwords = array("bob" => "jim");
-$valid_users = array_keys($valid_passwords);
+   $valid_passwords = array("user" => "p");
+   $valid_users = array_keys($valid_passwords);
 
-$user = (isset($_SERVER["PHP_AUTH_USER"]) ? $_SERVER["PHP_AUTH_USER"] : "");
-$pass = (isset($_SERVER["PHP_AUTH_PW"]) ? $_SERVER["PHP_AUTH_PW"] : "");
+   $user = (isset($_SERVER["PHP_AUTH_USER"]) ? $_SERVER["PHP_AUTH_USER"] : "");
+   $pass = (isset($_SERVER["PHP_AUTH_PW"]) ? $_SERVER["PHP_AUTH_PW"] : "");
 
-$validated = (in_array($user, $valid_users) && $pass == $valid_passwords[$user]);
+   $validated = (in_array($user, $valid_users) && $pass == $valid_passwords[$user]);
 
-if (!isset($_SERVER["PHP_AUTH_USER"]) || !$validated) {
-   header('WWW-Authenticate: Basic realm="KCC Web Services Demo"');
-   header("HTTP/1.0 401 Unauthorized");
-   die(json_encode(array("error" => "Basic auth failed. Invalid credentials were provided.")));
-}
-
-$req_dump = print_r($_REQUEST, TRUE);
-$fp = fopen('logs/request.log', 'wa');
-fwrite($fp, "\r\n".$req_dump);
-// also include the headers
-fwrite($fp, "\r\nheaders: ".json_encode(getallheaders())."\r\n");
-fclose($fp);
-
+   if (!isset($_SERVER["PHP_AUTH_USER"]) || !$validated) {
+      header('WWW-Authenticate: Basic realm="KCC Web Services Demo"');
+      header("HTTP/1.0 401 Unauthorized");
+      die(json_encode(array("error" => "Basic auth failed. Invalid credentials were provided.")));
+   }
    /*
       This shows a sample of sending orders to the web service
-      See order download in teh documentation
+      See order download in the documentation
    */
 
    // create some sample orders, ready for import. These would normally come from your database
@@ -163,7 +155,7 @@ fclose($fp);
          )
       )
    );
-   // create the orders in XML format, this could be JSON 
+   // create the orders in JSON format, this could be XML
    header('Content-Type: application/json');
    // add tracking header, which will be sent back in the next order import pull request
    header("Sirion-Continuation", time());
