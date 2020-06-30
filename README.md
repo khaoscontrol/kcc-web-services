@@ -48,10 +48,11 @@ Welcome to the documentation for the Khaos Control Cloud Web Services.
       - [Shipment](#shipment)
       - [ShipmentItem](#shipmentitem)
       - [ShipmentPackage](#shipmentpackage)
+      - [StockChanges](#stockchanges)
       - [StockStatus](#stockstatus)
-      - [StockLevels](#stocklevels)
-      - [RelationshipPotential](#relationshippotential)
+      - [StockLevels](#stocklevels)      
       - [StockItem](#stockitem)
+      - [StockItems](#stockitems)
       - [StockOptions](#stockoptions)
       - [WebProperties](#webproperties)
       - [StockSupplier](#stocksupplier)
@@ -60,10 +61,10 @@ Welcome to the documentation for the Khaos Control Cloud Web Services.
       - [DeletedItem](#deleteditem)
       - [CustomerReturn](#customerreturn)
       - [SourceReturnReference](#sourcereturnreference)
-      - [SourceOrder](#sourceorder)
-      - [StockItems](#stockitems)
-      - [Relationships](#relationships)
-      - [Relationship](#relationship)
+      - [SourceOrder](#sourceorder)      
+      - [StockRelationships](#stockrelationships)
+      - [StockItemRelationship](#stockitemrelationship)
+      - [RelationshipPotential](#relationshippotential)
       - [SCSParentRelationship](#scsparentrelationship)
       - [SCSChildRelationship](#scschildrelationship)
       - [LinkedItem](#linkeditem)
@@ -159,6 +160,9 @@ Object | Property | Description
 | | URL | The URL of the endpoint, where data is POSTed for you to process
 | | Frequency | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | The format of the file you have produced, either ``XML`` or ``JSON``
+**[ProvidedStock](#stock-upload)** | | The endpoint from which Khaos Control Cloud can pull stock data from for download into the system. See ``StockChanges`` for details on how you should export your data.
+| | URL | The URL of the endpoint, where Khaos Control Cloud GETs data from you for import
+| | Format | The format of information that you export, either ``XML`` or ``JSON``
 
 ## Example
 
@@ -186,6 +190,10 @@ Object | Property | Description
         <Format>JSON</Format>
         <Frequency>15</Frequency>
     </CReturnDownload>
+    <ProvidedStock>
+        <URL>http://siriongenerictest.azurewebsites.net/api/CustomerReturn</URL>
+        <Format>JSON</Format>
+    </ProvidedStock>
 </EndpointConfig>
 ```
 
@@ -636,6 +644,15 @@ Name | Type | Required | Description
 **Courier** | [``DataItem``](#dataitem) | | Either the ID, Code or Name of the courier
 **ShipmentDate** | [``DateTime``](#datetime) | | The date of the shipment
 
+### StockChanges
+
+The ``StockChanges`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**StockItems** | [``StockItems``](#stockitems) | No | The StockItems object contains the list of stock items 
+**Relationships** | [``StockRelationships``](#stockrelationships) | No | This object defines the relationships between the provided stock items.
+
 ### StockStatus
 
 The ``StockStatus`` object is made up of the following properties:
@@ -821,21 +838,21 @@ Name | Type | Required | Description
 --- | --- | --- | ---
 **Items** | Array[[``StockItem``]](#stockitem) | Yes | An array of stock items to upload
 
-### Relationships
+### StockRelationships
 
-The ``Relationships` object is made up of the following properties:
-
-Name | Type | Required | Description
---- | --- | --- | ---
-**Relationships** | Array[[``Relationship``]](#relationship) | Yes | An array of relationships for each stock item
-
-### Relationship
-
-The ``Relationship`` object is made up of the following properties:
+The ``StockRelationships`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**StockID** | String | Yes | The Stock ID this relationships relates to
+**Relationships** | Array[[``StockItemRelationship``]](#stockitemrelationship) | Yes | An array of relationships for each stock item
+
+### StockItemRelationship
+
+The ``StockItemRelationship`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**StockID** | String | Yes | The Stock ID these relationships relate to
 **SCSParent** | [``SCSParentRelationship``](#scsparentrelationship) | | The parent relationships. This cannot be set if ``SCSChild`` has been set.
 **SCSChild** | [``SCSChildRelationship``](#scschildrelationship) | | The child relationships. This cannot be set if ``SCSParent`` has been set.
 **Linked** | Array[``LinkedItem``](#linkeditem) | |
