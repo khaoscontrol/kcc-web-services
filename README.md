@@ -234,6 +234,8 @@ The ``DataItem`` type can represent one of the following:
 + Code
 + Name
 
+Whichever item it represents, the value must be string data.
+
 #### XML
 
 When used as XML, the ``ID``, ``Code``, or ``Name`` are set as attributes on a node.
