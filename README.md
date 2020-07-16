@@ -384,7 +384,7 @@ Name | Type | Required | Description
 **Email** | String | | Primary email address for this contact. Can be used to (e.g.) send notifications/updates on order status
 **Mobile** | String | | Mobile phone number for this contact
 **DateOfBirth** | [``DateTime``](#datetime) | | Date of birth for this contact, if known. May not be relevant to many businesses
-**OptInNewsLetter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
+**OptInNewsletter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
 
 ### SalesOrder
 
