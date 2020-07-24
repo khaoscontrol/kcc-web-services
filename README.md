@@ -390,7 +390,7 @@ Name | Type | Required | Description
 **RemainderOnAccount** | Boolean | |
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Gross, or ``2`` for Net. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
-**CustomData** | String | A general purpose field that will be fed back to your service when the order status for this order is uploaded. Use this to store any data you need during order status processing that isn't already provided, for example a secondary reference. This field is not imported into Khaos Control Cloud and is held in our cloud service.
+**CustomData** | String | | A general purpose field that will be fed back to your service when the order status for this order is uploaded. Use this to store any data you need during order status processing that isn't already provided, for example a secondary reference. This field is not imported into Khaos Control Cloud and is held in our cloud service.
 **SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
 **SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
 
