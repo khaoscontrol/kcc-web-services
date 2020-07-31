@@ -427,7 +427,7 @@ Name | Type | Required | Description
 **PONumber** | String | | Customer's PO (Purchase Order) reference. Usually relevant for business customers paying on account
 **DeliveryCharge** | [``Price``](#price) | | Amount charged for delivery. If omitted, the system will calculate delivery (unlikely to be desirable for web orders.) To indicate free delivery, include this field and set either the Net or Gross values to 0.
 **DeliveryTaxAmount** | Double | | This will allow you to specify the tax amount for the delivery charge, overriding any calculations that Khaos Control Cloud would normally do. If left blank, then it will be calculated by Khaos Control Cloud.
-**RemainderOnAccount** | Boolean | |
+**RemainderOnAccount** | Boolean | | Setting this value to true and not including a payment line will ensure the order is imported as an account order against the customer.
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
 **ValueDiscount** | Double | | Gross discount to apply to the order
 **SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
