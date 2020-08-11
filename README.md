@@ -529,7 +529,7 @@ The ``CardPayment`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **CardType** | String | Yes | The type of the credit card, e.g. VISA, AMEX. If not known, then specify the payment service to authorized the card
-**IsPreAuth** | Boolean | Yes | Specify whether the card payment is a pre-authorization, or a full authorization. Pre-authorization reserves the amount against the card, whereas full authorization will take payment
+**IsPreauth** | Boolean | Yes | Specify whether the card payment is a pre-authorization, or a full authorization. Pre-authorization reserves the amount against the card, whereas full authorization will take payment
 **CardNumber** | String | | Credit card number. In most situations, this won't be required
 **CardStart** | String | | Start date, if present. This is in the format of MMYY; e.g. 1118
 **CardExpire** | String | | Expiry date, if present. This is in the format of MMYY; e.g. 1118
