@@ -452,6 +452,7 @@ Name | Type | Required | Description
 **PackLink** | String | |
 **UnitPrice** | [``Price``](#price) | | Unit price, i.e. price for a single item. If possible, populate this - if omitted, system will calculate price but it is likely to be less accurate than if prices are populated for each item.
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
+**ValueDiscount** | Double | | Discount amount to apply to the line item. This is the preferred discount field to use against an item as it helps to prevent rounding differences. As per PercentDiscount, when using this field, the unit price will need to be the price before discount. For Khaos Control, this field can only be used for versions 8.190.36 onwards.
 **MappingItem** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
 **AlternateMapping** | Array[[``ItemMapping``](#itemmapping)] | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
 
