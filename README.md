@@ -433,6 +433,7 @@ Name | Type | Required | Description
 **SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
 **SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
 **GrossTotal** | Double | | The final total value of the order. This is used to allow Khaos Control Cloud to automatically correct rounding differences that may have occurred during price calculations.
+**CustomData** | String | | A field that can be used to store any additional information which is required when the Order Status is sent back to the channel. E.g. If a customer facing reference has been passed through as Associated Ref, the internal ID for the order could be stored here, and this will be added onto the Order Status information.
 
 ### OrderItem
 
@@ -611,6 +612,7 @@ Name | Type | Required | Description
 **AssociatedRef** | String | | An associated reference to the Sales Order
 **ChannelID** | String | | The channel ID of the Sales Order
 **Shipments** | [``Shipment``](#shipment) | Yes | The shipment items of the order, this can either be the whole order or part
+**CustomData** | String | | The CustomData that was passed down as part of the [``OrderHeader``](#orderheader) section. For example, this could contain internal ID references for orders.
 
 ### Shipment
 
