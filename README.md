@@ -366,7 +366,7 @@ Name | Type | Required | Max Length | Description
 **Town** | String | Yes | 35 | Address town. Required by Khaos and all couriers
 **County** | String | | 35 | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
 **Postcode** | String | | 10 | Address postcode. Technically not required, although the vast majority of countries/couriers require this
-**Country** | [``DataItem``](#dataitem) | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
+**Country** | [``DataItem``](#dataitem) | Yes | N/A | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
 **Email** | String | | 100 | Email address for this address. In most cases, associating an email address with the contact makes more sense, but this field allows associating an email with the address as a whole.
 **Telephone** | String | | 25 | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
 **Fax** | String | | 25 | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
@@ -383,8 +383,8 @@ Name | Type | Required | Max Length | Description
 **Surname** | String | | 50 | Surname(s) for this contact. Either forname or surname must be filled in (or both, preferably)
 **Email** | String | | 100 | Primary email address for this contact. Can be used to (e.g.) send notifications/updates on order status
 **Mobile** | String | | 30 | Mobile phone number for this contact
-**DateOfBirth** | [``DateTime``](#datetime) | | Date of birth for this contact, if known. May not be relevant to many businesses
-**OptInNewsletter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
+**DateOfBirth** | [``DateTime``](#datetime) | | N/A | Date of birth for this contact, if known. May not be relevant to many businesses
+**OptInNewsletter** | Boolean | | N/A | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
 
 ### SalesOrder
 
