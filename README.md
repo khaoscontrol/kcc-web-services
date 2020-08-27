@@ -359,7 +359,7 @@ Name | Type | Required | Description
 The ``Address`` object is made up of the following properties:
 
 Name | Type | Required | Max Length | Description
---- | --- | --- | ---
+--- | --- | --- | --- | ---
 **Line1** | String | Yes | 35 | First line of the address; usually, although not always, contains house number and road name. Most couriers require this to be populated before a package can be shipped
 **Line2** | String | | 35 | Second line of the address
 **Line3** | String | | 35 | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
@@ -377,7 +377,7 @@ Name | Type | Required | Max Length | Description
 The ``Contact`` object is made up of the following properties:
 
 Name | Type | Required | Max Length | Description
---- | --- | --- | ---
+--- | --- | --- | --- | ---
 **Title** | String | | 20 | Title for this contact, e.g. Mr/Mrs/Dr/...
 **Forename** | String | | 50 | Forename(s) for this contact. Either forname or surname must be filled in (or both, preferably)
 **Surname** | String | | 50 | Surname(s) for this contact. Either forname or surname must be filled in (or both, preferably)
