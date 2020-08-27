@@ -358,31 +358,31 @@ Name | Type | Required | Description
 
 The ``Address`` object is made up of the following properties:
 
-Name | Type | Required | Description
+Name | Type | Required | Max Length | Description
 --- | --- | --- | ---
-**Line1** | String | Yes | First line of the address; usually, although not always, contains house number and road name. Most couriers require this to be populated before a package can be shipped
-**Line2** | String | | Second line of the address
-**Line3** | String | | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
-**Town** | String | Yes | Address town. Required by Khaos and all couriers
-**County** | String | | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
-**Postcode** | String | | Address postcode. Technically not required, although the vast majority of countries/couriers require this
+**Line1** | String | Yes | 35 | First line of the address; usually, although not always, contains house number and road name. Most couriers require this to be populated before a package can be shipped
+**Line2** | String | | 35 | Second line of the address
+**Line3** | String | | 35 | Third line of the address. Not all couriers support three address lines, so don't populate this unless needed
+**Town** | String | Yes | 35 | Address town. Required by Khaos and all couriers
+**County** | String | | 35 | County; not generally required for UK addresses, although may be a required part of the address for some overseas addresses
+**Postcode** | String | | 10 | Address postcode. Technically not required, although the vast majority of countries/couriers require this
 **Country** | [``DataItem``](#dataitem) | Yes | Country for this address. Each address is associated with a country, which can be different to the main country of the customer record
-**Email** | String | | Email address for this address. In most cases, associating an email address with the contact makes more sense, but this field allows associating an email with the address as a whole.
-**Telephone** | String | | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
-**Fax** | String | | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
-**Organization** | String | | Company/Organization name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
+**Email** | String | | 100 | Email address for this address. In most cases, associating an email address with the contact makes more sense, but this field allows associating an email with the address as a whole.
+**Telephone** | String | | 25 | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
+**Fax** | String | | 25 | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
+**Organization** | String | | 50 | Company/Organization name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
 
 ### Contact
 
 The ``Contact`` object is made up of the following properties:
 
-Name | Type | Required | Description
+Name | Type | Required | Max Length | Description
 --- | --- | --- | ---
-**Title** | String | | Title for this contact, e.g. Mr/Mrs/Dr/...
-**Forename** | String | | Forename(s) for this contact. Either forname or surname must be filled in (or both, preferably)
-**Surname** | String | | Surname(s) for this contact. Either forname or surname must be filled in (or both, preferably)
-**Email** | String | | Primary email address for this contact. Can be used to (e.g.) send notifications/updates on order status
-**Mobile** | String | | Mobile phone number for this contact
+**Title** | String | | 20 | Title for this contact, e.g. Mr/Mrs/Dr/...
+**Forename** | String | | 50 | Forename(s) for this contact. Either forname or surname must be filled in (or both, preferably)
+**Surname** | String | | 50 | Surname(s) for this contact. Either forname or surname must be filled in (or both, preferably)
+**Email** | String | | 100 | Primary email address for this contact. Can be used to (e.g.) send notifications/updates on order status
+**Mobile** | String | | 30 | Mobile phone number for this contact
 **DateOfBirth** | [``DateTime``](#datetime) | | Date of birth for this contact, if known. May not be relevant to many businesses
 **OptInNewsletter** | Boolean | | Indicates whether this contact has explicity opted into (or out of) receiving newsletters. Leave blank if contact has no explicitily chosen an option and the system will not update any existing preferences against the contact
 
