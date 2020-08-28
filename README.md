@@ -338,21 +338,21 @@ For example when ``OneOf[SourceReturnReference]`` is specified and you provide `
 
 The ``Customer`` object is made up of the following properties:
 
-Name | Type | Required | Description
---- | --- | --- | ---
-**CreateNew** | String | Yes | Can either be ``IfNoMatch``, ``Always``, or ``Never``. This ensures that a new customer is created if one does not already exist, without a customer being assigned the order will not import
-**CompanyClass** | [``DataItem``](#dataitem) | Yes | Which classification this customer is in. All customers **must** have a classification
-**Currency** | [``DataItem``](#dataitem) | Yes | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
-**OtherRef** | String | | A reference, which is unique for other users
-**WebUser** | String | | The username of the user
-**CompanyType** | [``DataItem``](#dataitem) | | The company classification, which can be set in the System Data area of Khaos Control Cloud
-**CompanyName** | String | | Business/Company name for the customer. If left blank; e.g. for a residential consumer; Khaos Control will generate a company name from the contact details on the account
-**WebsiteUrl** | String | | The URL of the customer's website
-**SourceCode** | [``DataItem``](#dataitem) | | The sales source that should be imported with the order
-**MailingStatus** | [``DataItem``](#dataitem) | | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
-**TaxReference** | String | | The Tax Reference for the customer, typically a VAT number
-**URN** | String | | Unique Reference Number for this customer. Exclude this tag unless you know that the customer already exists in Khaos Control with that reference, or you wish to create a new account and are sure no customer with that URN already exists
-**CalculationMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. This wil set the default calculation method for the customer for all future order
+Name | Type | Required | Max Length | Description
+--- | --- | --- | --- | ---
+**CreateNew** | String | Yes | N/A | Can either be ``IfNoMatch``, ``Always``, or ``Never``. This ensures that a new customer is created if one does not already exist, without a customer being assigned the order will not import
+**CompanyClass** | [``DataItem``](#dataitem) | Yes | N/A | Which classification this customer is in. All customers **must** have a classification
+**Currency** | [``DataItem``](#dataitem) | Yes | N/A | What currency this customer purchases items in. All customers **must** have a currency. This cannot be changed once a customer has transactions recorded against them
+**OtherRef** | String | | 50 | A reference, which is unique for other users
+**WebUser** | String | | 50 | The username of the user
+**CompanyType** | [``DataItem``](#dataitem) | | N/A | The company classification, which can be set in the System Data area of Khaos Control Cloud
+**CompanyName** | String | | 50 | Business/Company name for the customer. If left blank; e.g. for a residential consumer; Khaos Control will generate a company name from the contact details on the account
+**WebsiteUrl** | String | | 50 | The URL of the customer's website
+**SourceCode** | [``DataItem``](#dataitem) | | N/A | The sales source that should be imported with the order
+**MailingStatus** | [``DataItem``](#dataitem) | | N/A | This can either be an ID or value. This goes against the Mailing Flag within Khaos Control Cloud
+**TaxReference** | String | | 20 | The Tax Reference for the customer, typically a VAT number
+**URN** | String | | N/A | Unique Reference Number for this customer. Exclude this tag unless you know that the customer already exists in Khaos Control with that reference, or you wish to create a new account and are sure no customer with that URN already exists
+**CalculationMethod** | Integer | | N/A | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. This wil set the default calculation method for the customer for all future order
 
 ### Address
 
