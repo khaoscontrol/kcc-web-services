@@ -434,6 +434,7 @@ Name | Type | Required | Description
 **SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
 **GrossTotal** | Double | | The final total value of the order. This is used to allow Khaos Control Cloud to automatically correct rounding differences that may have occurred during price calculations.
 **CustomData** | String | | A field that can be used to store any additional information which is required when the Order Status is sent back to the channel. E.g. If a customer facing reference has been passed through as Associated Ref, the internal ID for the order could be stored here, and this will be added onto the Order Status information.
+**Currency** | [``DataItem``](#dataitem) | | The currency of the order.
 
 ### OrderItem
 
@@ -542,7 +543,8 @@ Name | Type | Required | Description
 **TransactionID** | String | | An ID for transaction reference
 **PreauthRef** | String | | Reference provided by external payment provider.
 **AAVCV2Result** | String | | The result of the CV2 check
-**SecurityToken** | String | | The security ref or token given to you by a payment provider
+**SecurityRef** | String | | The security ref given to you by a payment provider.
+**SecurityToken** | String | | The security token given to you by a payment provider
 **Last4Digits** | String | | The last four digits of the card number, for reference
 **AccountNumber** | Integer | | Which card integration account to use in Khaos Control. If omitted, system will pick default based on currency or other rules
 **FraudData** | String | | Fraud data, for reference
