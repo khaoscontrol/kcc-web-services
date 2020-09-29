@@ -372,7 +372,7 @@ Name | Type | Required | Max Length | Description
 **Email** | String | | 100 | Email address for this address. In most cases, associating an email address with the contact makes more sense, but this field allows associating an email with the address as a whole.
 **Telephone** | String | | 25 | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
 **Fax** | String | | 25 | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
-**Organization** | String | | 50 | Company/Organization name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
+**Organisation** | String | | 50 | Company/Organisation name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
 
 ### Contact
 
