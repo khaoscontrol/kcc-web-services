@@ -39,6 +39,7 @@ Welcome to the documentation for the Khaos Control Cloud Web Services.
       - [CashPayment](#cashpayment)
       - [ChequePayment](#chequepayment)
       - [VoucherPayment](#voucherpayment)
+      - [BACSPayment](#bacspayment)
       - [CardPayment](#cardpayment)
       - [Price](#price)
       - [OrderImportConfig](#orderimportconfig)
@@ -501,7 +502,7 @@ The ``OrderPayment`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **Amount** | Double | Yes | The amount paid in this transaction
-**Cash** or <br/>**Cheque** or <br/>**Card** or<br/>**Voucher** | [``CashPayment``](#cashpayment)<br/>[``ChequePayment``](#chequepayment)<br/>[``CardPayment``](#cardpayment)<br/>[``VoucherPayment``](#voucherpayment) | Yes | What type of transaction was used when making the payment
+**Cash** or <br/>**Cheque** or <br/>**Card** or<br/>**Voucher** or<br/>**BACS** | [``CashPayment``](#cashpayment)<br/>[``ChequePayment``](#chequepayment)<br/>[``CardPayment``](#cardpayment)<br/>[``VoucherPayment``](#voucherpayment)<br/>[``BACSPayment``](#bacspayment) | Yes | What type of transaction was used when making the payment
 **BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
 
 ### CashPayment
@@ -527,6 +528,14 @@ The ``VoucherPayment`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **Reference** | string | Yes | Voucher reference. This is required so Khaos Control Cloud can match the payment against its list of issued vouchers
+
+### BACSPayment
+
+The ``BACSPayment`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**Reference** | string | | Payment reference, if you have a relevant payment reference to provide
 
 ### CardPayment
 
