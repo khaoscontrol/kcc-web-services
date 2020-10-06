@@ -374,6 +374,7 @@ Name | Type | Required | Max Length | Description
 **Telephone** | String | | 25 | Telephone number associated with this address. In most cases, associating a telephone with the contact makes more sense, but this field allows associating a number with the address as a whole - e.g. a telephone number for business
 **Fax** | String | | 25 | Fax number for this address. Stored by Khaos for reference purposes, although rarely used
 **Organisation** | String | | 50 | Company/Organisation name for this address. Seperate from the company placing the order! For example, you may wish to deliver an order to a work address for a different business
+**ShowCompanyName** | Boolean | | N/A | Controls whether the 'Name' tickbox is ticked on the imported order. This controls whether the Company Name is shown on reports
 
 ### Contact
 
