@@ -505,6 +505,8 @@ Name | Type | Required | Description
 **Amount** | Double | Yes | The amount paid in this transaction
 **Cash** or <br/>**Cheque** or <br/>**Card** or<br/>**Voucher** or<br/>**BACS** | [``CashPayment``](#cashpayment)<br/>[``ChequePayment``](#chequepayment)<br/>[``CardPayment``](#cardpayment)<br/>[``VoucherPayment``](#voucherpayment)<br/>[``BACSPayment``](#bacspayment) | Yes | What type of transaction was used when making the payment
 **BankAccount** | [``DataItem``](#dataitem) | | Which bank account in Khaos Control to record this payment against
+**CreditScore** | String | | The credit score of the customer to go along with this payment.
+**SecurityComment** | String | | Any security details to be imported alongside this payment.
 
 ### CashPayment
 
