@@ -993,6 +993,7 @@ Node | Child Node | Type | Required | Description
                <Currency Code="GBP" />
                <CompanyName>Mr Training</CompanyName>
                <MailingStatus ID="5" />
+               <TaxExempt>False</TaxExempt>
            </Customer>
            <InvoiceAddress>
                <Line1>1 3 Priest Court</Line1>
@@ -1071,6 +1072,7 @@ Node | Child Node | Type | Required | Description
                <Currency Code="GBP" />
                <CompanyName>Mr Training</CompanyName>
                <MailingStatus ID="5" />
+               <TaxExempt>False</TaxExempt>
            </Customer>
            <InvoiceAddress>
                <Line1>1 3 Priest Court</Line1>
@@ -1231,7 +1233,8 @@ Object | Type | Required | Description
          "MailingStatus": {
             "ID": ""
          },
-         "URN": "Amazo-0118"
+         "URN": "Amazo-0118",
+         "TaxExempt": false
       },
       "InvoiceAddress": {
          "Line1": "34 Blenheim Road",
