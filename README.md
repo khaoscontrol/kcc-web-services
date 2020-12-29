@@ -524,6 +524,11 @@ Name | Type | Required | Description
 **CreditScore** | String | | The credit score of the customer to go along with this payment.
 **SecurityComment** | String | | Any security details to be imported alongside this payment.
 
+NOTE: If no payments are against the order, how the order is treated on import is dependent on a few factors.
+  - If RemainderOnAccount is set to true in the order header, the order will be considered as an account order in all cases.
+  - If RemainderOnAccount is unset or false, the customer already exists in Khaos Control Cloud AND the customer is set to use account payments, the order will be considered as an account order.
+  - If RemainderOnAccount is unset or false, the customer does not exist in Khaos Control, or the customer exists in Khaos Control but is not set to use account payment, the order will be considered unpaid and will not have any payments against it.
+
 ### CashPayment
 
 The ``CashPayment`` object is made up of the following properties:
