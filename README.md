@@ -112,7 +112,7 @@ Welcome to the documentation for the Khaos Control Cloud Web Services.
       - [JSON](#json-8)
          - [Properties](#properties-8)
          - [Response](#response-3)
-   - [Price List Upload](#price-list)
+   - [Price List Upload](#price-list-upload)
      - [XML](#xml-8)
          - [Properties](#properties-9)
          - [Request](#request-6)
