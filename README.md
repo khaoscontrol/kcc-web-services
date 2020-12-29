@@ -1488,6 +1488,9 @@ Object | Type | Always present? | Description
 Defined as ``StockUpload`` in your ``configuration file``, the API will ``POST`` a request to your endpoint in the data format your specified. This can be used to update product descriptions or other properties on your website from the application. When you stock upload is linked for the first time, the API will push all stock items in bulk to your endpoint now and again until everything has been pushed, after that, stock will be pushed after modification by the user. 
 
 ### XML
+
+#### Request
+
 (example coming soon)
 
 ### JSON
