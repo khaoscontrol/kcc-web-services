@@ -980,6 +980,33 @@ There are slight differences between the ``XML`` and ``JSON`` outputs, these are
 }
 ```
 
+### PriceList
+
+The ``PriceList`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**PriceListID** | String | Yes | The unique identifier of the Price List in Khaos Control Cloud.
+**PriceListName** | String | Yes | The name of the Price List from Khaos Control Cloud.
+**StockPrices** | Array[[``PriceListStock``](#priceliststock)] | Yes | An array of ``PriceListStock`` items, representing the prices of the vaiour stock items that are part of the Price List.
+**ChannelID** | String | Yes | The internal ID of the channel that the price-list realtes to. This is used internally in our cloud system and you will likely not need to use this.
+
+### PriceListStock
+
+The ``PriceListStock`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**StockID** | String | Yes | The StockID from within Khaos Control Cloud.
+**StockCode** | String | Yes | The Stock Code from within Khaos Control Cloud.
+**StockDesc** | String | Yes | A brief description of the stock item, normally used as a name.
+**BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier.
+**SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer.
+**QtyStart** | Float | Yes | The lower-bound quantity of a purchase at which this price is used.
+**QtyEnd** | Float | Yes | The upper-bound quantity of a purchase at which this price is used.
+**PriceValue** | Float | Yes | The price-list adjusted sell price of the item, to be used if the quantity purchased falls between these QtyStart and QtyEnd.
+**PriceType** | Integer | Yes | Internal indicator for the price type in Khaos Control Cloud. You will likely not need to pay attention to this. In most cases this value will be 1.
+
 # Receiving &amp; Responding to server calls
 
 ## Order Download
