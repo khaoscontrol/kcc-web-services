@@ -1518,7 +1518,51 @@ Defined as ``StockUpload`` in your ``configuration file``, the API will ``POST``
 
 #### Request
 
-(example coming soon)
+```xml
+
+<StockItems>
+  <Items>
+    <StockItem>
+      <StockID>6027</StockID>
+      <StockCode>DRC1.JUSTINWBK115</StockCode>
+      <ShortDescription>Dr Comfort Justin Shoes Wide / Black / 11.01UK</ShortDescription>
+      <BuyPrice>
+        <Net>0</Net>
+      </BuyPrice>
+      <SellPrice>
+        <Gross>0</Gross>
+      </SellPrice>
+      <TaxRate Code="1" ID="1">Standard</TaxRate>
+      <StockType1 ID="18">Footwear</StockType1>
+      <StockType2 ID="14">[Footwear] Shoe</StockType2>
+      <Options>
+        <PublishOnWeb>True</PublishOnWeb>
+        <Discontinued>False</Discontinued>
+        <DropShipItem>False</DropShipItem>
+        <DiscountsDisabled>False</DiscountsDisabled>
+        <RunToZero>False</RunToZero>
+        <VatReliefQualified>False</VatReliefQualified>
+        <StockControlled>True</StockControlled>
+        <FreeText>False</FreeText>
+        <NonPhysical>False</NonPhysical>
+        <CustomOptions/>
+      </Options>
+      <SalesMultiple>1</SalesMultiple>
+      <LeadTime>1</LeadTime>
+      <ListingPrices/>
+      <ChannelListingPrice>
+        <Gross>0</Gross>
+      </ChannelListingPrice>
+      <SupplierInfo/>
+      <Images/>
+      <Barcodes/>
+      <UserDefinedFields/>
+    </StockItem>
+  </Items>
+  <Deleted/>
+</StockItems>
+
+```
 
 ### JSON
 
@@ -1531,99 +1575,59 @@ Object | Type | Always present? | Description
 
 #### Request
 ```json
+
 {
-  "Items": [
-    {
-      "StockID": "6027",
-      "StockCode": "100",
-      "ShortDescription": "Hippo Giant Driver",
-      "BuyPrice": {
-        "Net": 10.0
-      },
-      "SellPrice": {
-        "Net": 140.0
-      },
-      "TaxRate": {
-        "Name": "Standard",
-        "Code": "1",
-        "ID": "1"
-      },
-      "StockType1": {
-        "Name": "System & Misc Types",
-        "ID": "1"
-      },
-      "StockType2": {
-        "Name": "System & Miscellaneous",
-        "ID": "1"
-      },
-      "Options": {
-        "PublishOnWeb": true,
-        "Discontinued": false,
-        "DropShipItem": false,
-        "DiscountsDisabled": false,
-        "RunToZero": false,
-        "VatReliefQualified": false,
-        "StockControlled": true,
-        "FreeText": false,
-        "CustomOptions": []
-      },
-      "SalesMultiple": 1.0,
-      "LeadTime": 1,
-      "SupplierInfo": [],
-      "Images": [],
-      "Barcodes": []
-    },
-    {
-      "StockID": "6023",
-      "StockCode": "002253",
-      "ShortDescription": "Test",
-      "BuyPrice": {
-        "Net": 10.0
-      },
-      "SellPrice": {
-        "Net": 20.0
-      },
-      "TaxRate": {
-        "Name": "Standard",
-        "Code": "1",
-        "ID": "1"
-      },
-      "StockType1": {
-        "Name": "System & Misc Types",
-        "ID": "1"
-      },
-      "StockType2": {
-        "Name": "System & Miscellaneous",
-        "ID": "1"
-      },
-      "Options": {
-        "PublishOnWeb": true,
-        "Discontinued": false,
-        "DropShipItem": false,
-        "DiscountsDisabled": false,
-        "RunToZero": false,
-        "VatReliefQualified": false,
-        "StockControlled": true,
-        "FreeText": false,
-        "CustomOptions": []
-      },
-      "SalesMultiple": 1.0,
-      "LeadTime": 1,
-      "SupplierInfo": [],
-      "Images": [],
-      "Barcodes": [
+    "Deleted": [],
+    "Items": [
         {
-          "Barcode": "002253",
-          "Type": {
-            "Name": "Shopify",
-            "ID": "9"
-          }
+            "Barcodes": [],
+            "BuyPrice": {
+                "Net": 0.0
+            },
+            "ChannelListingPrice": {
+                "Gross": 0.0
+            },
+            "Images": [],
+            "LeadTime": 1,
+            "ListingPrices": [],
+            "Options": {
+                "CustomOptions": [],
+                "Discontinued": false,
+                "DiscountsDisabled": false,
+                "DropShipItem": false,
+                "FreeText": false,
+                "NonPhysical": false,
+                "PublishOnWeb": true,
+                "RunToZero": false,
+                "StockControlled": true,
+                "VatReliefQualified": false
+            },
+            "SalesMultiple": 1.0,
+            "SellPrice": {
+                "Gross": 0.0
+            },
+            "ShortDescription": "Dr Comfort Justin Shoes Wide / Black / 11.01UK",
+            "StockCode": "DRC1.JUSTINWBK115",
+            "StockID": "6027",
+            "StockType1": {
+                "ID": "18",
+                "Name": "Footwear"
+            },
+            "StockType2": {
+                "ID": "14",
+                "Name": "[Footwear] Shoe"
+            },
+            "SupplierInfo": [],
+            "TaxRate": {
+                "Code": "1",
+                "ID": "1",
+                "Name": "Standard"
+            },
+            "UserDefinedFields": []
         }
-      ]
-    }
-  ],
-  "Deleted": []
+    ]
 }
+
 ```
 
 ## Stock Status Upload
