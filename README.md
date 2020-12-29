@@ -106,6 +106,13 @@ Welcome to the documentation for the Khaos Control Cloud Web Services.
       - [JSON](#json-8)
          - [Properties](#properties-8)
          - [Response](#response-3)
+   - [Price List Upload](#price-list)
+     - [XML](#xml-8)
+         - [Properties](#properties-9)
+         - [Request](#request-4)
+      - [JSON](#json-9)
+         - [Properties](#properties-10)
+         - [Request](#request-5)
 
 <!-- /TOC -->
 
@@ -164,6 +171,9 @@ Object | Property | Required | Description
 **[ProvidedStock](#stock-upload)** | | | The endpoint from which Khaos Control Cloud can pull stock data from for download into the system. See ``StockChanges`` for details on how you should export your data.
 | | URL | | The URL of the endpoint, where Khaos Control Cloud GETs data from you for import
 | | Format | | The format of information that you export, either ``XML`` or ``JSON``
+**[PriceListUpload](#price-list)** | | | The endpoint where Khaos Control Cloud will push pricelist data to you. These price lists contain relevant structured prices for various tsock items, as set up within Khaos Control Cloud
+| | URL | | The URL of the endpoint, where data is POSTed for you to process
+| | Format | | The format of which to export the information, either ``XML`` or ``JSON``
 
 Note that the sub-properties (URL, Format, Frequency) are required if the parent endpoint is specified. For simplicity's sake, only the endpoints that are essential and their sub-properties are noted as required above.
 
@@ -1896,6 +1906,316 @@ Object | Type | Required | Description
          "Surname"
       ]
    }
+}
+
+```
+
+## Price List Upload
+
+This is defined as your ``PriceListUpload`` object within your Configuration file. The endpoint (URL) you specify will be posted to regularly to provide you with updated price list data exported from Khaos Control Cloud.
+
+### XML
+
+#### Properties
+
+Object | Type | Required | Description
+--- | --- | --- | ---
+**UploadPriceLists** | Array[[``PriceList``](#pricelist)] | Yes | An array containing ``PriceList`` objects.
+
+### Request
+
+```xml
+
+<PriceLists>
+  <UploadPriceLists>
+    <PriceList>
+      <PriceListID>41</PriceListID>
+      <PriceListName>Channel 2 Price List</PriceListName>
+      <StockPrices>
+        <PriceListStock>
+          <StockID>19</StockID>
+          <StockCode>002253</StockCode>
+          <StockDesc>002253 -A</StockDesc>
+          <BuyPrice>
+            <Net>9.99</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>12</Gross>
+          </SellPrice>
+          <QtyStart>1</QtyStart>
+          <QtyEnd>99999</QtyEnd>
+          <PriceValue>8.75</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+        <PriceListStock>
+          <StockID>3386</StockID>
+          <StockCode>01234567890123456789012345678901234567890123456789</StockCode>
+          <StockDesc>Item with long SKU</StockDesc>
+          <BuyPrice>
+            <Net>0.01</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>18</Gross>
+          </SellPrice>
+          <QtyStart>1</QtyStart>
+          <QtyEnd>99999</QtyEnd>
+          <PriceValue>2502</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+        <PriceListStock>
+          <StockID>3839</StockID>
+          <StockCode>01571</StockCode>
+          <StockDesc>Test Item 102 - Stock ID 3839 Blah</StockDesc>
+          <BuyPrice>
+            <Net>7</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>33.44</Gross>
+          </SellPrice>
+          <QtyStart>8</QtyStart>
+          <QtyEnd>99999</QtyEnd>
+          <PriceValue>72.25</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+        <PriceListStock>
+          <StockID>3839</StockID>
+          <StockCode>01571</StockCode>
+          <StockDesc>Test Item 102 - Stock ID 3839 Blah</StockDesc>
+          <BuyPrice>
+            <Net>7</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>33.44</Gross>
+          </SellPrice>
+          <QtyStart>1</QtyStart>
+          <QtyEnd>4</QtyEnd>
+          <PriceValue>134.25</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+        <PriceListStock>
+          <StockID>3839</StockID>
+          <StockCode>01571</StockCode>
+          <StockDesc>Test Item 102 - Stock ID 3839 Blah</StockDesc>
+          <BuyPrice>
+            <Net>7</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>33.44</Gross>
+          </SellPrice>
+          <QtyStart>4</QtyStart>
+          <QtyEnd>6</QtyEnd>
+          <PriceValue>131.13</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+        <PriceListStock>
+          <StockID>3839</StockID>
+          <StockCode>01571</StockCode>
+          <StockDesc>Test Item 102 - Stock ID 3839 Blah</StockDesc>
+          <BuyPrice>
+            <Net>7</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>33.44</Gross>
+          </SellPrice>
+          <QtyStart>7</QtyStart>
+          <QtyEnd>10</QtyEnd>
+          <PriceValue>6.22</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+      </StockPrices>
+      <ChannelID>166</ChannelID>
+    </PriceList>
+    <PriceList>
+      <PriceListID>43</PriceListID>
+      <PriceListName>Channel Price 3 List</PriceListName>
+      <StockPrices>
+        <PriceListStock>
+          <StockID>3386</StockID>
+          <StockCode>01234567890123456789012345678901234567890123456789</StockCode>
+          <StockDesc>Item with long SKU</StockDesc>
+          <BuyPrice>
+            <Net>0.01</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>18</Gross>
+          </SellPrice>
+          <QtyStart>1</QtyStart>
+          <QtyEnd>99999</QtyEnd>
+          <PriceValue>33.33</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+        <PriceListStock>
+          <StockID>3839</StockID>
+          <StockCode>01571</StockCode>
+          <StockDesc>Test Item 102 - Stock ID 3839 Blah</StockDesc>
+          <BuyPrice>
+            <Net>7</Net>
+          </BuyPrice>
+          <SellPrice>
+            <Gross>33.44</Gross>
+          </SellPrice>
+          <QtyStart>1</QtyStart>
+          <QtyEnd>99999</QtyEnd>
+          <PriceValue>23.24</PriceValue>
+          <PriceType>1</PriceType>
+        </PriceListStock>
+      </StockPrices>
+      <ChannelID>166</ChannelID>
+    </PriceList>
+  </UploadPriceLists>
+</PriceLists>
+
+```
+
+### JSON
+
+#### Properties
+
+Object | Type | Required | Description
+--- | --- | --- | ---
+**UploadPriceLists** | Array[[``PriceList``](#pricelist)] | Yes | An array containing ``PriceList`` objects.
+
+### Request
+
+```json
+
+{
+    "UploadPriceLists": [
+        {
+            "ChannelID": "166",
+            "PriceListID": "41",
+            "PriceListName": "Channel 2 Price List",
+            "StockPrices": [
+                {
+                    "BuyPrice": {
+                        "Net": 9.99
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 8.75,
+                    "QtyEnd": 99999.0,
+                    "QtyStart": 1.0,
+                    "SellPrice": {
+                        "Gross": 12.0
+                    },
+                    "StockCode": "002253",
+                    "StockDesc": "002253 -A",
+                    "StockID": "19"
+                },
+                {
+                    "BuyPrice": {
+                        "Net": 0.01
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 2502.0,
+                    "QtyEnd": 99999.0,
+                    "QtyStart": 1.0,
+                    "SellPrice": {
+                        "Gross": 18.0
+                    },
+                    "StockCode": "01234567890123456789012345678901234567890123456789",
+                    "StockDesc": "Item with long SKU",
+                    "StockID": "3386"
+                },
+                {
+                    "BuyPrice": {
+                        "Net": 7.0
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 72.25,
+                    "QtyEnd": 99999.0,
+                    "QtyStart": 8.0,
+                    "SellPrice": {
+                        "Gross": 33.44
+                    },
+                    "StockCode": "01571",
+                    "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
+                    "StockID": "3839"
+                },
+                {
+                    "BuyPrice": {
+                        "Net": 7.0
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 134.25,
+                    "QtyEnd": 4.0,
+                    "QtyStart": 1.0,
+                    "SellPrice": {
+                        "Gross": 33.44
+                    },
+                    "StockCode": "01571",
+                    "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
+                    "StockID": "3839"
+                },
+                {
+                    "BuyPrice": {
+                        "Net": 7.0
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 131.13,
+                    "QtyEnd": 6.0,
+                    "QtyStart": 4.0,
+                    "SellPrice": {
+                        "Gross": 33.44
+                    },
+                    "StockCode": "01571",
+                    "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
+                    "StockID": "3839"
+                },
+                {
+                    "BuyPrice": {
+                        "Net": 7.0
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 6.22,
+                    "QtyEnd": 10.0,
+                    "QtyStart": 7.0,
+                    "SellPrice": {
+                        "Gross": 33.44
+                    },
+                    "StockCode": "01571",
+                    "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
+                    "StockID": "3839"
+                }
+            ]
+        },
+        {
+            "ChannelID": "166",
+            "PriceListID": "43",
+            "PriceListName": "Channel Price 3 List",
+            "StockPrices": [
+                {
+                    "BuyPrice": {
+                        "Net": 0.01
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 33.33,
+                    "QtyEnd": 99999.0,
+                    "QtyStart": 1.0,
+                    "SellPrice": {
+                        "Gross": 18.0
+                    },
+                    "StockCode": "01234567890123456789012345678901234567890123456789",
+                    "StockDesc": "Item with long SKU",
+                    "StockID": "3386"
+                },
+                {
+                    "BuyPrice": {
+                        "Net": 7.0
+                    },
+                    "PriceType": 1,
+                    "PriceValue": 23.24,
+                    "QtyEnd": 99999.0,
+                    "QtyStart": 1.0,
+                    "SellPrice": {
+                        "Gross": 33.44
+                    },
+                    "StockCode": "01571",
+                    "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
+                    "StockID": "3839"
+                }
+            ]
+        }
+    ]
 }
 
 ```
