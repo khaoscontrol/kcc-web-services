@@ -1009,8 +1009,8 @@ Name | Type | Required | Description
 **SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer.
 **QtyStart** | Float | Yes | The lower-bound quantity of a purchase at which this price is used.
 **QtyEnd** | Float | Yes | The upper-bound quantity of a purchase at which this price is used.
-**PriceValue** | Float | Yes | The price-list adjusted sell price of the item, to be used if the quantity purchased falls between these QtyStart and QtyEnd.
-**PriceType** | Integer | Yes | Internal indicator for the price type in Khaos Control Cloud. You will likely not need to pay attention to this. In most cases this value will be 1.
+**PriceValue** | Float | Yes | The price-list adjusted sell price of the item, to be used if the quantity purchased falls between these QtyStart and QtyEnd. This can be calculated in 3 ways: 1) The amount column from the pricelist. 2) If the amount column is 0, but there is a discount, it will use Sell Price - (Sell Price * (Discount / 100)). 3) If the amount column is 0 and discount is 0, it will use Buy Price * (Mark Up / 100 + 1).
+**PriceType** | Integer | Yes | Internal indicator for the price type in Khaos Control Cloud. You will likely not need to pay attention to this. In most cases this value will be 1. It can also be 2 or 3 dependant on how the the PriceValue field has been calculated. The number used correlates to the numbered descriptions from the PriceValue description above.
 
 # Receiving &amp; Responding to server calls
 
