@@ -139,6 +139,8 @@ Error codes will make the API try again, therefore if you do not respond with a 
 
 Your configuration file should be accessible via a URL that is specified within the Khaos Control Cloud application. Once our API knows about this file it will cache it once a day, or you can force a manual update from within Khaos Control Cloud. 
 
+**Please note** - The ``Configuration URL`` field on the channel setup must be pointing to either a JSON or XML file, not to a webpage endpoint in order for the information to be picked up correctly. 
+
 As part of the configuration file retrieval, the API sends a GET request to it with an Authorisation Header, as below:
 
 ```Authorization: Basic [Username:Password encoded as Base 64 string]```
