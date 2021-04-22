@@ -436,10 +436,10 @@ Name | Type | Required | Description
 **Courier** | [``DataItem``](#dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
 **CourierGroup** | [``DataItem``](#dataitem) | | Which group of courier services to ship the order with; use this if you want to restrict Khaos Control to shipping via a group/type of courier(s), but allowing it to select which specific courier service to use based on courier rules. For example, a Khaos Control system might have a courier group of "Next Day", which selects from many different next day services depending on package size, weight and destination
 **Keycode** | [``DataItem``](#dataitem) | | The keycode to use with this order
-**SalesSource** | [``DataItem``](#dataitem) | Yes | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control
+**SalesSource** | [``DataItem``](#dataitem) | Yes | The sales source of the order. For example, you could use "WEB". These sources must exist in Khaos Control. Please note that SalesSource does not support matching by Code.
 **Client** | [``DataItem``](#dataitem) | |
 **Website** | [``DataItem``](#dataitem) | |
-**Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of
+**Brand** | [``DataItem``](#dataitem) | | The brand that the order is part of. Please note that Brand does not support matching by Code.
 **InvoicePriority** | [``DataItem``](#dataitem) | | The priority setting for the invoice, which must exist in Khaos Control
 **DiscountCodes** | Array[[``DataItem``](#dataitem)] | Yes | An array of discount codes for the order. If you want to use the alias codes, you must specify the code value, in which case the name will be ignored. Name is only useful to match on a (non alias) discount code
 **OrderNote** | String | | The note for the order
