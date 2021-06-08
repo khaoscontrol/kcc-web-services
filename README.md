@@ -474,7 +474,7 @@ Name | Type | Required | Description
 **ImportRef** | String | | Optional item reference from the website/source. Will be passed back in any future order updates
 **WebItemRef** | String | | Second item reference from the website/source. Will be passed back in any future order updates
 **Site** | [``DataItem``](#dataitem) | | The site that this item will be fulfilled from. Usually this isn't specified, and the site recorded against the entire order is used
-**PackLink** | String | |
+**PackLink** | String | | Used to import pack header / child item relationships together on an order. Uses a format of 3 digits, a full stop, then 3 more digits. Related items will use the same first 3 digits, e.g. 001.001 for the header item, then 001.002, 001.003 etc. for the child items.
 **UnitPrice** | [``Price``](#price) | Yes | Unit price, i.e. price for a single item. This is required for accurate pricing of orders.
 **PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
 **ValueDiscount** | Double | | Discount amount to apply to the line item. This is the preferred discount field to use against an item as it helps to prevent rounding differences. As per PercentDiscount, when using this field, the unit price will need to be the price before discount. For Khaos Control, this field can only be used for versions 8.190.36 onwards.
