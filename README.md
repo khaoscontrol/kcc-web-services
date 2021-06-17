@@ -458,7 +458,7 @@ Name | Type | Required | Description
 **CustomData** | String | | A field that can be used to store any additional information which is required when the Order Status is sent back to the channel. E.g. If a customer facing reference has been passed through as Associated Ref, the internal ID for the order could be stored here, and this will be added onto the Order Status information.
 **Currency** | [``DataItem``](#dataitem) | | The currency of the order.
 **VATReliefQualified** | Boolean | | This field can be used to mark an order as Vat Relief Qualified, meaning VAT will not be charged on items that are marked as VRQ in Khaos Control.
-**IOSSNumber** | String | | This field is used to send down the IOSS Number for the order which is then passed onto the Courier when the order is shipped. For Khaos Control, this field will be available from version 8.201 onwards. The system which picks up orders will be updated to recognise this field on 17th June 2021.
+**IOSSNumber** | String | | This field is used to send down the IOSS Number for the order which is then passed onto the Courier when the order is shipped. For Khaos Control, this field will be available from version 8.201 onwards. The system which picks up orders will be updated to recognise this field on 21st June 2021.
 
 ### OrderItem
 
