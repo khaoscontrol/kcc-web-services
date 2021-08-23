@@ -22,38 +22,38 @@
    $returns = array(
       "AssociatedRef" => "AREF1530" . date("mdH"),
       "CreatedDate" => date("Y-m-d\TH:i:s", time()),
-      "URN" => "TOMA",
+      "URN" => "TEST",
       "InvoiceAddress" => arraY(
-         "Line1" => "34 Blenheim Road",
-         "Town" => "LONDON",
-         "Postcode" => "E17 6HS",
+         "Line1" => "1 - 3 Priest Court",
+         "Town" => "Grantham",
+         "Postcode" => "NG31 7FZ",
          "Country" => array(
             "Code" => "GB"
          ),
-         "Telephone" => "07920405926",
-         "Organisation" => "Toma Vaitiekute"
+         "Telephone" => "01234567890",
+         "Organisation" => "Khaos Control Cloud Ltd"
       ),
       "InvoiceContact" => arraY(
-         "Surname" => "Vaitiekute",
-         "Email" => "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+         "Surname" => "Tester",
+         "Email" => "test@testing.com"
       ),
       "DeliveryAddress" => arraY(
-         "Line1" => "38 Blenheim Road",
-         "Town" => "LONDON",
-         "Postcode" => "E17 6HS",
+         "Line1" => "1 - 3 Priest Court",
+         "Town" => "Grantham",
+         "Postcode" => "NG31 7FZ",
          "Country" => array(
             "Code" => "GB"
          ),
-         "Telephone" => "07920405926",
-         "Organisation" => "Toma Vaitiekute"
+         "Telephone" => "01234567890",
+         "Organisation" => "Khaos Control Cloud Ltd"
       ),
       "InvoiceContact" => arraY(
-         "Forename" => "Karen",
-         "Email" => "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+         "Forename" => "Test",
+         "Email" => "test@testing.com"
       ),  
       "ReturnedItems" => array(
          array(
-            "SKU" => "B0714PRW7R",
+            "SKU" => "TESTITEM001",
             "Mapping" => array(array("Mapping" => "StockCode")),
             "Quantity" => 3.0,
             "ReturnReason" => array(
@@ -69,7 +69,7 @@
       ),
       "ExchangeItems" => array(
          array(
-            "SKU" => "B0714PRW7R-10",
+            "SKU" => "TESTITEM002",
             "Mapping" => array(array("Mapping" => "StockCode")),
             "Quantity" => 1.0,
             "ExtendedDescription" => array(
