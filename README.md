@@ -998,6 +998,7 @@ Name | Type | Required | Description
 **PriceListName** | String | Yes | The name of the Price List from Khaos Control Cloud.
 **StockPrices** | Array[[``PriceListStock``](#priceliststock)] | Yes | An array of ``PriceListStock`` items, representing the prices of the vaiour stock items that are part of the Price List.
 **ChannelID** | String | Yes | The internal ID of the channel that the price-list realtes to. This is used internally in our cloud system and you will likely not need to use this.
+**PriceListNet** | Boolean | No | *Coming Soon* This field indicates whether the PriceValue field provided against the items will be a Net price, or a Gross price. When this is set to true, the PriceValue field will be a Net price. And when false, the PriceValue field will be a Gross price.
 
 ### PriceListStock
 
@@ -1009,10 +1010,10 @@ Name | Type | Required | Description
 **StockCode** | String | Yes | The Stock Code from within Khaos Control Cloud.
 **StockDesc** | String | Yes | A brief description of the stock item, normally used as a name.
 **BuyPrice** | [``Price``](#price) | Yes | The general purchase price of the item, e.g. The cost of the item from the supplier.
-**SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer.
+**SellPrice** | [``Price``](#price) | Yes | The general selling price of the item to a customer. This is not the the price list adjusted sell price of the item, just the sell price that has been set against the stock item within Khaos Control Cloud. For the price to charge customers when the quantity bought is between the QtyStart and QtyEnd values, please use the PriceValue field.
 **QtyStart** | Float | Yes | The lower-bound quantity of a purchase at which this price is used.
 **QtyEnd** | Float | Yes | The upper-bound quantity of a purchase at which this price is used.
-**PriceValue** | Float | Yes | The price-list adjusted sell price of the item, to be used if the quantity purchased falls between these QtyStart and QtyEnd. This can be calculated in 3 ways: 1) The amount column from the pricelist. 2) If the amount column is 0, but there is a discount, it will use Sell Price - (Sell Price * (Discount / 100)). 3) If the amount column is 0 and discount is 0, it will use Buy Price * (Mark Up / 100 + 1).
+**PriceValue** | Float | Yes | The price-list adjusted sell price of the item, to be used if the quantity purchased falls between the QtyStart and QtyEnd. To determine whether this price is Net or Gross, please refer to the PriceListNet field against the [``PriceList``](#pricelist) object. This can be calculated in 3 ways: 1) The amount column from the pricelist. 2) If the amount column is 0, but there is a discount, it will use Sell Price - (Sell Price * (Discount / 100)). 3) If the amount column is 0 and discount is 0, it will use Buy Price * (Mark Up / 100 + 1).
 **PriceType** | Integer | Yes | Internal indicator for the price type in Khaos Control Cloud. You will likely not need to pay attention to this. In most cases this value will be 1. It can also be 2 or 3 dependant on how the the PriceValue field has been calculated. The number used correlates to the numbered descriptions from the PriceValue description above.
 
 # Receiving &amp; Responding to server calls
@@ -2072,6 +2073,7 @@ Object | Type | Required | Description
         </PriceListStock>
       </StockPrices>
       <ChannelID>166</ChannelID>
+      <PriceListNet>false</PriceListNet>
     </PriceList>
     <PriceList>
       <PriceListID>43</PriceListID>
@@ -2109,6 +2111,7 @@ Object | Type | Required | Description
         </PriceListStock>
       </StockPrices>
       <ChannelID>166</ChannelID>
+      <PriceListNet>true</PriceListNet>
     </PriceList>
   </UploadPriceLists>
 </PriceLists>
@@ -2224,7 +2227,8 @@ Object | Type | Required | Description
                     "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
                     "StockID": "3839"
                 }
-            ]
+            ],
+            "PriceListNet": false
         },
         {
             "ChannelID": "166",
@@ -2261,7 +2265,8 @@ Object | Type | Required | Description
                     "StockDesc": "Test Item 102 - Stock ID 3839 Blah",
                     "StockID": "3839"
                 }
-            ]
+            ],
+            "PriceListNet": true
         }
     ]
 }
