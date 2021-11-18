@@ -1093,7 +1093,7 @@ Node | Child Node | Type | Required | Description
                    <Mapping>OtherRef</Mapping>
                    <Quantity>1</Quantity>
                    <StockDescription Source="Explicit">
-                       Sophie Allport Fine Bone China Mug - Black Cat &amp; Bones (comes boxed) (Standard (275ml))
+                       Fine Bone China Mug - Black Cat &amp; Bones (comes boxed) (Standard (275ml))
                    </StockDescription>
                    <ImportRef>35215487482515</ImportRef>
                    <UnitPrice>
@@ -1114,6 +1114,7 @@ Node | Child Node | Type | Required | Description
                        <IsPreauth>False</IsPreauth>
                        <AuthCode>AMAZON</AuthCode>
                    </Card>
+                   <BankAccount>AccountName</BankAccount>
                </OrderPayment>
            </Payments>
        </SalesOrder>
@@ -1178,6 +1179,7 @@ Node | Child Node | Type | Required | Description
                        <IsPreauth>False</IsPreauth>
                        <AuthCode>AMAZON</AuthCode>
                    </Card>
+                   <BankAccount>AccountName</BankAccount>
                </OrderPayment>
            </Payments>
        </SalesOrder>
@@ -1188,17 +1190,17 @@ Node | Child Node | Type | Required | Description
                <Currency Code="GBP" />
            </Customer>
            <InvoiceAddress>
-               <Line1>141 HORESEDGE STREET</Line1>
+               <Line1>1 - 3 Priest Court</Line1>
                <Line2/>
-               <Town>OLDHAM</Town>
-               <Postcode>OL1 3DU</Postcode>
+               <Town>Grantham</Town>
+               <Postcode>NG31 7FZ</Postcode>
                <Country Code="GB" />
-               <Telephone>7487752128</Telephone>
+               <Telephone>03302235212</Telephone>
            </InvoiceAddress>
            <InvoiceContact>
-               <Forename>GEORGIA</Forename>
-               <Surname>POLLITT</Surname>
-               <Email>georgia13121@msn.com</Email>
+               <Forename>Test</Forename>
+               <Surname>Customer</Surname>
+               <Email>email@test.com</Email>
            </InvoiceContact>
            <Header>
                <AssociatedRef>EB112487714881-1688638562001</AssociatedRef>
@@ -1244,6 +1246,7 @@ Node | Child Node | Type | Required | Description
                        <AuthCode>EBAY</AuthCode>
                        <TransactionID>112487714881-1688638562001</TransactionID>
                    </Card>
+                   <BankAccount>Account Name</BankAccount>
                </OrderPayment>
            </Payments>
        </SalesOrder>
@@ -1289,18 +1292,18 @@ Object | Type | Required | Description
          "TaxExempt": false
       },
       "InvoiceAddress": {
-         "Line1": "34 Blenheim Road",
-         "Town": "LONDON",
-         "Postcode": "E17 6HS",
+         "Line1": "1 - 3 Priest Court",
+         "Town": "Grantham",
+         "Postcode": "NG31 7FZ",
          "Country": {
             "Code": "GB"
          },
-         "Telephone": "07920405926",
-         "Organisation": "Toma Vaitiekute"
+         "Telephone": "03302235212",
+         "Organisation": "Khaos Control Solutions Ltd"
       },
       "InvoiceContact": {
-         "Surname": "Toma",
-         "Email": "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+         "Surname": "Test",
+         "Email": "3email@test.com"
       },
       "Header": {
          "AssociatedRef": "026-0800930-3625904AZ",
@@ -1353,6 +1356,9 @@ Object | Type | Required | Description
             "CardType": "Amazon",
             "IsPreauth": false,
             "AuthCode": "AMAZON"
+         },
+         "BankAccount": {
+            "Name": "Account Name"
          }
       }]
    }],
@@ -1807,24 +1813,24 @@ Node | Child Node | Type | Required | Description
          <CreatedDate>2018-06-28T15:18:39</CreatedDate>
          <URN>TOMA</URN>
          <InvoiceAddress>
-            <Line1>34 Blenheim Road</Line1>
-            <Town>LONDON</Town>
-            <Postcode>E17 6HS</Postcode>
+            <Line1>1 - 3 Priest Court</Line1>
+            <Town>Grantham</Town>
+            <Postcode>NG31 7FZ</Postcode>
             <Country Code="GB"/>
-            <Telephone>07920405926</Telephone>
-            <Organisation>Toma Vaitiekute</Organisation>
+            <Telephone>03302235212</Telephone>
+            <Organisation>Khaos Control Solutions Ltd</Organisation>
          </InvoiceAddress>
          <InvoiceContact>
-            <Forename>Karen</Forename>
-            <Email>3ff90pf51cg8kk4@marketplace.amazon.co.uk</Email>
+            <Forename>Test</Forename>
+            <Email>email@test.com</Email>
          </InvoiceContact>
          <DeliveryAddress>
-            <Line1>38 Blenheim Road</Line1>
-            <Town>LONDON</Town>
-            <Postcode>E17 6HS</Postcode>
+            <Line1>1 - 3 Priest Court</Line1>
+            <Town>Grantham</Town>
+            <Postcode>NG31 7FZ</Postcode>
             <Country Code="GB"/>
-            <Telephone>07920405926</Telephone>
-            <Organisation>Toma Vaitiekute</Organisation>
+            <Telephone>03302235212</Telephone>
+            <Organisation>Khaos Control Solutions Ltd</Organisation>
          </DeliveryAddress>
          <ReturnItems>
             <ReturnItem>
@@ -1887,28 +1893,28 @@ Object | Type | Required | Description
       "CreatedDate": "2018-06-28T15:14:56",
       "URN": "TOMA",
       "InvoiceAddress": {
-         "Line1": "34 Blenheim Road",
-         "Town": "LONDON",
-         "Postcode": "E17 6HS",
+         "Line1": "1 - 3 Priest Court",
+         "Town": "Grantham",
+         "Postcode": "NG31 7FZ",
          "Country": {
             "Code": "GB"
          },
-         "Telephone": "07920405926",
-         "Organisation": "Toma Vaitiekute"
+         "Telephone": "03302235212",
+         "Organisation": "Khaos Control Solutions Ltd"
       },
       "InvoiceContact": {
-         "Forename": "Karen",
-         "Email": "3ff90pf51cg8kk4@marketplace.amazon.co.uk"
+         "Forename": "Test",
+         "Email": "email.@test.com"
       },
       "DeliveryAddress": {
-         "Line1": "38 Blenheim Road",
-         "Town": "LONDON",
-         "Postcode": "E17 6HS",
+         "Line1": "1 - 3 Priest Court",
+         "Town": "Grantham",
+         "Postcode": "NG31 7FZ",
          "Country": {
             "Code": "GB"
          },
-         "Telephone": "07920405926",
-         "Organisation": "Toma Vaitiekute"
+         "Telephone": "03302235212",
+         "Organisation": "Khaos Control Solutions Ltd"
       },
       "ReturnItems": [
          {
