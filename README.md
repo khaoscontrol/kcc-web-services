@@ -430,7 +430,7 @@ The ``OrderHeader`` object is made up of the following properties:
 Name | Type | Required | Description
 --- | --- | --- | ---
 **AssociatedRef** | String | Yes | Order reference number. This **must** be unique amongst all orders from a given website/source. When sending updates for order status, the ``AssociatedRef`` will be passed back to the source website, so it can tell which order has changed
-**OrderDate** | [``DateTime``](#datetime) | Yes | The date the order was **placed**.
+**OrderDate** | [``DateTime``](#datetime) | Yes | The date & time that the order was **placed**. It's recommended to provide the time part of this to allow for orders to be brought into Khaos Control Cloud in the order that they were placed on the website.
 **Site** | [``DataItem``](#dataitem) | Yes | Which site/location the order should be fulfilled from
 **Agent** | [``DataItem``](#dataitem) | | Which sales agent to attribute the sale to
 **Courier** | [``DataItem``](#dataitem) | | Which courier to ship the order with. Note that rules within Khaos Control may override this selection
