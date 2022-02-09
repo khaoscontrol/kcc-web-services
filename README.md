@@ -570,7 +570,7 @@ The ``CardPayment`` object is made up of the following properties:
 
 Name | Type | Required | Description
 --- | --- | --- | ---
-**CardType** | String | Yes | The type of the credit card, e.g. VISA, AMEX. If not known, then specify the payment service to authorized the card
+**CardType** | String | Yes | The type of the credit card, e.g. VISA, AMEX. If not known, then specify the payment service to authorized the card. This has a limit of 25 characters.
 **IsPreauth** | Boolean | Yes | Specify whether the card payment is a pre-authorization, or a full authorization. Pre-authorization reserves the amount against the card, whereas full authorization will take payment
 **CardNumber** | String | | Credit card number. In most situations, this won't be required
 **CardStart** | String | | Start date, if present. This is in the format of MMYY; e.g. 1118
@@ -1030,7 +1030,7 @@ Node | Child Node | Type | Required | Description
 --- | --- | --- | --- | ---
 **SalesOrderImport** | | | Yes | The root node of the XML file
 | | **Orders** | Array[[``SalesOrder``](#salesorder)] | Yes | A parent node containing all of the sales orders
-| | **ApiVersion** | Integer | Yes | Must be set to **10000* and always present if there are orders or not
+| | **ApiVersion** | Integer | Yes | Must be set to **1000* and always present if there are orders or not
 | | **Config** | [``OrderImportConfig``](#orderimportconfig) | | The config options to be used with this import
 
 #### Response
@@ -1362,7 +1362,7 @@ Object | Type | Required | Description
          }
       }]
    }],
-   "ApiVersion": 10000,
+   "ApiVersion": 1000,
    "Config": {
       "MatchCompanyOn": ["CompanyCode"],
       "MatchAddressOn": ["Postcode"],
@@ -1866,7 +1866,7 @@ Node | Child Node | Type | Required | Description
          </ExchangeItems>
       </CustomerReturn>
    </Returns>
-   <ApiVersion>10000</ApiVersion>
+   <ApiVersion>1000</ApiVersion>
    <Config>
       <MatchAddressOn>Address1</MatchAddressOn>
       <MatchAddressOn>Postcode</MatchAddressOn>
@@ -1951,7 +1951,7 @@ Object | Type | Required | Description
          }
       ]
    },
-   "ApiVersion": 10000,
+   "ApiVersion": 1000,
    "Config": {
       "MatchAddressOn": [
          "Address1",
