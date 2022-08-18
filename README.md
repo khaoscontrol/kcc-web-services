@@ -634,7 +634,7 @@ There are slight differences between the ``XML`` and ``JSON`` outputs, these are
 #### JSON
 
 ```json
-"config": {
+"Config": {
    "MatchCompanyOn": ["Address1", "CompanyCode"],
    "MatchAddressOn": ["Address1", "Postcode"],
    "MatchContactOn": ["Surname"]
