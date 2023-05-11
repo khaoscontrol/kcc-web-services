@@ -160,28 +160,28 @@ The data structure must be wrapped inside an ``EndpointConfig`` property and can
 Object | Property | Required | Description
 --- | --- | --- | ---
 **[OrderDownload](#order-download)** | | Yes | The endpoint for where your orders can be imported into Khaos Control Cloud
-| | URL | Yes | The URL of the endpoint, where data is POSTed for you to process
+| | URL | Yes | The URL of the endpoint, where Khaos Control Cloud GETs data from you for import
 | | Frequency | Yes | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | Yes | The format of the file you have produced, either ``XML`` or ``JSON``
 **[OrderStatusUpload](#order-status-upload)** | | | The endpoint of where the status information will be POSTed to
 | | URL | | The URL of the endpoint, where data is POSTed for you to process
-| | Format | | The format of which to export the information, either ``XML`` or ``JSON``
+| | Format | | The format of which to receive the information, either ``XML`` or ``JSON``
 **[StockStatusUpload](#stock-status-upload)** | | Yes | This will define the endpoint to sync Stock Statuses
 | | URL | Yes | The URL of the endpoint, where data is POSTed for you to process
-| | Format | Yes | The format of which to export the information, either ``XML`` or ``JSON``
+| | Format | Yes | The format of which to receive the information, either ``XML`` or ``JSON``
 **[StockUpload](#stock-upload)** | | Yes | The endpoint of where stock is exported to, so you can update this on your website. See ``StockExport`` for details on the data being exported to you
 | | URL | Yes | The URL of the endpoint, where data is POSTed for you to process
-| | Format | Yes | The format of which to export the information, either ``XML`` or ``JSON``
+| | Format | Yes | The format of which to receive the information, either ``XML`` or ``JSON``
 **[CReturnDownload](#customer-return-download)** | | | The endpoint for where your customer returns can be imported into Khaos Control Cloud
-| | URL | | The URL of the endpoint, where data is POSTed for you to process
+| | URL | | The URL of the endpoint, where Khaos Control Cloud GETs data from you for import
 | | Frequency | | How frequently (, in minutes,) the endpoint will be contacted
 | | Format | | The format of the file you have produced, either ``XML`` or ``JSON``
 **[ProvidedStock](#stock-upload)** | | | The endpoint from which Khaos Control Cloud can pull stock data from for download into the system. See ``StockChanges`` for details on how you should export your data.
 | | URL | | The URL of the endpoint, where Khaos Control Cloud GETs data from you for import
-| | Format | | The format of information that you export, either ``XML`` or ``JSON``
+| | Format | | The format of information that you will produce, either ``XML`` or ``JSON``
 **[PriceListUpload](#price-list)** | | | The endpoint where Khaos Control Cloud will push pricelist data to you. These price lists contain relevant structured prices for various tsock items, as set up within Khaos Control Cloud
 | | URL | | The URL of the endpoint, where data is POSTed for you to process
-| | Format | | The format of which to export the information, either ``XML`` or ``JSON``
+| | Format | | The format of which to receive the information, either ``XML`` or ``JSON``
 
 Note that the sub-properties (URL, Format, Frequency) are required if the parent endpoint is specified. For simplicity's sake, only the endpoints that are essential and their sub-properties are noted as required above.
 
