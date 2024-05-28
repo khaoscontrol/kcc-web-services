@@ -451,7 +451,7 @@ Name | Type | Required | Description
 **DeliveryTaxAmount** | Double | | This will allow you to specify the tax amount for the delivery charge, overriding any calculations that Khaos Control Cloud would normally do. If left blank, then it will be calculated by Khaos Control Cloud.
 **RemainderOnAccount** | Boolean | | Setting this value to true and not including a payment line will ensure the order is imported as an account order against the customer.
 **CalcMethod** | Integer | | Can either be ``0`` for Auto, ``1`` for Net, or ``2`` for Gross. Choose the best option based on the type of customer/order. This can potentially affect the total based on VAT rounding. Generally B2B will use Net calculation, where as B2C orders will use Gross. Note this can be defaulted by the customer's classification, and doesn't need to be set against every individual order
-**ValueDiscount** | Double | | Gross discount to apply to the order
+**ValueDiscount** | Double | | Gross discount to apply to the order. If this is provided, please ensure that the CalcMethod has been set as appropriate to get the discount to get applied to the correct value of items.
 **SOrderCode** | String | | This cannot be imported, but is presented when orders are exported
 **SOrderType** | [``DataItem``](#dataitem) | | This cannot be imported, but is present when orders are exported
 **GrossTotal** | Double | | The final total value of the order. This is used to allow Khaos Control Cloud to automatically correct rounding differences that may have occurred during price calculations.
@@ -477,8 +477,8 @@ Name | Type | Required | Description
 **Site** | [``DataItem``](#dataitem) | | The site that this item will be fulfilled from. Usually this isn't specified, and the site recorded against the entire order is used
 **PackLink** | String | | Used to import pack header / child item relationships together on an order. Uses a format of 3 digits, a full stop, then 3 more digits. Related items will use the same first 3 digits, e.g. 001.001 for the header item, then 001.002, 001.003 etc. for the child items.
 **UnitPrice** | [``Price``](#price) | Yes | Unit price, i.e. price for a single item. This is required for accurate pricing of orders.
-**PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount.
-**ValueDiscount** | Double | | Discount amount to apply to the line item. This is the preferred discount field to use against an item as it helps to prevent rounding differences. As per PercentDiscount, when using this field, the unit price will need to be the price before discount. For Khaos Control, this field can only be used for versions 8.190.36 onwards.
+**PercentDiscount** | Double | | Percentage discount to apply to the line. If specified, the unit price should be the price **before** discount. If this is provided, please ensure that the Header CalcMethod field has been set as appropriate to get the discount to get applied to the correct value of items.
+**ValueDiscount** | Double | | Discount amount to apply to the line item. This is the preferred discount field to use against an item as it helps to prevent rounding differences. As per PercentDiscount, when using this field, the unit price will need to be the price before discount. For Khaos Control, this field can only be used for versions 8.190.36 onwards. If this is provided, please ensure that the Header CalcMethod field has been set as appropriate to get the discount to get applied to the correct value of items.
 **MappingItem** | String | | If the mapping type is ``Barcode``, sets which barcode type to search in
 **AlternateMapping** | Array[[``ItemMapping``](#itemmapping)] | | If the primary mapping fails to find a stock item, you can specify fall-back mappings to attempt
 
