@@ -1832,8 +1832,8 @@ Node | Child Node | Type | Required | Description
             <Telephone>03302235212</Telephone>
             <Organisation>Khaos Control Solutions Ltd</Organisation>
          </DeliveryAddress>
-         <ReturnItems>
-            <ReturnItem>
+         <ReturnedItems>
+            <ReturnedItem>
                <SKU>B0714PRW7R</SKU>
                <Mapping>
                   <ItemMapping>
@@ -1850,8 +1850,8 @@ Node | Child Node | Type | Required | Description
                      <SOrderCode>SO2075</SOrderCode>
                   </SourceOrder>
                </SourceReturnReference>
-            </ReturnItem>
-         </ReturnItems>
+            </ReturnedItem>
+         </ReturednItems>
          <ExchangeItems>
             <ExchangeItem>
                <SKU>B0714PRW7R-10</SKU>
@@ -1916,7 +1916,7 @@ Object | Type | Required | Description
          "Telephone": "03302235212",
          "Organisation": "Khaos Control Solutions Ltd"
       },
-      "ReturnItems": [
+      "ReturnedItems": [
          {
             "SKU": "B0714PRW7R",
             "Mapping": [
