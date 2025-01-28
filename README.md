@@ -314,6 +314,16 @@ CrossSell
 Associated
 ```
 
+### PackType
+
+The ``PackType`` type is represented as one of the following:
+
+```
+None
+Build
+Pack
+```
+
 ### OrderStatus
 
 The ``OrderStatus`` type is represented as one of the following:
@@ -902,6 +912,8 @@ Name | Type | Required | Description
 **SCSParent** | [``SCSParentRelationship``](#scsparentrelationship) | | The parent relationships. This cannot be set if ``SCSChild`` has been set.
 **SCSChild** | [``SCSChildRelationship``](#scschildrelationship) | | The child relationships. This cannot be set if ``SCSParent`` has been set.
 **Linked** | Array[``LinkedItem``](#linkeditem) | |
+**PackType** | [``PackType``](#packtype) | | 
+**PackItems** | Array[``PackItem``](#packitem) | | Do not populate this field with items if the PackType is set to none. If PackType and PackItems are omitted, existing pack data against the stock item is left unchanged. To remove pack data from an item, include these fields, and set the PackType to none and the PackItems to an empty array.
 
 ### SCSParentRelationship
 
@@ -931,6 +943,17 @@ Name | Type | Required | Description
 **LinkedStockID** | String | Yes
 **LinkedItemType** | [``LinkedItemType``](#linkeditemtype) | Yes
 **AutoAdd** | Boolean | Yes
+
+### PackItem
+
+The ``PackItem`` object is made up of the following properties:
+
+Name | Type | Required | Description
+--- | --- | --- | ---
+**LinkedStockID** | String | Yes
+**Quantity** | Double | Yes
+**ValueProportion** | Double | Yes | Required, but can be set to zero if value proportions are not required/being used
+
 
 ### CustomerReturnItem
 
