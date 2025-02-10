@@ -47,7 +47,7 @@
          "Telephone" => "01234567890",
          "Organisation" => "Khaos Control Cloud Ltd"
       ),
-      "InvoiceContact" => arraY(
+      "DeliveryContact" => arraY(
          "Forename" => "Test",
          "Email" => "test@testing.com"
       ),  

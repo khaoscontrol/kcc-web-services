@@ -1855,6 +1855,10 @@ Node | Child Node | Type | Required | Description
             <Telephone>03302235212</Telephone>
             <Organisation>Khaos Control Solutions Ltd</Organisation>
          </DeliveryAddress>
+         <DeliveryContact>
+            <Forename>Test</Forename>
+            <Email>email@test.com</Email>
+         </DeliveryContact>
          <ReturnedItems>
             <ReturnedItem>
                <SKU>B0714PRW7R</SKU>
