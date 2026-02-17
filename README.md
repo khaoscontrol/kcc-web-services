@@ -863,6 +863,7 @@ Name | Type | Required | Description
 **ReturnedItems** | Array[[``CustomerReturnItem``](#customerreturnitem)] | | One or more items being return by the customer
 **ExchangeItems** | Array[[``CustomerExchangeItem``](#customerexchangeitem)] | | One or more items being sent to the customer in exchange for returned items
 **Brand** | [``DataItem``](#dataitem) | | The branding for the return
+**Site** | [``DataItem``](#dataitem) | | Which site/location the order should be returned to
 **SalesSource** | [``DataItem``](#dataitem) | | The sales source for this return
 **Notes** | String | | Any notes relating to this return
 **ProcessReturn** | Boolean | | Whether to process the return as soon as it has been imported
